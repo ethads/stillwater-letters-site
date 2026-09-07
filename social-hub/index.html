@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Social Command Centre — The Stillwater Letters</title>
+<style>
+:root {
+  --cream: #FAF7F2;
+  --cream-mid: #F2EDE4;
+  --sage: #3D5A3E;
+  --sage-mid: #4E7250;
+  --sage-pale: #EBF0EB;
+  --gold: #B8924A;
+  --gold-pale: #FBF3E4;
+  --ink: #1E2A1F;
+  --muted: #6B7B6C;
+  --rule: rgba(61,90,62,0.12);
+  --shadow: 0 2px 10px rgba(61,90,62,0.08);
+  --radius: 10px;
+  --red: #C0392B;
+  --red-pale: #FCEAE8;
+  --amber: #D68910;
+  --amber-pale: #FEF9E7;
+  --amber-mid: #F39C12;
+  --green-health: #1E8449;
+  --green-pale-health: #E9F7EF;
+  --green-mid-health: #27AE60;
+  --blue: #1A6FA0;
+  --blue-pale: #EBF5FB;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header { background: var(--sage); color: #fff; padding: 1.4rem 2rem 1.2rem; }
+.header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.header-brand { display: flex; align-items: center; gap: 0.8rem; }
+.header-icon { width: 40px; height: 40px; border-radius: 9px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+header h1 { font-size: 1.15rem; font-weight: 700; font-family: Georgia, serif; }
+header p { font-size: 0.72rem; opacity: 0.6; margin-top: 0.08rem; }
+.header-date { font-size: 0.7rem; opacity: 0.5; white-space: nowrap; }
+
+/* NAV */
+nav.tool-nav { background: var(--sage-mid); padding: 0.5rem 2rem; }
+.tool-nav-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.tool-nav a { padding: 0.26rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.72); text-decoration: none; border: 1px solid rgba(255,255,255,0.15); transition: all 0.15s; white-space: nowrap; }
+.tool-nav a:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.tool-nav a.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+/* MAIN */
+.container { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1.5rem 5rem; }
+
+/* SECTION */
+.section { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.4rem; margin-bottom: 1.25rem; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: 0.75rem; flex-wrap: wrap; }
+.section-title { display: flex; align-items: center; gap: 0.5rem; }
+.section-icon { font-size: 1.1rem; }
+.section-title h2 { font-size: 0.92rem; font-weight: 700; color: var(--sage); }
+.section-sub { font-size: 0.68rem; color: var(--muted); margin-top: 0.08rem; }
+
+/* TIP TOGGLE */
+.tip-toggle {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: var(--gold-pale); color: var(--gold);
+  border: 1px solid rgba(184,146,74,0.22);
+  border-radius: 20px; padding: 0.22rem 0.65rem;
+  font-size: 0.66rem; font-weight: 600; cursor: pointer;
+  letter-spacing: 0.02em; transition: all 0.15s;
+}
+.tip-toggle:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+.tip-toggle .chev { transition: transform 0.2s; display: inline-block; font-style: normal; }
+.tip-toggle.open .chev { transform: rotate(180deg); }
+.tip-panel {
+  display: none;
+  background: var(--gold-pale);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 0.8rem 1rem 0.8rem 1rem;
+  margin-top: 0.7rem;
+  font-size: 0.76rem;
+  line-height: 1.65;
+  color: #4A3B1F;
+}
+.tip-panel ul { padding-left: 1.1rem; }
+.tip-panel li { margin-bottom: 0.28rem; }
+.tip-panel strong { color: var(--sage); }
+.tip-panel p { margin-bottom: 0.4rem; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.85rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.74rem; font-weight: 600; transition: all 0.15s; line-height: 1; }
+.btn-primary { background: var(--sage); color: #fff; }
+.btn-primary:hover { background: var(--sage-mid); }
+.btn-outline { background: transparent; color: var(--sage); border: 1.5px solid var(--rule); }
+.btn-outline:hover { border-color: var(--sage); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #a93226; }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: #a07a3a; }
+.btn-sm { padding: 0.26rem 0.6rem; font-size: 0.67rem; }
+
+/* INPUTS */
+input[type="text"], input[type="number"], input[type="date"], select, textarea {
+  width: 100%; padding: 0.44rem 0.68rem; border: 1.5px solid var(--rule);
+  border-radius: 6px; font-family: Arial, sans-serif; font-size: 0.8rem; color: var(--ink);
+  background: #fff; outline: none; transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--sage); }
+textarea { resize: vertical; min-height: 56px; }
+label { display: block; font-size: 0.66rem; font-weight: 600; color: var(--muted); margin-bottom: 0.22rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.form-row { display: grid; gap: 0.65rem; margin-bottom: 0.65rem; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 580px) { .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; } }
+
+/* BADGES */
+.badge { display: inline-flex; align-items: center; padding: 0.16rem 0.5rem; border-radius: 20px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.badge-green { background: var(--sage-pale); color: var(--sage); }
+.badge-gold { background: var(--gold-pale); color: var(--gold); }
+.badge-grey { background: #f0f0f0; color: #666; }
+.badge-red { background: var(--red-pale); color: var(--red); }
+
+/* TABLES */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.79rem; }
+.data-table th { background: var(--sage-pale); padding: 0.42rem 0.7rem; text-align: left; font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sage); white-space: nowrap; }
+.data-table td { padding: 0.48rem 0.7rem; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--cream); }
+
+/* SCOREBOARD */
+.score-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
+@media (max-width: 780px) { .score-grid { grid-template-columns: repeat(2, 1fr); } }
+.score-card { background: var(--cream); border-radius: 8px; padding: 1rem; border: 1.5px solid var(--rule); }
+.score-platform { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.25rem; }
+.score-number { font-size: 1.75rem; font-weight: 800; color: var(--sage); line-height: 1; border: none; background: transparent; width: 100%; padding: 0; font-family: Arial, sans-serif; }
+.score-unit { font-size: 0.68rem; color: var(--muted); margin-top: 0.2rem; }
+
+/* MEMBER CARDS */
+.member-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-bottom: 1rem; }
+@media (max-width: 580px) { .member-grid { grid-template-columns: 1fr 1fr; } }
+.member-card { border-radius: 8px; padding: 1rem; border: 1.5px solid var(--rule); text-align: center; }
+.member-card .num { font-size: 1.75rem; font-weight: 800; line-height: 1; }
+.member-card .lbl { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-top: 0.2rem; }
+.member-input { font-size: 1.75rem !important; font-weight: 800 !important; text-align: center !important; border: none !important; background: transparent !important; padding: 0 !important; width: 100% !important; }
+
+/* CHECKLIST */
+.checklist-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.5rem 0; border-bottom: 1px solid var(--rule); }
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item input[type="checkbox"] { margin-top: 3px; width: 15px; height: 15px; flex-shrink: 0; accent-color: var(--sage); cursor: pointer; }
+.checklist-item .item-label { font-size: 0.82rem; font-weight: 500; cursor: pointer; }
+.checklist-item.done .item-label { text-decoration: line-through; color: var(--muted); }
+.checklist-note { font-size: 0.68rem; color: var(--muted); margin-top: 0.06rem; font-style: italic; }
+
+/* STAT PILLS */
+.stat-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.stat-pill { background: var(--cream); border-radius: 7px; padding: 0.5rem 0.85rem; display: flex; flex-direction: column; align-items: center; min-width: 75px; border: 1.5px solid var(--rule); }
+.stat-pill .num { font-size: 1.25rem; font-weight: 800; color: var(--sage); }
+.stat-pill .lbl { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+
+/* EMPTY STATE */
+.empty-state { text-align: center; padding: 1.75rem 1rem; color: var(--muted); font-size: 0.78rem; }
+.empty-icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+
+/* DIVIDER */
+hr.divider { border: none; border-top: 1px solid var(--rule); margin: 1rem 0; }
+
+/* INLINE FLEX */
+.inline-flex { display: inline-flex; align-items: center; gap: 0.4rem; }
+.section-actions { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+
+/* TOAST */
+#toast { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%); background: var(--sage); color: #fff; padding: 0.55rem 1.1rem; border-radius: 7px; font-size: 0.78rem; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,0.18); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 1000; white-space: nowrap; }
+#toast.show { opacity: 1; }
+
+/* MODAL */
+.modal { display: none; position: fixed; inset: 0; background: rgba(30,42,31,0.38); z-index: 500; align-items: center; justify-content: center; padding: 1rem; }
+.modal-box { background: #fff; border-radius: 12px; padding: 1.4rem; max-width: 460px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.16); max-height: 90vh; overflow-y: auto; }
+.modal-title { font-size: 0.92rem; font-weight: 700; color: var(--sage); margin-bottom: 1rem; font-family: Georgia, serif; }
+.modal-actions { display: flex; gap: 0.45rem; justify-content: flex-end; margin-top: 1rem; }
+
+/* TESTIMONIAL QUOTE */
+.quote-text { font-style: italic; color: var(--muted); font-size: 0.75rem; max-width: 300px; }
+
+/* HELP LINK on section titles */
+.help-link { font-size: 0.63rem; font-weight: 600; color: var(--gold); text-decoration: none; border: 1px solid rgba(184,146,74,0.3); border-radius: 10px; padding: 0.1rem 0.45rem; margin-left: 0.35rem; white-space: nowrap; transition: all 0.15s; vertical-align: middle; }
+.help-link:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+/* PRIORITY LEGEND STRIP */
+.priority-legend { background: #fff; border-bottom: 1.5px solid var(--rule); padding: 0.55rem 2rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.priority-legend .pl-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.pl-item { display: flex; align-items: center; gap: 0.28rem; font-size: 0.68rem; font-weight: 600; color: var(--ink); }
+.pl-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.pl-red { background: var(--red); }
+.pl-amber { background: var(--amber-mid); }
+.pl-green { background: var(--green-mid-health); }
+
+/* PRIORITY DOT on checklist items */
+.priority-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.p-red { background: var(--red); }
+.p-amber { background: var(--amber-mid); }
+.p-green { background: var(--green-mid-health); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-icon">✦</div>
+      <div>
+        <h1>The Stillwater Letters — Social Command Centre</h1>
+        <p>Alice's marketing hub · thestillwaterletters.com.au</p>
+      </div>
+    </div>
+    <div class="header-date" id="header-date"></div>
+  </div>
+</header>
+
+<nav class="tool-nav">
+  <div class="tool-nav-inner">
+    <a href="#checklist" class="active">Daily Focus</a>
+    <a href="#scoreboard">Scoreboard</a>
+    <a href="#content">Content</a>
+    <a href="#funnel">Lead Funnel</a>
+    <a href="#members">Membership</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="creative-builder.html" style="color:var(--gold);border-left:1px solid var(--border);margin-left:0.5rem;padding-left:0.75rem;">✏️ Creative Builder</a>
+  </div>
+</nav>
+
+<div class="priority-legend">
+  <span class="pl-label">Priority guide:</span>
+  <div class="pl-item"><div class="pl-dot pl-red"></div> Must do — directly affects growth</div>
+  <div class="pl-item"><div class="pl-dot pl-amber"></div> Builds momentum</div>
+  <div class="pl-item"><div class="pl-dot pl-green"></div> Doing well — keep it up</div>
+</div>
+
+<div class="container">
+
+  <!-- ════ DAILY FOCUS ════ -->
+  <div class="section" id="checklist">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-icon">☀️</span>
+        <div>
+          <h2>Daily Focus <a href="help-daily-focus.html" target="_blank" class="help-link">📖 Full guide</a></h2>
+          <div class="section-sub">Your five-minute daily check-in — ticks reset each morning</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="tip-toggle" onclick="toggleTip(this)">💡 Why this works <span class="chev">▾</span></button>
+        <button class="btn btn-outline btn-sm" onclick="resetChecklist()">Reset Day</button>
+      </div>
+    </div>
+
+    <div class="tip-panel">
+      <ul>
+        <li><strong>Small daily actions beat big monthly efforts.</strong> Marketing compounds like interest — it rewards showing up regularly, not occasionally.</li>
+        <li>If something on the list doesn't apply today, tick it anyway and move on. The goal is a rhythm, not perfection.</li>
+        <li><strong>Engagement matters most.</strong> Replying to comments and DMs signals to platforms that your content is worth showing to more people — it's more powerful than posting more often.</li>
+        <li>Five minutes a day is enough. Don't let this become another source of pressure.</li>
+      </ul>
+    </div>
+
+    <div id="checklist-list"></div>
+    <div style="margin-top:0.6rem;font-size:0.67rem;color:var(--muted);font-style:italic;">
+      Ticks are saved to your browser and reset automatically each day.
+    </div>
+  </div>
+
+  <!-- ════ SCOREBOARD ════ -->
+  <div class="section" id="scoreboard">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-icon">📊</span>
+        <div>
+          <h2>Growth Scoreboard <a href="help-scoreboard.html" target="_blank" class="help-link">📖 Full guide</a></h2>
+          <div class="section-sub">Update your numbers once a week — click any number to edit</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="tip-toggle" onclick="toggleTip(this)">💡 Which numbers matter <span class="chev">▾</span></button>
+        <button class="btn btn-outline btn-sm" onclick="saveScoreboard(); showToast('Saved ✓')">Save Numbers</button>
+      </div>
+    </div>
+
+    <div class="tip-panel">
+      <ul>
+        <li><strong>Your email list is the most important number here.</strong> You own it — unlike social followers, no platform can take it away from you.</li>
+        <li><strong>Pinterest is slow at first</strong> — monthly views grow over months, not days. A pin you create today might get most of its traffic in six months. Be patient.</li>
+        <li>For Instagram and Facebook, pay more attention to whether people are <em>commenting and replying</em> than to follower count. Engagement beats reach.</li>
+        <li>Update on Mondays. Five minutes. You're tracking trends, not obsessing over daily changes.</li>
+      </ul>
+    </div>
+
+    <div class="score-grid" id="scoreboard-cards"></div>
+  </div>
+
+  <!-- ════ CONTENT PIPELINE ════ -->
+  <div class="section" id="content">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-icon">✍️</span>
+        <div>
+          <h2>Content Pipeline <a href="help-content-pipeline.html" target="_blank" class="help-link">📖 Full guide</a></h2>
+          <div class="section-sub">Plan what you're creating and track it from idea to live</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="tip-toggle" onclick="toggleTip(this)">💡 The repurposing secret <span class="chev">▾</span></button>
+        <button class="btn btn-primary btn-sm" onclick="openContentModal()">+ Add Content</button>
+      </div>
+    </div>
+
+    <div class="tip-panel">
+      <ul>
+        <li><strong>Write once, use everywhere.</strong> One newsletter can become a Pinterest graphic, an Instagram caption, a Facebook post, and a blog excerpt. That's five pieces of content from one piece of writing.</li>
+        <li>Start with the newsletter — it's your most thoughtful, long-form piece. Break it into shorter pieces for social afterwards.</li>
+        <li><strong>Status guide:</strong> <em>Idea</em> = just a thought. <em>Draft</em> = being written. <em>Ready</em> = finished, waiting to publish. <em>Live</em> = published.</li>
+        <li>Aim for 1 newsletter per week and 3–5 Pinterest pins. Everything else is a bonus, not a requirement.</li>
+      </ul>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Topic / Title</th>
+          <th>Type</th>
+          <th>Platforms</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="content-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="content-empty" style="display:none">
+      <div class="empty-icon">✍️</div>
+      <div>Nothing in the pipeline yet — click <strong>+ Add Content</strong> to start planning</div>
+    </div>
+  </div>
+
+  <!-- ════ LEAD FUNNEL ════ -->
+  <div class="section" id="funnel">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-icon">🌿</span>
+        <div>
+          <h2>Lead Funnel <a href="help-lead-funnel.html" target="_blank" class="help-link">📖 Full guide</a></h2>
+          <div class="section-sub">The free offers that invite people to join your list</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="tip-toggle" onclick="toggleTip(this)">💡 How lead magnets work <span class="chev">▾</span></button>
+        <button class="btn btn-primary btn-sm" onclick="openLeadModal()">+ Add Lead Magnet</button>
+      </div>
+    </div>
+
+    <div class="tip-panel">
+      <ul>
+        <li><strong>A lead magnet is a free gift</strong> — a PDF, prayer guide, devotional, or short email series — that someone receives in exchange for joining your list. It's your "thank you for signing up."</li>
+        <li>The best lead magnets solve one specific, named problem. <em>"A morning ritual for overwhelmed women"</em> converts better than <em>"A wellness guide."</em></li>
+        <li>You don't need many — one or two strong offers work better than ten weak ones. Focus on depth, not breadth.</li>
+        <li><strong>Track where your sign-ups come from</strong> — Pinterest? Instagram bio? Word of mouth? Knowing this helps you put your energy into what's already working.</li>
+      </ul>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Lead Magnet</th>
+          <th>Type</th>
+          <th>Where Promoted</th>
+          <th>Opt-ins</th>
+          <th>Active</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="leads-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="leads-empty" style="display:none">
+      <div class="empty-icon">🌿</div>
+      <div>No lead magnets logged yet — click <strong>+ Add Lead Magnet</strong> to start</div>
+    </div>
+  </div>
+
+  <!-- ════ MEMBERSHIP ════ -->
+  <div class="section" id="members">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-icon">🕊️</span>
+        <div>
+          <h2>Membership <a href="help-membership.html" target="_blank" class="help-link">📖 Full guide</a></h2>
+          <div class="section-sub">Free subscribers, Hands of Hope members, and conversion rate</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="tip-toggle" onclick="toggleTip(this)">💡 Growing paid members <span class="chev">▾</span></button>
+        <button class="btn btn-outline btn-sm" onclick="saveMemberStats(); showToast('Saved ✓')">Save</button>
+      </div>
+    </div>
+
+    <div class="tip-panel">
+      <ul>
+        <li><strong>Most people need 7–10 touchpoints before they're ready to pay.</strong> Your newsletter is doing that work every single week — even when it feels like nothing is happening, it is.</li>
+        <li>A healthy conversion rate is 2–5%. If you have 500 free subscribers, 10–25 paid members is strong. Don't compare yourself to anyone else.</li>
+        <li><strong>The best time to invite someone to Hands of Hope</strong> is right after they've replied to your newsletter, shared something, or reached out personally. Warmth converts. Broadcasts don't.</li>
+        <li>Watch the conversion rate trend over months — a slow, steady rise is exactly what success looks like here.</li>
+      </ul>
+    </div>
+
+    <div class="member-grid">
+      <div class="member-card" style="background:var(--sage-pale);">
+        <input type="number" id="mem-free" class="member-input" placeholder="0" style="color:var(--sage);" oninput="updateConversion()">
+        <div class="lbl">Free Subscribers</div>
+      </div>
+      <div class="member-card" style="background:var(--gold-pale);">
+        <input type="number" id="mem-paid" class="member-input" placeholder="0" style="color:var(--gold);" oninput="updateConversion()">
+        <div class="lbl" style="color:var(--gold);">Hands of Hope (Paid)</div>
+      </div>
+      <div class="member-card" style="background:#F3F3F3;">
+        <div class="num" id="mem-rate" style="font-size:1.75rem;font-weight:800;color:var(--muted);">—</div>
+        <div class="lbl">Conversion Rate</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-header" style="margin-bottom:0.75rem;">
+      <div>
+        <strong style="font-size:0.82rem;">Recent Activity</strong>
+        <div class="section-sub">Log new joins, upgrades, or cancellations</div>
+      </div>
+      <button class="btn btn-gold btn-sm" onclick="openMemberEventModal()">+ Log Event</button>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Date</th><th>Name</th><th>Event</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="events-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="events-empty" style="display:none">
+      <div>No events logged yet</div>
+    </div>
+  </div>
+
+  <!-- ════ TESTIMONIALS ════ -->
+  <div class="section" id="testimonials">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="section-icon">💬</span>
+        <div>
+          <h2>Testimonials <a href="help-testimonials.html" target="_blank" class="help-link">📖 Full guide</a></h2>
+          <div class="section-sub">Log what readers say — your most powerful marketing tool</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="tip-toggle" onclick="toggleTip(this)">💡 Using social proof <span class="chev">▾</span></button>
+        <button class="btn btn-primary btn-sm" onclick="openTestimonialModal()">+ Add Testimonial</button>
+      </div>
+    </div>
+
+    <div class="tip-panel">
+      <ul>
+        <li><strong>Other people's words are ten times more convincing than yours.</strong> A reader saying "this newsletter changed my morning" sells Stillwater better than any description you could write.</li>
+        <li>Capture testimonials the moment they arrive — from email replies, DMs, comments, and conversations. They're easy to lose if you don't log them immediately.</li>
+        <li>Use them on your sign-up page, in social posts, in your welcome emails, and especially when inviting people to Hands of Hope.</li>
+        <li><strong>A simple way to ask:</strong> "Your message meant so much to me. Would it be okay if I shared it with others? I can use just your first name." Almost everyone says yes.</li>
+      </ul>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Name / Source</th>
+          <th>Quote</th>
+          <th>Where From</th>
+          <th>Date</th>
+          <th>Used</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="testimonials-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="testimonials-empty" style="display:none">
+      <div class="empty-icon">💬</div>
+      <div>Start logging kind words as they arrive — they're marketing gold</div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ════ MODALS ════ -->
+
+<div class="modal" id="content-modal">
+  <div class="modal-box">
+    <div class="modal-title">Add to Content Pipeline</div>
+    <div class="form-row"><label>Topic / Title</label><input type="text" id="c-topic" placeholder="e.g. Finding stillness in the morning rush"></div>
+    <div class="form-row cols-2">
+      <div><label>Type</label>
+        <select id="c-type"><option>Newsletter</option><option>Pinterest Pin</option><option>Instagram Post</option><option>Facebook Post</option><option>Blog Post</option><option>Email Series</option><option>Other</option></select>
+      </div>
+      <div><label>Status</label>
+        <select id="c-status"><option>Idea</option><option>Draft</option><option>Ready</option><option>Live</option></select>
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div><label>Platforms</label><input type="text" id="c-platforms" placeholder="e.g. Email, Pinterest, IG"></div>
+      <div><label>Date / Week</label><input type="date" id="c-date"></div>
+    </div>
+    <div class="form-row"><label>Notes (optional)</label><textarea id="c-notes" placeholder="Any thoughts or context..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('content-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveContent()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="lead-modal">
+  <div class="modal-box">
+    <div class="modal-title">Add Lead Magnet</div>
+    <div class="form-row"><label>Name</label><input type="text" id="l-name" placeholder="e.g. 7-Day Morning Prayer Guide (PDF)"></div>
+    <div class="form-row cols-2">
+      <div><label>Type</label>
+        <select id="l-type"><option>PDF / Guide</option><option>Email Series</option><option>Audio</option><option>Video</option><option>Challenge</option><option>Other</option></select>
+      </div>
+      <div><label>Approx. Opt-ins</label><input type="number" id="l-optins" placeholder="0"></div>
+    </div>
+    <div class="form-row"><label>Where Promoted</label><input type="text" id="l-where" placeholder="e.g. Pinterest, Instagram bio, website footer"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('lead-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveLead()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="event-modal">
+  <div class="modal-box">
+    <div class="modal-title">Log Member Event</div>
+    <div class="form-row cols-2">
+      <div><label>Date</label><input type="date" id="ev-date"></div>
+      <div><label>Event</label>
+        <select id="ev-type"><option>New Free Subscriber</option><option>Upgraded to Paid</option><option>Cancelled Paid</option><option>Unsubscribed</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label>Name (optional)</label><input type="text" id="ev-name" placeholder="First name or initials"></div>
+    <div class="form-row"><label>Notes</label><textarea id="ev-notes" placeholder="Any context worth noting..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('event-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMemberEvent()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="testimonial-modal">
+  <div class="modal-box">
+    <div class="modal-title">Add Testimonial</div>
+    <div class="form-row cols-2">
+      <div><label>Name / Source</label><input type="text" id="t-name" placeholder="e.g. Sarah M."></div>
+      <div><label>Where From</label>
+        <select id="t-source"><option>Email Reply</option><option>Instagram DM</option><option>Facebook Comment</option><option>In Person</option><option>Google Review</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label>Their words (copy exactly)</label><textarea id="t-quote" rows="3" placeholder="Paste or type what they said..."></textarea></div>
+    <div class="form-row"><label>Date</label><input type="date" id="t-date"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('testimonial-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTestimonial()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── STORAGE ──────────────────────────────────────────
+const STORE_KEY = 'stillwater_hub';
+function getData(k, def) {
+  try { const d = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); return d[k] !== undefined ? d[k] : def; }
+  catch { return def; }
+}
+function setData(k, v) {
+  try { const d = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); d[k] = v; localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+  catch {}
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── HEADER ───────────────────────────────────────────
+document.getElementById('header-date').textContent =
+  new Date().toLocaleDateString('en-AU', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// ── TIPS ─────────────────────────────────────────────
+function toggleTip(btn) {
+  const panel = btn.parentElement.parentElement.nextElementSibling;
+  const open = btn.classList.toggle('open');
+  if (panel && panel.classList.contains('tip-panel')) {
+    panel.style.display = open ? 'block' : 'none';
+  }
+}
+
+// ── MODALS ───────────────────────────────────────────
+function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.style.display = 'none'; });
+});
+
+// ── DAILY CHECKLIST ──────────────────────────────────
+const TASKS = [
+  { id: 'engage',  priority: 'red',   text: 'Reply to any comments, DMs, or email responses',  note: 'Aim to respond within 24 hours. Replies boost your visibility and build real trust.' },
+  { id: 'write',   priority: 'red',   text: 'Write or schedule one piece of content',           note: 'Could be a newsletter paragraph, an Instagram caption, or a Pinterest description.' },
+  { id: 'pin',     priority: 'amber', text: 'Add 3–5 new pins to Pinterest',                   note: 'Use your scheduler or pin manually. Consistency is more important than volume.' },
+  { id: 'connect', priority: 'amber', text: 'Leave a thoughtful comment on 2–3 accounts you admire', note: 'A genuine comment — not just an emoji. This grows your visibility quietly but steadily.' },
+  { id: 'review',  priority: 'green', text: 'Check one key number (email opens, Pinterest clicks, or new subscribers)', note: 'One number, once a day. You\'re watching for trends, not chasing perfection.' },
+];
+
+function todayKey() { return 'cl_' + new Date().toISOString().slice(0,10); }
+
+function renderChecklist() {
+  const state = getData(todayKey(), {});
+  document.getElementById('checklist-list').innerHTML = TASKS.map(t => `
+    <div class="checklist-item${state[t.id] ? ' done' : ''}">
+      <div class="priority-dot p-${t.priority}"></div>
+      <input type="checkbox" id="ck_${t.id}" ${state[t.id] ? 'checked' : ''}
+        onchange="tickTask('${t.id}', this.checked)">
+      <div>
+        <label class="item-label" for="ck_${t.id}">${t.text}</label>
+        <div class="checklist-note">${t.note}</div>
+      </div>
+    </div>`).join('');
+}
+
+function tickTask(id, val) {
+  const s = getData(todayKey(), {});
+  s[id] = val;
+  setData(todayKey(), s);
+  renderChecklist();
+}
+
+function resetChecklist() {
+  if (!confirm('Reset today\'s checklist?')) return;
+  setData(todayKey(), {});
+  renderChecklist();
+  showToast('Checklist reset ✓');
+}
+
+renderChecklist();
+
+// ── SCOREBOARD ───────────────────────────────────────
+const PLATFORMS = [
+  { key: 'email',     label: 'Email List',  unit: 'subscribers',   icon: '✉️' },
+  { key: 'pinterest', label: 'Pinterest',   unit: 'monthly views', icon: '📌' },
+  { key: 'instagram', label: 'Instagram',   unit: 'followers',     icon: '📷' },
+  { key: 'facebook',  label: 'Facebook',    unit: 'page likes',    icon: '👍' },
+];
+
+function renderScoreboard() {
+  const vals = getData('scoreboard', {});
+  document.getElementById('scoreboard-cards').innerHTML = PLATFORMS.map(p => `
+    <div class="score-card">
+      <div class="score-platform">${p.icon} ${p.label}</div>
+      <input type="number" class="score-number" id="sc_${p.key}"
+        value="${vals[p.key] || ''}" placeholder="0" onchange="saveScoreboard()">
+      <div class="score-unit">${p.unit}</div>
+    </div>`).join('');
+}
+
+function saveScoreboard() {
+  const vals = {};
+  PLATFORMS.forEach(p => { const el = document.getElementById('sc_' + p.key); if (el) vals[p.key] = el.value; });
+  setData('scoreboard', vals);
+}
+
+renderScoreboard();
+
+// ── CONTENT PIPELINE ─────────────────────────────────
+const S_COLORS = { Idea:'badge-grey', Draft:'badge-gold', Ready:'badge-green', Live:'badge-green' };
+
+function openContentModal() {
+  ['c-topic','c-platforms','c-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('c-type').value = 'Newsletter';
+  document.getElementById('c-status').value = 'Idea';
+  document.getElementById('c-date').value = new Date().toISOString().slice(0,10);
+  openModal('content-modal');
+}
+
+function saveContent() {
+  const topic = document.getElementById('c-topic').value.trim();
+  if (!topic) { showToast('Please enter a topic'); return; }
+  const items = getData('content', []);
+  items.unshift({ id: Date.now(), topic,
+    type: document.getElementById('c-type').value,
+    status: document.getElementById('c-status').value,
+    platforms: document.getElementById('c-platforms').value.trim(),
+    date: document.getElementById('c-date').value,
+    notes: document.getElementById('c-notes').value.trim() });
+  setData('content', items);
+  closeModal('content-modal');
+  renderContent();
+  showToast('Added to pipeline ✓');
+}
+
+function updateContentStatus(id, val) {
+  const items = getData('content', []);
+  const i = items.find(x => x.id === id);
+  if (i) { i.status = val; setData('content', items); renderContent(); }
+}
+
+function deleteContent(id) {
+  if (!confirm('Remove this item?')) return;
+  setData('content', getData('content', []).filter(x => x.id !== id));
+  renderContent();
+}
+
+function renderContent() {
+  const items = getData('content', []);
+  const tbody = document.getElementById('content-tbody');
+  const empty = document.getElementById('content-empty');
+  if (!items.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = items.map(c => `
+    <tr>
+      <td><strong>${esc(c.topic)}</strong>${c.notes ? `<div style="font-size:0.68rem;color:var(--muted);margin-top:0.1rem;font-style:italic;">${esc(c.notes)}</div>` : ''}</td>
+      <td style="white-space:nowrap;">${esc(c.type)}</td>
+      <td style="font-size:0.72rem;color:var(--muted);">${esc(c.platforms || '—')}</td>
+      <td>
+        <select class="badge ${S_COLORS[c.status]||'badge-grey'}"
+          style="border:none;font-size:0.62rem;font-weight:700;padding:0.16rem 0.5rem;cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;"
+          onchange="updateContentStatus(${c.id}, this.value)">
+          ${['Idea','Draft','Ready','Live'].map(s=>`<option ${s===c.status?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td style="white-space:nowrap;font-size:0.72rem;color:var(--muted);">${c.date||'—'}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteContent(${c.id})">✕</button></td>
+    </tr>`).join('');
+}
+
+renderContent();
+
+// ── LEAD FUNNEL ──────────────────────────────────────
+function openLeadModal() {
+  ['l-name','l-optins','l-where'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('l-type').value = 'PDF / Guide';
+  openModal('lead-modal');
+}
+
+function saveLead() {
+  const name = document.getElementById('l-name').value.trim();
+  if (!name) { showToast('Please enter a name'); return; }
+  const items = getData('leads', []);
+  items.unshift({ id: Date.now(), name,
+    type: document.getElementById('l-type').value,
+    optins: document.getElementById('l-optins').value || 0,
+    where: document.getElementById('l-where').value.trim(),
+    active: true });
+  setData('leads', items);
+  closeModal('lead-modal');
+  renderLeads();
+  showToast('Lead magnet added ✓');
+}
+
+function toggleLeadActive(id, val) {
+  const items = getData('leads', []);
+  const i = items.find(x => x.id === id);
+  if (i) { i.active = val; setData('leads', items); }
+}
+
+function deleteLead(id) {
+  if (!confirm('Remove this lead magnet?')) return;
+  setData('leads', getData('leads', []).filter(x => x.id !== id));
+  renderLeads();
+}
+
+function renderLeads() {
+  const items = getData('leads', []);
+  const tbody = document.getElementById('leads-tbody');
+  const empty = document.getElementById('leads-empty');
+  if (!items.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = items.map(l => `
+    <tr>
+      <td><strong>${esc(l.name)}</strong></td>
+      <td><span class="badge badge-gold">${esc(l.type)}</span></td>
+      <td style="font-size:0.72rem;color:var(--muted);">${esc(l.where||'—')}</td>
+      <td style="text-align:center;">${l.optins||'—'}</td>
+      <td style="text-align:center;">
+        <input type="checkbox" ${l.active?'checked':''} onchange="toggleLeadActive(${l.id},this.checked)"
+          style="width:14px;height:14px;accent-color:var(--sage);">
+      </td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteLead(${l.id})">✕</button></td>
+    </tr>`).join('');
+}
+
+renderLeads();
+
+// ── MEMBERSHIP ───────────────────────────────────────
+function updateConversion() {
+  const free = parseInt(document.getElementById('mem-free').value) || 0;
+  const paid = parseInt(document.getElementById('mem-paid').value) || 0;
+  document.getElementById('mem-rate').textContent = free > 0 ? ((paid/free)*100).toFixed(1)+'%' : '—';
+}
+
+function saveMemberStats() {
+  setData('mem_free', document.getElementById('mem-free').value);
+  setData('mem_paid', document.getElementById('mem-paid').value);
+}
+
+(function loadMemberStats() {
+  document.getElementById('mem-free').value = getData('mem_free', '');
+  document.getElementById('mem-paid').value = getData('mem_paid', '');
+  updateConversion();
+})();
+
+const EV_BADGES = {
+  'New Free Subscriber': 'badge-gold',
+  'Upgraded to Paid': 'badge-green',
+  'Cancelled Paid': 'badge-red',
+  'Unsubscribed': 'badge-red',
+  'Other': 'badge-grey'
+};
+
+function openMemberEventModal() {
+  document.getElementById('ev-date').value = new Date().toISOString().slice(0,10);
+  ['ev-name','ev-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ev-type').value = 'New Free Subscriber';
+  openModal('event-modal');
+}
+
+function saveMemberEvent() {
+  const items = getData('member_events', []);
+  items.unshift({ id: Date.now(),
+    date: document.getElementById('ev-date').value,
+    type: document.getElementById('ev-type').value,
+    name: document.getElementById('ev-name').value.trim(),
+    notes: document.getElementById('ev-notes').value.trim() });
+  setData('member_events', items);
+  closeModal('event-modal');
+  renderMemberEvents();
+  showToast('Event logged ✓');
+}
+
+function deleteMemberEvent(id) {
+  setData('member_events', getData('member_events', []).filter(x => x.id !== id));
+  renderMemberEvents();
+}
+
+function renderMemberEvents() {
+  const items = getData('member_events', []);
+  const tbody = document.getElementById('events-tbody');
+  const empty = document.getElementById('events-empty');
+  if (!items.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = items.map(e => `
+    <tr>
+      <td style="white-space:nowrap;font-size:0.72rem;">${e.date||'—'}</td>
+      <td>${esc(e.name||'—')}</td>
+      <td><span class="badge ${EV_BADGES[e.type]||'badge-grey'}">${esc(e.type)}</span></td>
+      <td style="font-size:0.72rem;color:var(--muted);">${esc(e.notes||'—')}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteMemberEvent(${e.id})">✕</button></td>
+    </tr>`).join('');
+}
+
+renderMemberEvents();
+
+// ── TESTIMONIALS ─────────────────────────────────────
+function openTestimonialModal() {
+  ['t-name','t-quote'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('t-source').value = 'Email Reply';
+  document.getElementById('t-date').value = new Date().toISOString().slice(0,10);
+  openModal('testimonial-modal');
+}
+
+function saveTestimonial() {
+  const quote = document.getElementById('t-quote').value.trim();
+  if (!quote) { showToast('Please enter the quote'); return; }
+  const items = getData('testimonials', []);
+  items.unshift({ id: Date.now(),
+    name: document.getElementById('t-name').value.trim(),
+    quote,
+    source: document.getElementById('t-source').value,
+    date: document.getElementById('t-date').value,
+    used: false });
+  setData('testimonials', items);
+  closeModal('testimonial-modal');
+  renderTestimonials();
+  showToast('Testimonial saved ✓');
+}
+
+function toggleTestimonialUsed(id, val) {
+  const items = getData('testimonials', []);
+  const i = items.find(x => x.id === id);
+  if (i) { i.used = val; setData('testimonials', items); }
+}
+
+function deleteTestimonial(id) {
+  if (!confirm('Remove this testimonial?')) return;
+  setData('testimonials', getData('testimonials', []).filter(x => x.id !== id));
+  renderTestimonials();
+}
+
+function renderTestimonials() {
+  const items = getData('testimonials', []);
+  const tbody = document.getElementById('testimonials-tbody');
+  const empty = document.getElementById('testimonials-empty');
+  if (!items.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = items.map(t => `
+    <tr>
+      <td><strong>${esc(t.name||'Anonymous')}</strong></td>
+      <td class="quote-text">"${esc(t.quote)}"</td>
+      <td><span class="badge badge-gold">${esc(t.source)}</span></td>
+      <td style="white-space:nowrap;font-size:0.72rem;color:var(--muted);">${t.date||'—'}</td>
+      <td style="text-align:center;">
+        <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;cursor:pointer;text-transform:none;letter-spacing:0;font-weight:normal;color:var(--muted);">
+          <input type="checkbox" ${t.used?'checked':''} onchange="toggleTestimonialUsed(${t.id},this.checked)"
+            style="width:13px;height:13px;accent-color:var(--sage);">
+          Used
+        </label>
+      </td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteTestimonial(${t.id})">✕</button></td>
+    </tr>`).join('');
+}
+
+renderTestimonials();
+</script>
+</body>
+</html>

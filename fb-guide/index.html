@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Facebook Growth Guide — The Stillwater Letters</title>
+<style>
+  :root {
+    --teal: #1B4332;
+    --teal-mid: #2D6A4F;
+    --clay: #B86B4A;
+    --clay-soft: #D89377;
+    --paper: #FBF7EE;
+    --ink: #1a3032;
+    --muted: #4a5358;
+    --rule: rgba(27,67,50,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  a { color: var(--clay); }
+
+  /* HEADER */
+  header {
+    background: var(--teal);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    margin: 0 auto 1rem;
+    display: block;
+  }
+  header h1 {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.4rem;
+  }
+  header p {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  /* INTRO */
+  .intro {
+    max-width: 680px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+  .intro p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* PHASE */
+  .phase {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+  }
+  .phase-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.4rem;
+  }
+  .phase h2 {
+    font-size: 1.35rem;
+    font-weight: normal;
+    color: var(--teal);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ACTION CARDS */
+  .actions { display: flex; flex-direction: column; gap: 1rem; }
+  .action {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.25rem 1.4rem;
+    position: relative;
+  }
+  .action.high { border-left: 3px solid var(--clay); }
+  .action.medium { border-left: 3px solid var(--teal-mid); }
+  .action.low { border-left: 3px solid #b0b8b4; }
+  .action-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .priority {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+  .priority.high { background: rgba(184,107,74,0.12); color: var(--clay); }
+  .priority.medium { background: rgba(27,67,50,0.1); color: var(--teal); }
+  .priority.low { background: rgba(0,0,0,0.05); color: var(--muted); }
+  .action h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: 'Arial', sans-serif;
+  }
+  .action p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .action p:last-child { margin-bottom: 0; }
+  .action ul {
+    margin: 0.4rem 0 0 1.1rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .action ul li { margin-bottom: 0.25rem; }
+  .effort {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.75rem;
+    color: #8a9499;
+    margin-top: 0.6rem;
+    display: block;
+  }
+
+  /* REELS CALLOUT */
+  .callout {
+    background: var(--teal);
+    color: var(--paper);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1rem;
+  }
+  .callout h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 0.4rem;
+  }
+  .callout p { font-size: 0.88rem; opacity: 0.88; }
+
+  /* WEEKLY SCHEDULE */
+  .schedule {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .schedule-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.88rem;
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-day {
+    background: rgba(27,67,50,0.06);
+    padding: 0.7rem 0.9rem;
+    font-family: 'Arial', sans-serif;
+    font-weight: 600;
+    color: var(--teal);
+    font-size: 0.8rem;
+  }
+  .schedule-task {
+    padding: 0.7rem 1rem;
+    color: var(--muted);
+  }
+  .schedule-task strong { color: var(--ink); font-size: 0.88rem; }
+
+  /* CONTENT IDEAS */
+  .ideas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 500px) { .ideas-grid { grid-template-columns: 1fr; } }
+  .idea-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+  }
+  .idea-card .day {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.25rem;
+  }
+  .idea-card p { font-size: 0.85rem; color: var(--muted); }
+  .idea-card strong { color: var(--ink); }
+
+  /* METRICS */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 500px) { .metrics { grid-template-columns: 1fr 1fr; } }
+  .metric {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .metric .num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--teal);
+    font-family: 'Arial', sans-serif;
+    display: block;
+  }
+  .metric .label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 0.04em;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+
+  /* NOTE BOX */
+  .note {
+    background: rgba(184,107,74,0.08);
+    border-left: 3px solid var(--clay-soft);
+    border-radius: 0 6px 6px 0;
+    padding: 1rem 1.2rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .note strong { color: var(--clay); }
+
+  /* FOOTER */
+  footer {
+    background: var(--teal);
+    color: rgba(251,247,238,0.6);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    margin-top: 4rem;
+  }
+  footer span { display: block; margin-bottom: 0.3rem; }
+
+  .tool-nav { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .tool-nav a { padding: 0.4rem 1rem; border: 1.5px solid rgba(27,67,50,0.15); border-radius: 20px; font-family: Arial, sans-serif; font-size: 0.78rem; font-weight: 600; color: #1B4332; text-decoration: none; transition: all 0.15s; }
+  .tool-nav a:hover, .tool-nav a.active { background: #1B4332; color: #FBF7EE; border-color: #1B4332; }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#fbf7ee" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#d89377" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  </svg>
+  <h1>Facebook Growth Guide</h1>
+  <p>The Stillwater Letters — stillwater womens ministry page</p>
+</header>
+<div style="max-width:820px;margin:0 auto;padding:1.5rem 1.5rem 0">
+  <div class="tool-nav">
+    <a href="/fb-calendar/">📅 Calendar</a>
+    <a href="/fb-posts/">✏️ Post Generator</a>
+    <a href="/dashboard/">📊 Dashboard</a>
+    <a href="/fb-guide/" class="active">↑ Growth Guide</a>
+    <a href="/growth-hub/">🌱 Growth Hub</a>
+    <a href="/social-hub/">🌐 Command Centre</a>
+  </div>
+</div>
+
+<div class="intro">
+  <p>Your page currently has around 20 followers and your first post is live. This guide covers everything proven to work for growing a small, values-led ministry page organically — roughly in the order you should tackle it.</p>
+  <p>No paid ads required to reach 200 followers. The goal is <em>real women who want to be there</em>, not inflated numbers.</p>
+</div>
+
+<!-- PHASE 1 -->
+<div class="phase">
+  <div class="phase-label">Phase 1 — This week</div>
+  <h2>Warm outreach &amp; personal invites</h2>
+
+  <div class="actions">
+    <div class="action high">
+      <div class="action-head">
+        <span class="priority high">Do first</span>
+        <h3>Personal invites to every Facebook friend</h3>
+      </div>
+      <p>Don't use the mass "Invite friends" button — it sends a generic notification that gets ignored. Instead, go through your friends list and send a short personal message to any woman you think this is for:</p>
+      <ul>
+        <li><em>"Hey [name], I started a little ministry page called Stillwater — it's a free weekly prayer letter for women. Thought of you. Would love for you to follow it."</em></li>
+        <li>Aim for 30–50 personal messages this week</li>
+        <li>You'll probably convert 50–70% of people you personally message</li>
+      </ul>
+      <span class="effort">Time: 1–2 hrs total · Cost: free</span>
+    </div>
+
+    <div class="action high">
+      <div class="action-head">
+        <span class="priority high">Do first</span>
+        <h3>Email your newsletter list → ask them to follow</h3>
+      </div>
+      <p>Your MailerLite subscribers are already warm — they signed up for the letter. Send a single email (not a newsletter, just a short personal note) this week:</p>
+      <ul>
+        <li><em>"Quick note — we now have a Facebook page. If you're on Facebook, I'd love for you to follow it. It's where I share the shorter thoughts between Tuesdays."</em></li>
+        <li>Link: facebook.com/profile.php?id=61590678028468</li>
+      </ul>
+      <span class="effort">Time: 15 mins · Cost: free</span>
+    </div>
+
+    <div class="action high">
+      <div class="action-head">
+        <span class="priority high">Do first</span>
+        <h3>Ask 2–3 church leaders to share the page</h3>
+      </div>
+      <p>Think of pastors, women's group leaders, or ministry friends in Adelaide who have their own Facebook following. Ask them personally (not via mass message) to share the page to their page or profile. One share from a trusted leader can bring 20–50 new followers in a day.</p>
+      <ul>
+        <li>Give them exact wording so it's easy: <em>"I'm sharing my friend Alice's new ministry page — she sends a free weekly prayer letter every Tuesday and it's the real thing. Go follow her."</em></li>
+      </ul>
+      <span class="effort">Time: 30 mins · Cost: free (relationship capital)</span>
+    </div>
+
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">This week</span>
+        <h3>Pin the welcome post</h3>
+      </div>
+      <p>Go to the welcome post you just published → click the three dots (⋯) → "Pin to top of Page". This means every new visitor sees it first. It should stay pinned permanently.</p>
+      <span class="effort">Time: 2 mins · Cost: free</span>
+    </div>
+
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">This week</span>
+        <h3>Use "Invite to Like" after every post gets reactions</h3>
+      </div>
+      <p>After each post, click on the reaction count to see who reacted. Anyone who reacted but doesn't follow the page will have an "Invite" button next to their name. Click every one. Facebook allows this for free and it converts well — people already showed they liked the content.</p>
+      <span class="effort">Time: 5 mins after each post · Cost: free</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHASE 2 -->
+<div class="phase">
+  <div class="phase-label">Phase 2 — Weeks 2–4</div>
+  <h2>Weekly posting rhythm</h2>
+
+  <div class="callout">
+    <h3>The one thing that matters most: show up every week, without fail.</h3>
+    <p>The Facebook algorithm rewards pages that post consistently. Pages that post 3–4 times per week see significantly higher organic reach than pages that post occasionally. Most pages that give up do so in the first 6 weeks — push through that window and the momentum becomes self-sustaining.</p>
+  </div>
+
+  <div class="schedule">
+    <div class="schedule-row">
+      <div class="schedule-day">Tuesday</div>
+      <div class="schedule-task"><strong>Share the letter.</strong> Paste a meaningful excerpt (3–5 sentences) from that week's letter as the post text, then add: "The full letter is in your inbox — or sign up at thestillwaterletters.com.au". Include an image if you have one.</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-day">Thursday</div>
+      <div class="schedule-task"><strong>Prayer prompt or short reflection.</strong> A single question or one-paragraph thought. Something like: "What are you carrying into the weekend that you haven't handed over yet?" No image needed — text posts work well for engagement.</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-day">Saturday</div>
+      <div class="schedule-task"><strong>Scripture graphic or personal moment.</strong> A verse that's been meaningful this week, with a one-line personal note from Alice. Or a photo of something ordinary — morning coffee, journal, a quiet moment — with a short reflection.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Best posting times for Australian audiences:</strong> Tuesday, Thursday and Saturday mornings between 7–9am ACST. People check Facebook over breakfast before the day starts.
+  </div>
+</div>
+
+
+
+<!-- PHASE 3 -->
+<div class="phase">
+  <div class="phase-label">Phase 3 — Ongoing</div>
+  <h2>Content ideas that drive shares</h2>
+
+  <p style="font-size:0.88rem; color:var(--muted); margin-bottom:1rem;"><strong>Shares are the single fastest organic growth lever on Facebook.</strong> When someone shares your post, it reaches all their friends who don't follow you. Design some posts specifically to be shareable.</p>
+
+  <div class="ideas-grid">
+    <div class="idea-card">
+      <div class="day">Highly shareable</div>
+      <p><strong>Relatable "me too" posts.</strong> A one-sentence observation about the ordinary struggle of faith. "The weeks I most need the letter are the weeks I almost don't open it." Women tag friends in these.</p>
+    </div>
+    <div class="idea-card">
+      <div class="day">Highly shareable</div>
+      <p><strong>Scripture + short personal note.</strong> Not a graphic — just the verse and two sentences from Alice. Authentic beats polished every time. People share these to their own walls.</p>
+    </div>
+    <div class="idea-card">
+      <div class="day">Good reach</div>
+      <p><strong>Questions that invite answers.</strong> "What's one thing you're praying for this week that you haven't told anyone?" People comment, which tells the algorithm the post matters, which extends reach.</p>
+    </div>
+    <div class="idea-card">
+      <div class="day">Good reach</div>
+      <p><strong>Reader responses (anonymised).</strong> "A reader wrote to me this week and said something that stopped me..." Share the essence (with permission or anonymised). These feel personal and get reshared.</p>
+    </div>
+    <div class="idea-card">
+      <div class="day">Seasonal</div>
+      <p><strong>Honest faith moments.</strong> "I haven't had a proper quiet time in three weeks and I'm a minister. Here's what I did instead." Vulnerability is Alice's superpower — use it.</p>
+    </div>
+    <div class="idea-card">
+      <div class="day">Seasonal</div>
+      <p><strong>"Send this to a woman who needs it."</strong> End posts occasionally with this line. Direct asks to share work better than hoping people will.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHASE 4 -->
+<div class="phase">
+  <div class="phase-label">Phase 4 — Biggest untapped reach</div>
+  <h2>Facebook Reels — the algorithm's free gift</h2>
+
+  <div class="callout">
+    <h3>Reels reach people who don't follow you. Nothing else does.</h3>
+    <p>Standard posts reach mostly your existing followers (and only a fraction of them). Reels get distributed to non-followers based on topic and watch behaviour — they're Facebook's answer to TikTok. A single Reel from a page with 20 followers can reach 2,000 people if it's watchable. This is the single highest-leverage free tool available.</p>
+  </div>
+
+  <div class="actions">
+    <div class="action high">
+      <div class="action-head">
+        <span class="priority high">High leverage</span>
+        <h3>Reels for the camera-shy: text-on-screen style</h3>
+      </div>
+      <p>Alice doesn't need to appear on camera. The most effective low-effort Reel format for this content is: a short clip of still water, morning light, or hands holding a Bible, with text overlaid as words fade in. Add quiet ambient music. 30–60 seconds.</p>
+      <ul>
+        <li>Use a free app like CapCut (on iPhone) — drag in a clip, add text, add music</li>
+        <li>Content: one paragraph from the weekly letter, broken into short phrases that appear one at a time</li>
+        <li>End with: "Full letter every Tuesday — link in bio"</li>
+        <li>Even one Reel per week is transformative for reach</li>
+      </ul>
+      <span class="effort">Time: 20–30 mins once you have a template · Cost: free</span>
+    </div>
+
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">Good option</span>
+        <h3>Audio-only style Reel</h3>
+      </div>
+      <p>If Alice is comfortable with her voice but not her face: record a 45-second audio reading of a letter excerpt (voice memo on iPhone), pair it with a static image of still water, upload as a Reel. Many faith creators do this — it feels intimate and personal without requiring video presence.</p>
+      <span class="effort">Time: 15 mins · Cost: free</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHASE 5 -->
+<div class="phase">
+  <div class="phase-label">Phase 5 — Community leverage</div>
+  <h2>Facebook Groups strategy</h2>
+
+  <div class="actions">
+    <div class="action high">
+      <div class="action-head">
+        <span class="priority high">High leverage</span>
+        <h3>Join existing Australian Christian women's groups</span>
+      </div>
+      <p>Search Facebook for: "Christian women Australia", "women of faith Australia", "prayer warriors women", "Christian mums Adelaide/South Australia". Join as Alice personally (not as the page). Participate genuinely for 2–3 weeks — answer questions, share encouragement, pray for people. Then when it's natural, mention the page or letter.</p>
+      <ul>
+        <li>Never drop the link cold — build trust first</li>
+        <li>A warm mention in a comment ("I write about exactly this in my weekly letter…") is far more effective than a promotional post</li>
+        <li>Target 3–5 active groups</li>
+      </ul>
+      <span class="effort">Time: 20 mins/week · Cost: free</span>
+    </div>
+
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">Consider later</span>
+        <h3>Create a Stillwater private Facebook Group</h3>
+      </div>
+      <p>Once the page reaches 100–200 followers, create a private group called something like "The Stillwater Circle" — a place for readers to share prayer requests, respond to letters, and build fellowship. This creates a second growth engine: members invite friends to the group, group members follow the page.</p>
+      <ul>
+        <li>Private groups feel safer and more intimate than public pages — retention is much higher</li>
+        <li>Don't launch it until you have enough followers to seed it with 20–30 active members or it'll feel empty</li>
+        <li>Connected to your Prayer Circle concept already on the website</li>
+      </ul>
+      <span class="effort">Time: 1 hr to set up, 20 mins/week to manage · Cost: free</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHASE 6 -->
+<div class="phase">
+  <div class="phase-label">Phase 6 — Partnerships</div>
+  <h2>Who can amplify Alice?</h2>
+
+  <div class="actions">
+    <div class="action high">
+      <div class="action-head">
+        <span class="priority high">High leverage</span>
+        <h3>Adelaide churches with women's ministries</h3>
+      </div>
+      <p>Identify 5–10 churches in Adelaide that have active women's programs. Contact the women's ministry leader directlyҀ� not a generic email to the church office. Offer to write a guest post for their newsletter or contribute a devotional thought to their Facebook page, with a brief mention of Stillwater at the end.</p>
+      <span class="effort">Time: 2 hrs to identify + reach out · Cost: free</span>
+    </div>
+
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">Good option</span>
+        <h3>Hands of Hope connection</h3>
+      </div>
+      <p>Stillwater already has a tithing relationship with Hands of Hope (handsofhope.asn.au). Ask if they'd mention the page in their own communications or share a post — it's a natural fit and they have an existing audience of faith-minded Australians.</p>
+      <span class="effort">Time: 1 email · Cost: free</span>
+    </div>
+
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">Good option</span>
+        <h3>Other Christian women's newsletters / creators</h3>
+      </div>
+      <p>Find other faith-based newsletter writers or bloggers in Australia (search Substack, Instagram, Facebook). Propose a simple swap: you mention their newsletter to your email list, they mention yours. Small creators are usually very open to this — it costs nothing and helps both.</p>
+      <span class="effort">Time: 1 hr to find + reach out · Cost: free</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHASE 7 -->
+<div class="phase">
+  <div class="phase-label">Phase 7 — When you're ready to spend a little</div>
+  <h2>Cheap paid strategy ($10–$30 AUD)</h2>
+
+  <div class="actions">
+    <div class="action medium">
+      <div class="action-head">
+        <span class="priority medium">When page has 50+ followers</span>
+        <h3>Boost one strong post for $10–$20</h3>
+      </div>
+      <p>Wait until a post gets strong organic engagement first (likes, shares, comments). That proves the content resonates. Then boost it.</p>
+      <ul>
+        <li><strong>Target:</strong> Women · Age 30–60 · Australia · Interests: Christianity, prayer, devotionals, faith, Bible study</li>
+        <li><strong>Duration:</strong> 5–7 days</li>
+        <li><strong>Budget:</strong> $10–20 AUD</li>
+        <li><strong>Goal:</strong> "Get more page likes" or "Reach more people" (not sales)</li>
+        <li>$10 typically reaches 806–2�000 people with these targeting parameters in Australia</li>
+      </ul>
+      <span class="effort">Time: 15 mins to set up · Cost: $10–20</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- MILESTONES -->
+<div class="phase">
+  <div class="phase-label">Milestones — realistic timeline</div>
+  <h2>What to expect and when</h2>
+
+  <div class="metrics">
+    <div class="metric">
+      <span class="num">50</span>
+      <span class="label">followers by week 2<br>from personal invites</span>
+    </div>
+    <div class="metric">
+      <span class="num">150</span>
+      <span class="label">followers by month 2<br>consistent posting</span>
+    </div>
+    <div class="metric">
+      <span class="num">300+</span>
+      <span class="label">followers by month 4<br>with Reels + groups</span>
+    </div>
+    <div class="metric">
+      <span class="num">3–6</span>
+      <span class="label">months for real<br>momentum to build</span>
+    </div>
+    <div class="metric">
+      <span class="num">9.5%</span>
+      <span class="label">more reactions when<br>you reply to comments</span>
+    </div>
+    <div class="metric">
+      <span class="num">3×</span>
+      <span class="label">more reach with<br>image vs text-only</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>The hardest part:</strong> weeks 3–6, when you're posting consistently but follower growth feels slow. This is normal. The algorithm is still learning the page. Most pages that fail give up in this window. Keep showing up.
+  </div>
+</div>
+
+
+<!-- WHAT NOT TO DO -->
+<div class="phase">
+  <div class="phase-label">Things to avoid</div>
+  <h2>What doesn't work</h2>
+
+  <div class="actions">
+    <div class="action low">
+      <div class="action-head">
+        <span class="priority low">Avoid</span>
+        <h3>Mass "Invite Friends" button</h3>
+      </div>
+      <p>Sends a generic notification that gets dismissed. Personal messages convert at 5–10× higher rate. Worth the extra effort.</p>
+    </div>
+    <div class="action low">
+      <div class="action-head">
+        <span class="priority low">Avoid</span>
+        <h3>Posting into groups as the page to promote</h3>
+      </div>
+      <p>Most groups block promotional posts, and cold drops of a link look spammy. Participate as a person, not as a marketer.</p>
+    </div>
+    <div class="action low">
+      <div class="action-head">
+        <span class="priority low">Avoid</span>
+        <h3>Buying followers or likes</h3>
+      </div>
+      <p>Fake followers tank your engagement rate, which tells the algorithm your content isn't worth showing to real people. It actively makes growth harder.</p>
+    </div>
+    <div class="action low">
+      <div class="action-head">
+        <span class="priority low">Avoid</span>
+        <h3>Inconsistency</h3>
+      </div>
+      <p>Posting 5 times one week then nothing for 2 weeks is worse than posting 3 times a week every week. The algorithm deprioritises pages that go quiet.</p>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <span>The Stillwater Letters — stillwater womens ministry</span>
+  <span style="opacity:0.5;">"He leads me beside still waters." — Psalm 23</span>
+</footer>
+
+</body>
+</html>

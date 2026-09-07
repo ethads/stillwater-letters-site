@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Facebook Content Calendar — The Stillwater Letters</title>
+<style>
+  :root {
+    --teal: #1B4332;
+    --teal-mid: #2D6A4F;
+    --teal-light: #e8f0ec;
+    --clay: #B86B4A;
+    --clay-soft: #D89377;
+    --clay-pale: #f7ece6;
+    --paper: #FBF7EE;
+    --paper-dark: #f2ece0;
+    --ink: #1a3032;
+    --muted: #4a5358;
+    --rule: rgba(27,67,50,0.12);
+    --shadow: rgba(27,67,50,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--teal);
+    color: var(--paper);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+  .logo-mark { width: 32px; height: 32px; margin: 0 auto 0.75rem; display: block; }
+  header h1 {
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.3rem;
+  }
+  header p { font-size: 0.85rem; opacity: 0.65; font-style: italic; }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* MONTH NAV */
+  .month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .month-nav h2 {
+    font-family: 'Georgia', serif;
+    font-size: 1.3rem;
+    font-weight: normal;
+    color: var(--teal);
+    letter-spacing: 0.02em;
+  }
+  .nav-btn {
+    background: none;
+    border: 1.5px solid var(--teal);
+    color: var(--teal);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-btn:hover { background: var(--teal); color: var(--paper); }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--paper-dark);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-family: Arial, sans-serif;
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); }
+  .legend-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* CALENDAR GRID */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    background: var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .day-header {
+    background: var(--teal);
+    color: rgba(251,247,238,0.8);
+    text-align: center;
+    padding: 0.5rem 0;
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .day-cell {
+    background: var(--paper);
+    min-height: 110px;
+    padding: 0.4rem;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .day-cell:hover { background: var(--teal-light); }
+  .day-cell.other-month { background: #f5f1e8; }
+  .day-cell.other-month .day-num { opacity: 0.3; }
+  .day-cell.today { background: #e8f0ec; }
+  .day-cell.today .day-num {
+    background: var(--teal);
+    color: var(--paper);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .day-num {
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .post-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-family: Arial, sans-serif;
+    margin-bottom: 2px;
+    cursor: pointer;
+    line-height: 1.3;
+    word-break: break-word;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: opacity 0.15s;
+  }
+  .post-pill:hover { opacity: 0.8; }
+  .post-pill .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .add-btn {
+    position: absolute;
+    bottom: 4px; right: 4px;
+    background: none;
+    border: none;
+    color: var(--teal-mid);
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: opacity 0.15s, background 0.15s;
+  }
+  .day-cell:hover .add-btn { opacity: 0.6; }
+  .add-btn:hover { opacity: 1 !important; background: var(--rule); }
+  .more-pill {
+    font-size: 0.65rem;
+    color: var(--clay);
+    font-family: Arial, sans-serif;
+    padding: 0 2px;
+    cursor: pointer;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(27,67,50,0.45);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--paper);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%; max-width: 460px;
+    box-shadow: 0 8px 40px rgba(27,67,50,0.25);
+    transform: translateY(10px);
+    transition: transform 0.2s;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal h3 {
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: var(--teal);
+    margin-bottom: 1.25rem;
+  }
+  .form-group { margin-bottom: 1rem; }
+  label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.35rem;
+  }
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: var(--teal-mid);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .type-btn {
+    padding: 0.5rem 0.25rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+  }
+  .type-btn:hover { border-color: var(--teal-mid); color: var(--teal); }
+  .type-btn.selected { color: white; border-color: transparent; }
+  .type-icon { font-size: 1.1rem; }
+  .status-row { display: flex; gap: 0.5rem; }
+  .status-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .status-btn.selected { border-color: transparent; }
+  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
+  .btn-primary {
+    background: var(--teal);
+    color: var(--paper);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--teal-mid); }
+  .btn-secondary {
+    background: none;
+    color: var(--muted);
+    border: 1.5px solid var(--rule);
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--muted); color: var(--ink); }
+  .btn-danger {
+    background: none;
+    color: #c0392b;
+    border: none;
+    font-family: Arial, sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-right: auto;
+    padding: 0.4rem 0;
+  }
+  .btn-danger:hover { text-decoration: underline; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--teal);
+    border-radius: 10px;
+    color: var(--paper);
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .stat-num {
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    font-weight: normal;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+  .stat-divider { width: 1px; background: rgba(251,247,238,0.2); align-self: stretch; }
+
+  /* WEEKLY VIEW TOGGLE */
+  .view-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+  .view-btn {
+    padding: 0.4rem 1rem;
+    border: 1.5px solid var(--teal);
+    border-radius: 20px;
+    background: none;
+    color: var(--teal);
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .view-btn.active { background: var(--teal); color: var(--paper); }
+
+  /* SUGGESTIONS */
+  .suggestions-section { margin-top: 1.5rem; }
+  .suggestions-header {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 1rem;
+  }
+  .suggestion-cards { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1rem; }
+  .suggestion-card {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+  .suggestion-alert { border-left-color: var(--clay); background: var(--clay-pale); }
+  .suggestion-tip { border-left-color: var(--teal-mid); background: var(--teal-light); }
+  .suggestion-time { border-left-color: #2980B9; background: #e8f2fa; }
+  .suggestion-good { border-left-color: #27AE60; background: #e8f7ed; }
+  .suggestion-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .suggestion-body strong {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+  .suggestion-body p {
+    font-family: Arial, sans-serif;
+    font-size: 0.76rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .mix-section {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+  .mix-title {
+    font-family: Arial, sans-serif;
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .mix-item {
+    display: grid;
+    grid-template-columns: 115px 1fr 32px;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .mix-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .mix-track { height: 7px; background: var(--paper-dark); border-radius: 4px; overflow: hidden; }
+  .mix-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .mix-pct { font-family: Arial, sans-serif; font-size: 0.68rem; color: var(--muted); text-align: right; }
+  .tool-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tool-links a {
+    padding: 0.4rem 1rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .tool-links a:hover { background: var(--teal); color: var(--paper); border-color: var(--teal); }
+  .tool-links a.active { background: var(--teal); color: var(--paper); border-color: var(--teal); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.85rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2rem;
+  }
+  footer a { color: var(--clay); }
+
+  @media (max-width: 600px) {
+    .day-cell { min-height: 70px; }
+    .container { padding: 1.25rem 0.75rem 3rem; }
+    .type-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-bar { gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#fbf7ee" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#d89377" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  </svg>
+  <h1>Facebook Content Calendar</h1>
+  <p>The Stillwater Letters — plan, schedule, and track your posts</p>
+</header>
+
+<div class="container">
+
+  <div class="tool-links">
+    <a href="/fb-calendar/" class="active">📅 Calendar</a>
+    <a href="/fb-posts/">✏️ Post Generator</a>
+    <a href="/dashboard/">📊 Dashboard</a>
+    <a href="/fb-guide/">← Growth Guide</a>
+  </div>
+
+  <div class="view-toggle">
+    <button class="view-btn active" id="monthViewBtn" onclick="setView('month')">Month</button>
+    <button class="view-btn" id="weekViewBtn" onclick="setView('week')">This Week</button>
+  </div>
+
+  <div class="month-nav">
+    <button class="nav-btn" onclick="prevPeriod()">&#8249;</button>
+    <h2 id="periodLabel"></h2>
+    <button class="nav-btn" onclick="nextPeriod()">&#8250;</button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#2D6A4F"></span>Text Post</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#B86B4A"></span>Image/Photo</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#7B5EA7"></span>Video/Reel</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#2980B9"></span>Story</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#27AE60"></span>Live</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E67E22"></span>Prayer Request</div>
+    <div class="legend-item" style="margin-left: auto; font-size:0.75rem; font-style:italic; color:#888">Click any day to add a post</div>
+  </div>
+
+  <div id="calGrid" class="cal-grid"></div>
+
+  <div class="stats-bar" id="statsBar"></div>
+  <div id="suggestionsBox" class="suggestions-section"></div>
+
+</div>
+
+<footer>
+  <a href="/fb-guide/">← Back to Facebook Growth Guide</a>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <h3 id="modalTitle">Add a post</h3>
+    <div class="form-group">
+      <label>Post type</label>
+      <div class="type-grid" id="typeGrid"></div>
+    </div>
+    <div class="form-group">
+      <label>Content idea / caption</label>
+      <textarea id="postContent" placeholder="What will you post? Jot your idea here…" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Best time to post</label>
+      <input type="text" id="postTime" placeholder="e.g. 7:30am, Tuesday morning…">
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <div class="status-row" id="statusRow"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-danger" id="deleteBtn" onclick="deletePost()" style="display:none">Delete</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="savePost()">Save post</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+
+const POST_TYPES = [
+  { id: 'text',    label: 'Text Post',     icon: '✏️',  color: '#2D6A4F', bg: '#e8f0ec' },
+  { id: 'image',   label: 'Image/Photo',   icon: '📷',  color: '#B86B4A', bg: '#f7ece6' },
+  { id: 'video',   label: 'Video/Reel',    icon: '🎥',  color: '#7B5EA7', bg: '#f0ebf7' },
+  { id: 'story',   label: 'Story',         icon: '✨',  color: '#2980B9', bg: '#e8f2fa' },
+  { id: 'live',    label: 'Live',          icon: '🔴',  color: '#27AE60', bg: '#e8f7ed' },
+  { id: 'prayer',  label: 'Prayer Req.',   icon: '🙏',  color: '#E67E22', bg: '#fdf0e3' },
+];
+
+const STATUSES = [
+  { id: 'idea',      label: 'Idea',      color: '#95a5a6', bg: '#f0f0f0' },
+  { id: 'scheduled', label: 'Scheduled', color: '#2980B9', bg: '#e8f2fa' },
+  { id: 'posted',    label: 'Posted ✓',  color: '#27AE60', bg: '#e8f7ed' },
+];
+
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const STORAGE_KEY = 'stillwater_fb_calendar';
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+
+let posts = {};       // { 'YYYY-MM-DD': [postObj, ...] }
+let view = 'month';   // 'month' | 'week'
+let cursor = new Date();
+cursor.setDate(1);
+
+// Modal state
+let modalDate = null;
+let editPostId = null;
+let selectedType = 'text';
+let selectedStatus = 'idea';
+
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+
+function loadPosts() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    posts = raw ? JSON.parse(raw) : {};
+  } catch(e) { posts = {}; }
+}
+
+function savePosts() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+
+// ── DATE UTILS ───────────────────────────────────────────────────────────────
+
+function dateKey(y, m, d) {
+  return y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+}
+
+function todayKey() {
+  const t = new Date();
+  return dateKey(t.getFullYear(), t.getMonth(), t.getDate());
+}
+
+function keyToDate(k) {
+  const [y,m,d] = k.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+
+function formatModalDate(k) {
+  const d = keyToDate(k);
+  return d.toLocaleDateString('en-AU', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+
+function render() {
+  if (view === 'month') renderMonth();
+  else renderWeek();
+  renderStats();
+  renderSuggestions();
+}
+
+function renderMonth() {
+  const y = cursor.getFullYear(), m = cursor.getMonth();
+  document.getElementById('periodLabel').textContent =
+    cursor.toLocaleDateString('en-AU', { month:'long', year:'numeric' });
+
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  // Headers
+  DAYS.forEach(d => {
+    const h = document.createElement('div');
+    h.className = 'day-header';
+    h.textContent = d;
+    grid.appendChild(h);
+  });
+
+  const firstDay = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const prevDays = new Date(y, m, 0).getDate();
+  const today = todayKey();
+
+  let cells = [];
+
+  // Prev month fill
+  for (let i = firstDay - 1; i >= 0; i--) {
+    cells.push({ day: prevDays - i, month: m-1, year: m===0?y-1:y, other: true });
+  }
+  // This month
+  for (let d = 1; d <= daysInMonth; d++) {
+    cells.push({ day: d, month: m, year: y, other: false });
+  }
+  // Next month fill
+  let remaining = 42 - cells.length;
+  for (let d = 1; d <= remaining; d++) {
+    cells.push({ day: d, month: m+1, year: m===11?y+1:y, other: true });
+  }
+
+  cells.forEach(c => {
+    const k = dateKey(c.year, c.month, c.day);
+    const cell = document.createElement('div');
+    cell.className = 'day-cell' + (c.other ? ' other-month' : '') + (k === today ? ' today' : '');
+
+    const num = document.createElement('div');
+    num.className = 'day-num';
+    num.textContent = c.day;
+    cell.appendChild(num);
+
+    const dayPosts = posts[k] || [];
+    const maxShow = 2;
+    dayPosts.slice(0, maxShow).forEach(p => {
+      cell.appendChild(makePill(p, k));
+    });
+    if (dayPosts.length > maxShow) {
+      const more = document.createElement('div');
+      more.className = 'more-pill';
+      more.textContent = '+' + (dayPosts.length - maxShow) + ' more';
+      more.onclick = (e) => { e.stopPropagation(); openDayModal(k); };
+      cell.appendChild(more);
+    }
+
+    const add = document.createElement('button');
+    add.className = 'add-btn';
+    add.textContent = '+';
+    add.title = 'Add post';
+    add.onclick = (e) => { e.stopPropagation(); openNewPost(k); };
+    cell.appendChild(add);
+
+    cell.onclick = () => openDayModal(k);
+    grid.appendChild(cell);
+  });
+}
+
+function renderWeek() {
+  const d = new Date(cursor);
+  // Find Sunday of current week
+  const day = d.getDay();
+  d.setDate(d.getDate() - day);
+
+  const weekStart = new Date(d);
+  const weekEnd = new Date(d);
+  weekEnd.setDate(weekEnd.getDate() + 6);
+
+  document.getElementById('periodLabel').textContent =
+    weekStart.toLocaleDateString('en-AU', {day:'numeric', month:'short'}) + ' – ' +
+    weekEnd.toLocaleDateString('en-AU', {day:'numeric', month:'short', year:'numeric'});
+
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  const today = todayKey();
+
+  DAYS.forEach((dayName, i) => {
+    const h = document.createElement('div');
+    h.className = 'day-header';
+    h.textContent = dayName;
+    grid.appendChild(h);
+  });
+
+  for (let i = 0; i < 7; i++) {
+    const cd = new Date(weekStart);
+    cd.setDate(weekStart.getDate() + i);
+    const k = dateKey(cd.getFullYear(), cd.getMonth(), cd.getDate());
+
+    const cell = document.createElement('div');
+    cell.className = 'day-cell' + (k === today ? ' today' : '');
+    cell.style.minHeight = '160px';
+
+    const num = document.createElement('div');
+    num.className = 'day-num';
+    num.textContent = cd.getDate();
+    cell.appendChild(num);
+
+    (posts[k] || []).forEach(p => cell.appendChild(makePill(p, k)));
+
+    const add = document.createElement('button');
+    add.className = 'add-btn';
+    add.textContent = '+';
+    add.onclick = (e) => { e.stopPropagation(); openNewPost(k); };
+    cell.appendChild(add);
+
+    cell.onclick = () => openDayModal(k);
+    grid.appendChild(cell);
+  }
+}
+
+function makePill(p, k) {
+  const type = POST_TYPES.find(t => t.id === p.type) || POST_TYPES[0];
+  const status = STATUSES.find(s => s.id === p.status) || STATUSES[0];
+  const pill = document.createElement('button');
+  pill.className = 'post-pill';
+  pill.style.background = p.status === 'posted' ? '#e8f7ed' : type.bg;
+  pill.style.color = type.color;
+
+  const dot = document.createElement('span');
+  dot.className = 'pill-dot';
+  dot.style.background = status.color;
+  pill.appendChild(dot);
+
+  const label = document.createElement('span');
+  label.textContent = p.content ? p.content.slice(0, 28) + (p.content.length > 28 ? '…' : '') : type.label;
+  pill.appendChild(label);
+
+  pill.onclick = (e) => { e.stopPropagation(); openEditPost(k, p.id); };
+  return pill;
+}
+
+function renderStats() {
+  const bar = document.getElementById('statsBar');
+  const allPosts = Object.values(posts).flat();
+  const total = allPosts.length;
+  const posted = allPosts.filter(p => p.status === 'posted').length;
+  const scheduled = allPosts.filter(p => p.status === 'scheduled').length;
+  const ideas = allPosts.filter(p => p.status === 'idea').length;
+
+  // This month
+  const y = new Date().getFullYear(), m = new Date().getMonth();
+  const thisMonth = Object.entries(posts)
+    .filter(([k]) => { const d = keyToDate(k); return d.getFullYear()===y && d.getMonth()===m; })
+    .flatMap(([,v]) => v);
+
+  bar.innerHTML = `
+    <div class="stat-item">
+      <span class="stat-num">${thisMonth.length}</span>
+      <span class="stat-label">Posts this month</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">${thisMonth.filter(p=>p.status==='posted').length}</span>
+      <span class="stat-label">Published</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">${thisMonth.filter(p=>p.status==='scheduled').length}</span>
+      <span class="stat-label">Scheduled</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">${total}</span>
+      <span class="stat-label">Total planned</span>
+    </div>
+  `;
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────────────────
+
+function setView(v) {
+  view = v;
+  cursor = new Date(); cursor.setDate(1);
+  document.getElementById('monthViewBtn').classList.toggle('active', v==='month');
+  document.getElementById('weekViewBtn').classList.toggle('active', v==='week');
+  render();
+}
+
+function prevPeriod() {
+  if (view === 'month') { cursor.setMonth(cursor.getMonth() - 1); }
+  else { cursor.setDate(cursor.getDate() - 7); }
+  render();
+}
+
+function nextPeriod() {
+  if (view === 'month') { cursor.setMonth(cursor.getMonth() + 1); }
+  else { cursor.setDate(cursor.getDate() + 7); }
+  render();
+}
+
+// ── MODAL ────────────────────────────────────────────────────────────────────
+
+function openDayModal(k) {
+  const dayPosts = posts[k] || [];
+  if (dayPosts.length === 0) { openNewPost(k); return; }
+  openNewPost(k);
+}
+
+function openNewPost(k) {
+  modalDate = k;
+  editPostId = null;
+  selectedType = 'text';
+  selectedStatus = 'idea';
+  document.getElementById('modalTitle').textContent = 'Add a post — ' + formatModalDate(k);
+  document.getElementById('postContent').value = '';
+  document.getElementById('postTime').value = '';
+  document.getElementById('deleteBtn').style.display = 'none';
+  buildTypeGrid();
+  buildStatusRow();
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('postContent').focus(), 100);
+}
+
+function openEditPost(k, id) {
+  const p = (posts[k] || []).find(p => p.id === id);
+  if (!p) return;
+  modalDate = k;
+  editPostId = id;
+  selectedType = p.type;
+  selectedStatus = p.status;
+  document.getElementById('modalTitle').textContent = 'Edit post — ' + formatModalDate(k);
+  document.getElementById('postContent').value = p.content || '';
+  document.getElementById('postTime').value = p.time || '';
+  document.getElementById('deleteBtn').style.display = 'block';
+  buildTypeGrid();
+  buildStatusRow();
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function buildTypeGrid() {
+  const grid = document.getElementById('typeGrid');
+  grid.innerHTML = '';
+  POST_TYPES.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'type-btn' + (t.id === selectedType ? ' selected' : '');
+    if (t.id === selectedType) btn.style.background = t.color;
+    btn.innerHTML = `<span class="type-icon">${t.icon}</span>${t.label}`;
+    btn.onclick = () => { selectedType = t.id; buildTypeGrid(); };
+    grid.appendChild(btn);
+  });
+}
+
+function buildStatusRow() {
+  const row = document.getElementById('statusRow');
+  row.innerHTML = '';
+  STATUSES.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'status-btn' + (s.id === selectedStatus ? ' selected' : '');
+    if (s.id === selectedStatus) {
+      btn.style.background = s.bg;
+      btn.style.color = s.color;
+      btn.style.borderColor = s.color;
+    }
+    btn.textContent = s.label;
+    btn.onclick = () => { selectedStatus = s.id; buildStatusRow(); };
+    row.appendChild(btn);
+  });
+}
+
+function savePost() {
+  const content = document.getElementById('postContent').value.trim();
+  const time = document.getElementById('postTime').value.trim();
+
+  if (!posts[modalDate]) posts[modalDate] = [];
+
+  if (editPostId) {
+    const idx = posts[modalDate].findIndex(p => p.id === editPostId);
+    if (idx > -1) {
+      posts[modalDate][idx] = { ...posts[modalDate][idx], type: selectedType, status: selectedStatus, content, time };
+    }
+  } else {
+    posts[modalDate].push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+      type: selectedType,
+      status: selectedStatus,
+      content,
+      time,
+      created: new Date().toISOString()
+    });
+  }
+
+  savePosts();
+  closeModal();
+  render();
+}
+
+function deletePost() {
+  if (!modalDate || !editPostId) return;
+  posts[modalDate] = (posts[modalDate] || []).filter(p => p.id !== editPostId);
+  if (posts[modalDate].length === 0) delete posts[modalDate];
+  savePosts();
+  closeModal();
+  render();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  modalDate = null; editPostId = null;
+}
+
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+// Keyboard close
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── SUGGESTIONS ──────────────────────────────────────────────────────────────
+
+function renderSuggestions() {
+  const box = document.getElementById('suggestionsBox');
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth();
+
+  const thisMonthPosts = Object.entries(posts)
+    .filter(([k]) => { const d = new Date(k); return d.getFullYear()===y && d.getMonth()===m; })
+    .flatMap(([,v]) => v);
+
+  const weekStart = new Date(now); weekStart.setDate(now.getDate() - now.getDay()); weekStart.setHours(0,0,0,0);
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 6);
+  const thisWeekPosts = Object.entries(posts)
+    .filter(([k]) => { const d = new Date(k); return d >= weekStart && d <= weekEnd; })
+    .flatMap(([,v]) => v);
+
+  const suggestions = [];
+
+  if (thisWeekPosts.length === 0) {
+    suggestions.push({ type: 'alert', icon: '📅', title: 'Nothing scheduled this week', body: 'Aim for 3–5 posts per week. Even one post today keeps your community warm and your reach steady.' });
+  } else if (thisWeekPosts.length < 3) {
+    suggestions.push({ type: 'tip', icon: '📈', title: `Only ${thisWeekPosts.length} post${thisWeekPosts.length===1?'':'s'} this week`, body: 'Facebook rewards consistency. 3–5 posts per week keeps you visible without overwhelming your community.' });
+  } else if (thisWeekPosts.length >= 3) {
+    suggestions.push({ type: 'good', icon: '✓', title: `${thisWeekPosts.length} posts this week — great pace`, body: 'You\'re in the sweet spot. Keep this rhythm and Facebook will keep showing your posts to more women.' });
+  }
+
+  const typeCounts = {};
+  POST_TYPES.forEach(t => { typeCounts[t.id] = thisMonthPosts.filter(p => p.type === t.id).length; });
+
+  if (thisMonthPosts.length > 3 && (typeCounts['image']||0) === 0) {
+    suggestions.push({ type: 'tip', icon: '📷', title: 'No image posts this month', body: 'Images get 2–3× more reach on Facebook. A photo of your desk, your Bible, or a simple quote card makes a big difference.' });
+  }
+  if (thisMonthPosts.length > 5 && (typeCounts['video']||0) === 0) {
+    suggestions.push({ type: 'tip', icon: '🎥', title: 'Consider a short video this month', body: 'Even 30 seconds of you speaking to camera builds trust faster than any text post. Imperfect is fine — real is better.' });
+  }
+  if (thisMonthPosts.length > 4 && (typeCounts['prayer']||0) === 0) {
+    suggestions.push({ type: 'tip', icon: '🙏', title: 'Invite a prayer request', body: '"What can I pray for you this week?" drives the highest genuine engagement for faith communities. One post, real results.' });
+  }
+
+  const postDates = Object.keys(posts)
+    .filter(k => { const d = new Date(k); return d.getFullYear()===y && d.getMonth()===m; }).sort();
+  if (postDates.length > 1) {
+    let maxGap = 0;
+    for (let i = 1; i < postDates.length; i++) {
+      const gap = (new Date(postDates[i]) - new Date(postDates[i-1])) / 86400000;
+      if (gap > maxGap) maxGap = gap;
+    }
+    if (maxGap > 7) {
+      suggestions.push({ type: 'alert', icon: '⏰', title: `A ${Math.round(maxGap)}-day gap in your schedule`, body: 'Long gaps reduce reach — Facebook quietly deprioritises pages that go quiet. Fill gaps with something simple: a verse, a question, a thought.' });
+    }
+  }
+
+  suggestions.push({ type: 'time', icon: '⏱', title: 'Best times for your audience (ACST)', body: 'Tue–Thu 8–10am: readers check Facebook before the day gets busy. Sunday 7–8pm: reflection mood, high faith-content engagement. Avoid Fri afternoon and Sat morning.' });
+
+  const mixHtml = buildMixBar(thisMonthPosts);
+
+  box.innerHTML = `
+    <div class="suggestions-header">Smart suggestions</div>
+    ${mixHtml}
+    <div class="suggestion-cards">
+      ${suggestions.map(s => `
+        <div class="suggestion-card suggestion-${s.type}">
+          <span class="suggestion-icon">${s.icon}</span>
+          <div class="suggestion-body"><strong>${s.title}</strong><p>${s.body}</p></div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function buildMixBar(monthPosts) {
+  if (!monthPosts.length) return '';
+  const total = monthPosts.length;
+  const bars = POST_TYPES.map(t => {
+    const count = monthPosts.filter(p => p.type === t.id).length;
+    const pct = Math.round((count / total) * 100);
+    if (count === 0) return '';
+    return `<div class="mix-item">
+      <div class="mix-label"><span class="legend-dot" style="background:${t.color}"></span>${t.label}</div>
+      <div class="mix-track"><div class="mix-fill" style="width:${pct}%;background:${t.color}"></div></div>
+      <div class="mix-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+  return `<div class="mix-section">
+    <div class="mix-title">Content mix this month — ${total} post${total===1?'':'s'}</div>
+    ${bars}
+  </div>`;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+loadPosts();
+render();
+</script>
+</body>
+</html>

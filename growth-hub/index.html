@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Hub — The Stillwater Letters</title>
+<style>
+:root{--teal:#1B4332;--teal-mid:#2D6A4F;--teal-light:#e8f0ec;--clay:#B86B4A;--clay-soft:#D89377;--paper:#FBF7EE;--paper-dark:#f2ece0;--ink:#1a3032;--muted:#4a5358;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,serif;background:var(--paper);color:var(--ink);font-size:15px;}
+header{background:var(--teal);color:white;padding:1.5rem;text-align:center;}
+header h1{font-size:1.6rem;letter-spacing:0.03em;}
+header p{font-size:0.85rem;opacity:0.8;margin-top:0.25rem;}
+.tool-nav{display:flex;gap:0.75rem;margin-bottom:2rem;flex-wrap:wrap;}
+.tool-nav a{padding:0.4rem 1rem;border:1.5px solid rgba(27,67,50,0.15);border-radius:20px;font-family:Arial,sans-serif;font-size:0.78rem;font-weight:600;color:var(--teal);text-decoration:none;transition:all 0.15s;}
+.tool-nav a:hover,.tool-nav a.active{background:var(--teal);color:var(--paper);border-color:var(--teal);}
+.wrap{max-width:900px;margin:0 auto;padding:1.5rem;}
+h2{font-size:1.1rem;color:var(--teal);border-bottom:2px solid var(--teal-light);padding-bottom:0.4rem;margin-bottom:1rem;}
+h3{font-size:0.95rem;color:var(--teal-mid);margin-bottom:0.6rem;}
+.card{background:white;border-radius:10px;padding:1.25rem;margin-bottom:1.25rem;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+@media(max-width:600px){.grid2{grid-template-columns:1fr;}}
+
+/* Daily board */
+.activity-item{display:flex;align-items:center;gap:0.75rem;padding:0.55rem 0;border-bottom:1px solid var(--teal-light);}
+.activity-item:last-child{border-bottom:none;}
+.activity-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--teal);flex-shrink:0;cursor:pointer;}
+.activity-item label{cursor:pointer;line-height:1.3;flex:1;}
+.activity-item .tag{font-size:0.68rem;padding:0.15rem 0.5rem;border-radius:10px;background:var(--teal-light);color:var(--teal);font-family:Arial,sans-serif;font-weight:600;white-space:nowrap;}
+.done-label{text-decoration:line-through;color:var(--muted);}
+.daily-progress{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;}
+.daily-bar{flex:1;height:10px;background:var(--teal-light);border-radius:5px;overflow:hidden;}
+.daily-bar-fill{height:100%;background:var(--teal);border-radius:5px;transition:width 0.3s;}
+#daily-count{font-family:Arial,sans-serif;font-size:0.82rem;color:var(--muted);}
+.reset-btn{font-size:0.72rem;padding:0.25rem 0.75rem;border:1px solid var(--clay);background:none;color:var(--clay);border-radius:12px;cursor:pointer;font-family:Arial,sans-serif;}
+.reset-btn:hover{background:var(--clay);color:white;}
+
+/* Goals */
+.goal-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--teal-light);}
+.goal-item:last-child{border-bottom:none;}
+.goal-label{flex:1;font-size:0.9rem;}
+.goal-label small{display:block;color:var(--muted);font-size:0.75rem;font-family:Arial,sans-serif;}
+.goal-bar-wrap{width:120px;}
+.goal-bar{height:8px;background:var(--teal-light);border-radius:4px;overflow:hidden;margin-bottom:3px;}
+.goal-bar-fill{height:100%;background:var(--teal-mid);border-radius:4px;transition:width 0.3s;}
+.goal-num{text-align:right;font-size:0.75rem;color:var(--muted);font-family:Arial,sans-serif;}
+.counter-wrap{display:flex;align-items:center;gap:0.4rem;}
+.cnt-btn{width:26px;height:26px;border:1.5px solid var(--teal);background:none;border-radius:50%;cursor:pointer;font-size:1rem;line-height:1;color:var(--teal);display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-weight:700;}
+.cnt-btn:hover{background:var(--teal);color:white;}
+.cnt-val{min-width:28px;text-align:center;font-weight:700;font-family:Arial,sans-serif;font-size:0.9rem;}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:0.82rem;font-family:Arial,sans-serif;}
+th{background:var(--teal);color:white;padding:0.45rem 0.6rem;text-align:left;font-weight:600;}
+td{padding:0.45rem 0.6rem;border-bottom:1px solid var(--teal-light);vertical-align:middle;}
+tr:hover td{background:var(--teal-light);}
+.del-btn{background:none;border:none;color:#cc3333;cursor:pointer;font-size:1rem;padding:0 0.25rem;}
+.add-row{display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;}
+.add-row input,.add-row select{padding:0.4rem 0.6rem;border:1.5px solid var(--teal-light);border-radius:6px;font-size:0.82rem;font-family:Arial,sans-serif;background:white;}
+.add-row input{flex:1;min-width:120px;}
+.add-btn{padding:0.4rem 1rem;background:var(--teal);color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:Arial,sans-serif;font-weight:600;white-space:nowrap;}
+.add-btn:hover{background:var(--teal-mid);}
+.tick{width:18px;height:18px;accent-color:var(--teal);cursor:pointer;}
+.badge{display:inline-block;padding:0.15rem 0.5rem;border-radius:10px;font-size:0.7rem;font-weight:700;font-family:Arial,sans-serif;}
+.badge-cat{background:var(--teal-light);color:var(--teal);}
+
+/* Weekly rhythm */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.4rem;}
+@media(max-width:600px){.week-grid{grid-template-columns:repeat(4,1fr);}}
+.day-card{background:var(--paper-dark);border-radius:8px;padding:0.6rem;border:2px solid transparent;font-family:Arial,sans-serif;}
+.day-card.today{border-color:var(--teal);background:var(--teal-light);}
+.day-card .day-name{font-size:0.7rem;font-weight:700;color:var(--teal);text-transform:uppercase;margin-bottom:0.35rem;}
+.day-card .day-task{font-size:0.72rem;color:var(--ink);line-height:1.4;}
+
+/* Safety cards */
+.safety-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;}
+@media(max-width:650px){.safety-grid{grid-template-columns:1fr;}}
+.safety-card{border-radius:8px;padding:1rem;}
+.safety-card.danger{background:#fff3f3;border-left:4px solid #cc3333;}
+.safety-card.caution{background:#fff9e6;border-left:4px solid #cc8800;}
+.safety-card.tip{background:var(--teal-light);border-left:4px solid var(--teal);}
+.safety-card .s-head{font-weight:700;font-size:0.82rem;font-family:Arial,sans-serif;margin-bottom:0.4rem;}
+.safety-card.danger .s-head{color:#cc3333;}
+.safety-card.caution .s-head{color:#996600;}
+.safety-card.tip .s-head{color:var(--teal);}
+.safety-card ul{padding-left:1.1rem;}
+.safety-card li{font-size:0.8rem;line-height:1.5;margin-bottom:0.2rem;}
+
+/* Format tracker */
+.fmt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;}
+@media(max-width:500px){.fmt-grid{grid-template-columns:repeat(2,1fr);}}
+.fmt-cell{background:var(--paper-dark);border-radius:8px;padding:0.75rem;text-align:center;font-family:Arial,sans-serif;}
+.fmt-cell .fmt-name{font-size:0.75rem;font-weight:700;color:var(--teal);text-transform:uppercase;margin-bottom:0.35rem;}
+.fmt-cell .fmt-count{font-size:1.8rem;font-weight:700;color:var(--ink);}
+.fmt-cell .fmt-btns{display:flex;gap:0.35rem;justify-content:center;margin-top:0.35rem;}
+.fmt-cell .cnt-btn{width:22px;height:22px;font-size:0.85rem;}
+
+/* Setup checklist */
+.setup-item{display:flex;align-items:flex-start;gap:0.75rem;padding:0.55rem 0;border-bottom:1px solid var(--teal-light);}
+.setup-item:last-child{border-bottom:none;}
+.setup-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--teal);flex-shrink:0;margin-top:2px;cursor:pointer;}
+.setup-item label{cursor:pointer;font-size:0.88rem;line-height:1.4;}
+.setup-item label small{display:block;color:var(--muted);font-size:0.75rem;font-family:Arial,sans-serif;}
+
+/* Collab log */
+.collab-status{padding:0.2rem 0.5rem;border-radius:10px;font-size:0.72rem;font-weight:700;font-family:Arial,sans-serif;}
+.collab-status.planned{background:#fff9e6;color:#996600;}
+.collab-status.done{background:#e6f4ea;color:#1a7a36;}
+
+footer{text-align:center;padding:2rem;font-size:0.8rem;color:var(--muted);font-family:Arial,sans-serif;}
+</style>
+</head>
+<body>
+<header>
+<h1>🌱 Facebook Growth Hub</h1>
+<p>The Stillwater Letters · Organic growth command centre</p>
+</header>
+
+<div class="wrap">
+<div style="max-width:900px;margin:0 auto 0">
+<div class="tool-nav">
+<a href="/fb-calendar/">📅 Calendar</a>
+<a href="/fb-posts/">✏️ Post Generator</a>
+<a href="/dashboard/">📊 Dashboard</a>
+<a href="/fb-guide/">↑ Growth Guide</a>
+<a href="/growth-hub/" class="active">🌱 Growth Hub</a>
+<a href="/social-hub/">🌐 Command Centre</a>
+</div>
+</div>
+<div style="background:#1B4332;color:#fff;padding:0.65rem 1.5rem;display:flex;align-items:center;gap:0.6rem;font-family:Arial,sans-serif;font-size:0.85rem;flex-wrap:wrap;">📊 Track all platforms in one place → <a href="/social-hub/" style="color:#d4edda;font-weight:700;text-decoration:underline;">Social Command Centre</a></div>
+
+<!-- DAILY MICRO-ACTIVITY BOARD -->
+<div class="card">
+<h2>☀️ Daily Micro-Activity Board</h2>
+<div class="daily-progress">
+<div class="daily-bar"><div class="daily-bar-fill" id="daily-bar-fill" style="width:0%"></div></div>
+<span id="daily-count">0 / 10 done</span>
+<button class="reset-btn" onclick="resetDaily()">Reset Day</button>
+</div>
+<div id="daily-list">
+<div class="activity-item"><input type="checkbox" id="da0" onchange="saveDailyItem(0,this.checked)"><label for="da0" id="dal0">Post 1 piece of original content (scripture + reflection)</label><span class="tag">Content</span></div>
+<div class="activity-item"><input type="checkbox" id="da1" onchange="saveDailyItem(1,this.checked)"><label for="da1" id="dal1">Engage on 5 posts in tracked groups (like + meaningful comment)</label><span class="tag">Groups</span></div>
+<div class="activity-item"><input type="checkbox" id="da2" onchange="saveDailyItem(2,this.checked)"><label for="da2" id="dal2">Post in 1 new or active group (prayer request or discussion starter)</label><span class="tag">Groups</span></div>
+<div class="activity-item"><input type="checkbox" id="da3" onchange="saveDailyItem(3,this.checked)"><label for="da3" id="dal3">Reply to every comment on your page within 2 hours of posting</label><span class="tag">Engage</span></div>
+<div class="activity-item"><input type="checkbox" id="da4" onchange="saveDailyItem(4,this.checked)"><label for="da4" id="dal4">Send 1 personal DM to a new follower welcoming them</label><span class="tag">DM</span></div>
+<div class="activity-item"><input type="checkbox" id="da5" onchange="saveDailyItem(5,this.checked)"><label for="da5" id="dal5">Check Street Team list — react or share their content</label><span class="tag">Street Team</span></div>
+<div class="activity-item"><input type="checkbox" id="da6" onchange="saveDailyItem(6,this.checked)"><label for="da6" id="dal6">Add a CTA to every post, story, or reel (subscribe link or prayer invite)</label><span class="tag">CTA</span></div>
+<div class="activity-item"><input type="checkbox" id="da7" onchange="saveDailyItem(7,this.checked)"><label for="da7" id="dal7">Post 1 Story (behind-the-scenes, prayer poll, or scripture card)</label><span class="tag">Stories</span></div>
+<div class="activity-item"><input type="checkbox" id="da8" onchange="saveDailyItem(8,this.checked)"><label for="da8" id="dal8">Search for 1 new relevant FB group to join today</label><span class="tag">Discovery</span></div>
+<div class="activity-item"><input type="checkbox" id="da9" onchange="saveDailyItem(9,this.checked)"><label for="da9" id="dal9">Update this hub (group tick, prayer warrior, format tracker)</label><span class="tag">Admin</span></div>
+</div>
+</div>
+
+<!-- 30-DAY MISSION GOALS -->
+<div class="card">
+<h2>🎯 30-Day Mission Goals</h2>
+<div id="goals-list">
+<div class="goal-item">
+<div class="goal-label">Prayer Warriors recruited<small>Personal connections who pray for the ministry</small></div>
+<div class="counter-wrap">
+<button class="cnt-btn" onclick="adjustGoal(0,-1)">−</button>
+<span class="cnt-val" id="gv0">0</span>
+<button class="cnt-btn" onclick="adjustGoal(0,1)">+</button>
+</div>
+<div class="goal-bar-wrap">
+<div class="goal-bar"><div class="goal-bar-fill" id="gb0" style="width:0%"></div></div>
+<div class="goal-num" id="gn0">0 / 5</div>
+</div>
+</div>
+<div class="goal-item">
+<div class="goal-label">Facebook Groups joined<small>Active prayer/faith/women's communities</small></div>
+<div class="counter-wrap">
+<button class="cnt-btn" onclick="adjustGoal(1,-1)">−</button>
+<span class="cnt-val" id="gv1">0</span>
+<button class="cnt-btn" onclick="adjustGoal(1,1)">+</button>
+</div>
+<div class="goal-bar-wrap">
+<div class="goal-bar"><div class="goal-bar-fill" id="gb1" style="width:0%"></div></div>
+<div class="goal-num" id="gn1">0 / 30</div>
+</div>
+</div>
+<div class="goal-item">
+<div class="goal-label">Collaborations completed<small>Guest posts, joint lives, cross-promos</small></div>
+<div class="counter-wrap">
+<button class="cnt-btn" onclick="adjustGoal(2,-1)">−</button>
+<span class="cnt-val" id="gv2">0</span>
+<button class="cnt-btn" onclick="adjustGoal(2,1)">+</button>
+</div>
+<div class="goal-bar-wrap">
+<div class="goal-bar"><div class="goal-bar-fill" id="gb2" style="width:0%"></div></div>
+<div class="goal-num" id="gn2">0 / 3</div>
+</div>
+</div>
+<div class="goal-item">
+<div class="goal-label">Prayer requests received (DM)<small>Women reaching out for prayer directly</small></div>
+<div class="counter-wrap">
+<button class="cnt-btn" onclick="adjustGoal(3,-1)">−</button>
+<span class="cnt-val" id="gv3">0</span>
+<button class="cnt-btn" onclick="adjustGoal(3,1)">+</button>
+</div>
+<div class="goal-bar-wrap">
+<div class="goal-bar"><div class="goal-bar-fill" id="gb3" style="width:0%"></div></div>
+<div class="goal-num" id="gn3">0 / 10</div>
+</div>
+</div>
+<div class="goal-item">
+<div class="goal-label">Street Team members locked in<small>Loyal fans who engage within the first hour</small></div>
+<div class="counter-wrap">
+<button class="cnt-btn" onclick="adjustGoal(4,-1)">−</button>
+<span class="cnt-val" id="gv4">0</span>
+<button class="cnt-btn" onclick="adjustGoal(4,1)">+</button>
+</div>
+<div class="goal-bar-wrap">
+<div class="goal-bar"><div class="goal-bar-fill" id="gb4" style="width:0%"></div></div>
+<div class="goal-num" id="gn4">0 / 8</div>
+</div>
+</div>
+<div class="goal-item">
+<div class="goal-label">Reels or Lives published<small>Video content for reach + algorithm boost</small></div>
+<div class="counter-wrap">
+<button class="cnt-btn" onclick="adjustGoal(5,-1)">−</button>
+<span class="cnt-val" id="gv5">0</span>
+<button class="cnt-btn" onclick="adjustGoal(5,1)">+</button>
+</div>
+<div class="goal-bar-wrap">
+<div class="goal-bar"><div class="goal-bar-fill" id="gb5" style="width:0%"></div></div>
+<div class="goal-num" id="gn5">0 / 4</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="grid2">
+<!-- GROUP TRACKER -->
+<div class="card" style="grid-column:1/-1">
+<h2>👥 Facebook Group Tracker</h2>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Group Name</th><th>Category</th><th>Joined</th><th>Posted Today ✓</th><th></th></tr></thead>
+<tbody id="group-tbody"><tr><td colspan="5" style="color:var(--muted);text-align:center;padding:1rem;">No groups yet — add your first below</td></tr></tbody>
+</table>
+</div>
+<div class="add-row">
+<input type="text" id="g-name" placeholder="Group name">
+<select id="g-cat">
+<option value="Prayer">Prayer</option>
+<option value="Faith Women">Faith Women</option>
+<option value="Christian Mums">Christian Mums</option>
+<option value="Grief/Healing">Grief/Healing</option>
+<option value="Bible Study">Bible Study</option>
+<option value="Local Church">Local Church</option>
+<option value="Other">Other</option>
+</select>
+<input type="date" id="g-date">
+<button class="add-btn" onclick="addGroup()">+ Add Group</button>
+</div>
+<p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;font-family:Arial,sans-serif;">Tip: Tick "Posted Today" each day you post in a group. Ticks reset at midnight.</p>
+</div>
+</div>
+
+<div class="grid2">
+<!-- PRAYER WARRIOR TRACKER -->
+<div class="card">
+<h2>🙏 Prayer Warrior Tracker</h2>
+<p style="font-size:0.8rem;color:var(--muted);font-family:Arial,sans-serif;margin-bottom:0.75rem;">Goal: 5 prayer warriors in 30 days. Reach out personally, ask if they'd like to pray specifically for the ministry.</p>
+<table>
+<thead><tr><th>Name</th><th>How Recruited</th><th>Date</th><th></th></tr></thead>
+<tbody id="pw-tbody"><tr><td colspan="4" style="color:var(--muted);text-align:center;padding:0.75rem;">None yet</td></tr></tbody>
+</table>
+<div class="add-row" style="margin-top:0.75rem;">
+<input type="text" id="pw-name" placeholder="Name">
+<input type="text" id="pw-how" placeholder="How recruited (DM, comment…)">
+<button class="add-btn" onclick="addPW()">+ Add</button>
+</div>
+</div>
+
+<!-- STREET TEAM TRACKER -->
+<div class="card">
+<h2>🔥 Street Team Tracker</h2>
+<p style="font-size:0.8rem;color:var(--muted);font-family:Arial,sans-serif;margin-bottom:0.75rem;">Your 8 loyal amplifiers — people who like, comment and share within the first hour of every post. Tag them in appreciation posts monthly.</p>
+<table>
+<thead><tr><th>Name / Handle</th><th>How Found</th><th>Date</th><th></th></tr></thead>
+<tbody id="st-tbody"><tr><td colspan="4" style="color:var(--muted);text-align:center;padding:0.75rem;">None yet</td></tr></tbody>
+</table>
+<div class="add-row" style="margin-top:0.75rem;">
+<input type="text" id="st-name" placeholder="Name or @handle">
+<input type="text" id="st-how" placeholder="How spotted (comment, share…)">
+<button class="add-btn" onclick="addST()">+ Add</button>
+</div>
+</div>
+</div>
+
+<!-- WEEKLY RHYTHM PLANNER -->
+<div class="card">
+<h2>📅 Weekly Rhythm Planner</h2>
+<div class="week-grid" id="week-grid"></div>
+</div>
+
+<div class="grid2">
+<!-- PRE-POST CTA CHECKLIST -->
+<div class="card">
+<h2>✅ Pre-Post CTA Checklist</h2>
+<p style="font-size:0.78rem;color:var(--muted);font-family:Arial,sans-serif;margin-bottom:0.75rem;">Run through before every post. Reset after publishing.</p>
+<div id="cta-list">
+<div class="activity-item"><input type="checkbox" id="cta0" onchange="saveCTA(0,this.checked)"><label for="cta0">Post ends with a question or call to comment</label></div>
+<div class="activity-item"><input type="checkbox" id="cta1" onchange="saveCTA(1,this.checked)"><label for="cta1">Subscribe link included ("Link in bio" or direct)</label></div>
+<div class="activity-item"><input type="checkbox" id="cta2" onchange="saveCTA(2,this.checked)"><label for="cta2">Prayer invite included ("DM me your prayer request")</label></div>
+<div class="activity-item"><input type="checkbox" id="cta3" onchange="saveCTA(3,this.checked)"><label for="cta3">Sharing encouraged ("Share with someone who needs this")</label></div>
+<div class="activity-item"><input type="checkbox" id="cta4" onchange="saveCTA(4,this.checked)"><label for="cta4">Email signature updated with newsletter link</label></div>
+<div class="activity-item"><input type="checkbox" id="cta5" onchange="saveCTA(5,this.checked)"><label for="cta5">Story posted to tease the content</label></div>
+<div class="activity-item"><input type="checkbox" id="cta6" onchange="saveCTA(6,this.checked)"><label for="cta6">Street Team notified (pinned comment or DM)</label></div>
+<div class="activity-item"><input type="checkbox" id="cta7" onchange="saveCTA(7,this.checked)"><label for="cta7">Relevant groups queued to share post into</label></div>
+</div>
+<button class="reset-btn" style="margin-top:0.75rem;" onclick="resetCTA()">Reset Checklist</button>
+</div>
+
+<!-- POST FORMAT TRACKER -->
+<div class="card">
+<h2>📊 Post Format Tracker</h2>
+<p style="font-size:0.78rem;color:var(--muted);font-family:Arial,sans-serif;margin-bottom:0.75rem;">Aim for variety: text, photos, carousels, reels, lives, stories each week.</p>
+<div class="fmt-grid">
+<div class="fmt-cell"><div class="fmt-name">Text Post</div><div class="fmt-count" id="ft0">0</div><div class="fmt-btns"><button class="cnt-btn" onclick="adjFmt(0,-1)">−</button><button class="cnt-btn" onclick="adjFmt(0,1)">+</button></div></div>
+<div class="fmt-cell"><div class="fmt-name">Photo</div><div class="fmt-count" id="ft1">0</div><div class="fmt-btns"><button class="cnt-btn" onclick="adjFmt(1,-1)">−</button><button class="cnt-btn" onclick="adjFmt(1,1)">+</button></div></div>
+<div class="fmt-cell"><div class="fmt-name">Carousel</div><div class="fmt-count" id="ft2">0</div><div class="fmt-btns"><button class="cnt-btn" onclick="adjFmt(2,-1)">−</button><button class="cnt-btn" onclick="adjFmt(2,1)">+</button></div></div>
+<div class="fmt-cell"><div class="fmt-name">Reel</div><div class="fmt-count" id="ft3">0</div><div class="fmt-btns"><button class="cnt-btn" onclick="adjFmt(3,-1)">−</button><button class="cnt-btn" onclick="adjFmt(3,1)">+</button></div></div>
+<div class="fmt-cell"><div class="fmt-name">Live</div><div class="fmt-count" id="ft4">0</div><div class="fmt-btns"><button class="cnt-btn" onclick="adjFmt(4,-1)">−</button><button class="cnt-btn" onclick="adjFmt(4,1)">+</button></div></div>
+<div class="fmt-cell"><div class="fmt-name">Story</div><div class="fmt-count" id="ft5">0</div><div class="fmt-btns"><button class="cnt-btn" onclick="adjFmt(5,-1)">−</button><button class="cnt-btn" onclick="adjFmt(5,1)">+</button></div></div>
+</div>
+<button class="reset-btn" style="margin-top:0.75rem;" onclick="resetFmt()">Reset Month</button>
+</div>
+</div>
+
+<!-- ONE-TIME SETUP CHECKLIST -->
+<div class="card">
+<h2>⚙️ One-Time Setup Checklist</h2>
+<div id="setup-list">
+<div class="setup-item"><input type="checkbox" id="su0" onchange="saveSetup(0,this.checked)"><label for="su0">Page About section complete with keywords (prayer, women's ministry, faith)<small>Helps Facebook suggest your page in search</small></label></div>
+<div class="setup-item"><input type="checkbox" id="su1" onchange="saveSetup(1,this.checked)"><label for="su1">Profile + cover photo updated with brand colours and logo</label></div>
+<div class="setup-item"><input type="checkbox" id="su2" onchange="saveSetup(2,this.checked)"><label for="su2">Page button set to "Sign Up" linking to newsletter</label></div>
+<div class="setup-item"><input type="checkbox" id="su3" onchange="saveSetup(3,this.checked)"><label for="su3">Pinned post = best performing or subscriber invite</label></div>
+<div class="setup-item"><input type="checkbox" id="su4" onchange="saveSetup(4,this.checked)"><label for="su4">Email signature updated with Facebook page + subscribe link</label></div>
+<div class="setup-item"><input type="checkbox" id="su5" onchange="saveSetup(5,this.checked)"><label for="su5">Newsletter footer links back to Facebook page</label></div>
+<div class="setup-item"><input type="checkbox" id="su6" onchange="saveSetup(6,this.checked)"><label for="su6">Auto-response message set in Messenger ("Thank you for reaching out…")</label></div>
+<div class="setup-item"><input type="checkbox" id="su7" onchange="saveSetup(7,this.checked)"><label for="su7">Facebook Insights bookmarked — check weekly</label></div>
+<div class="setup-item"><input type="checkbox" id="su8" onchange="saveSetup(8,this.checked)"><label for="su8">Cross-posted links to Instagram, if applicable</label></div>
+<div class="setup-item"><input type="checkbox" id="su9" onchange="saveSetup(9,this.checked)"><label for="su9">Street Team private group or chat created</label></div>
+<div class="setup-item"><input type="checkbox" id="su10" onchange="saveSetup(10,this.checked)"><label for="su10">Content saved templates folder created (Canva or similar)</label></div>
+<div class="setup-item"><input type="checkbox" id="su11" onchange="saveSetup(11,this.checked)"><label for="su11">Posting schedule set in Facebook Creator Studio or Meta Business Suite</label></div>
+</div>
+</div>
+
+<!-- COLLABORATION LOG -->
+<div class="card">
+<h2>🤝 Collaboration Log</h2>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Person / Ministry</th><th>Type</th><th>Status</th><th>Notes</th><th></th></tr></thead>
+<tbody id="collab-tbody"><tr><td colspan="5" style="color:var(--muted);text-align:center;padding:0.75rem;">No collaborations logged yet</td></tr></tbody>
+</table>
+</div>
+<div class="add-row">
+<input type="text" id="cl-name" placeholder="Name or ministry">
+<select id="cl-type">
+<option value="Guest Post">Guest Post</option>
+<option value="Joint Live">Joint Live</option>
+<option value="Cross-Promo">Cross-Promo</option>
+<option value="Podcast">Podcast</option>
+<option value="Story Takeover">Story Takeover</option>
+<option value="Other">Other</option>
+</select>
+<select id="cl-status">
+<option value="planned">Planned</option>
+<option value="done">Done</option>
+</select>
+<input type="text" id="cl-notes" placeholder="Notes (optional)">
+<button class="add-btn" onclick="addCollab()">+ Add</button>
+</div>
+</div>
+
+<!-- FACEBOOK SAFETY RULES -->
+<div class="card">
+<h2>⚠️ Facebook Safety Rules & Pitfall Alerts</h2>
+<div class="safety-grid">
+<div class="safety-card danger">
+<div class="s-head">🚫 Page Blockers</div>
+<ul>
+<li>Never post the same link more than once per day — Facebook flags it as spam</li>
+<li>Don't copy-paste the same text into multiple groups in quick succession</li>
+<li>Never buy likes, followers, or engagement — instant red flag to the algorithm</li>
+<li>Avoid excessive outbound links in a single post</li>
+<li>Don't use banned or restricted words (check Meta Community Standards)</li>
+</ul>
+</div>
+<div class="safety-card caution">
+<div class="s-head">⚠️ Slow-Down Warnings</div>
+<ul>
+<li>Posting more than 3–4 times per day can reduce overall reach</li>
+<li>Joining more than 5 groups in one day may trigger a limit — spread it out</li>
+<li>Mass-friending can trigger temporary restrictions</li>
+<li>Posting in groups too soon after joining gets flagged as spam</li>
+<li>Overusing hashtags (5+ per post) can reduce reach on Facebook</li>
+<li>Going Live too briefly (under 5 min) signals low value to the algorithm</li>
+</ul>
+</div>
+<div class="safety-card tip">
+<div class="s-head">✅ Green Light Habits</div>
+<ul>
+<li>Warm up new group membership: lurk + comment for 1–2 weeks before posting</li>
+<li>Always post native content to Facebook (don't just share an Instagram link)</li>
+<li>Respond to every comment — it signals active, quality conversation</li>
+<li>Use 1–3 relevant hashtags only</li>
+<li>Schedule posts via Meta Business Suite to avoid manual spam patterns</li>
+<li>Post at consistent times — the algorithm rewards predictability</li>
+<li>Vary your CTAs so they don't read as scripted</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><!-- end wrap -->
+<footer>The Stillwater Letters · Growth Hub · Data saved in your browser only</footer>
+
+<script>
+var KEY='stillwater_growth_hub';
+var GOALS_MAX=[5,30,3,10,8,4];
+var days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+var dayTasks=['🙏 Post scripture + weekly intention. Join 1 group.','✏️ Long-form reflection post. Comment in 5 groups.','📖 Bible study tip or devotional. DM 1 new follower.','🙏 Prayer request post — ask followers to share needs.','🎥 Reel or short video. Story with CTA.','📅 Share behind-the-scenes or personal story. Celebrate wins.','🌿 Rest day — only respond to comments. Plan next week.'];
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return{};}}
+function save(d){localStorage.setItem(KEY,JSON.stringify(d));}
+
+// Daily board
+function initDaily(){
+var d=load();var today=new Date().toDateString();
+if(d.dailyDate!==today){d.daily=Array(10).fill(false);d.dailyDate=today;save(d);}
+var checks=d.daily||Array(10).fill(false);
+for(var i=0;i<10;i++){var cb=document.getElementById('da'+i);if(cb)cb.checked=checks[i];updateDailyLabel(i,checks[i]);}
+updateDailyBar(checks);
+}
+function saveDailyItem(i,v){var d=load();d.daily=d.daily||Array(10).fill(false);d.daily[i]=v;save(d);updateDailyLabel(i,v);updateDailyBar(d.daily);}
+function updateDailyLabel(i,v){var l=document.getElementById('dal'+i);if(l){if(v)l.classList.add('done-label');else l.classList.remove('done-label');}}
+function updateDailyBar(checks){var done=checks.filter(Boolean).length;var pct=Math.round(done/10*100);document.getElementById('daily-bar-fill').style.width=pct+'%';document.getElementById('daily-count').textContent=done+' / 10 done';}
+function resetDaily(){var d=load();d.daily=Array(10).fill(false);d.dailyDate=new Date().toDateString();save(d);initDaily();}
+
+// Goals
+function initGoals(){var d=load();var vals=d.goals||Array(6).fill(0);for(var i=0;i<6;i++)setGoalUI(i,vals[i]);}
+function adjustGoal(i,delta){var d=load();d.goals=d.goals||Array(6).fill(0);d.goals[i]=Math.max(0,d.goals[i]+delta);save(d);setGoalUI(i,d.goals[i]);}
+function setGoalUI(i,v){var mx=GOALS_MAX[i];document.getElementById('gv'+i).textContent=v;var pct=Math.min(100,Math.round(v/mx*100));document.getElementById('gb'+i).style.width=pct+'%';document.getElementById('gn'+i).textContent=v+' / '+mx;}
+
+// Groups
+function renderGroups(){
+var d=load();var groups=d.groups||[];var tbody=document.getElementById('group-tbody');
+var today=new Date().toDateString();
+if(!tbody)return;
+if(!groups.length){tbody.innerHTML='<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:1rem;">No groups yet — add your first below</td></tr>';return;}
+tbody.innerHTML=groups.map(function(g,i){
+var posted=g.postedDate===today&&g.posted;
+return'<tr><td>'+g.name+'</td><td><span class="badge badge-cat">'+g.cat+'</span></td><td style="font-family:Arial,sans-serif;font-size:0.8rem;">'+g.date+'</td><td style="text-align:center;"><input type="checkbox" class="tick" '+(posted?'checked':'')+" onchange=\"toggleGroupPost("+i+",this.checked)\"></td><td><button class=\"del-btn\" onclick=\"delGroup("+i+")\">✕</button></td></tr>";
+}).join('');
+}
+function addGroup(){var nm=document.getElementById('g-name').value.trim();if(!nm)return;var cat=document.getElementById('g-cat').value;var dt=document.getElementById('g-date').value||new Date().toLocaleDateString('en-AU');var d=load();d.groups=d.groups||[];d.groups.push({name:nm,cat:cat,date:dt,posted:false,postedDate:''});save(d);document.getElementById('g-name').value='';renderGroups();}
+function delGroup(i){var d=load();d.groups.splice(i,1);save(d);renderGroups();}
+function toggleGroupPost(i,v){var d=load();d.groups[i].posted=v;d.groups[i].postedDate=new Date().toDateString();save(d);}
+
+// Prayer Warriors
+function renderPW(){var d=load();var pw=d.prayerWarriors||[];var tbody=document.getElementById('pw-tbody');if(!tbody)return;if(!pw.length){tbody.innerHTML='<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:0.75rem;">None yet</td></tr>';return;}tbody.innerHTML=pw.map(function(p,i){return'<tr><td>'+p.name+'</td><td>'+p.how+'</td><td style="font-family:Arial,sans-serif;font-size:0.8rem;">'+p.date+'</td><td><button class="del-btn" onclick="delPW('+i+')">✕</button></td></tr>';}).join('');}
+function addPW(){var nm=document.getElementById('pw-name').value.trim();var hw=document.getElementById('pw-how').value.trim();if(!nm)return;var d=load();d.prayerWarriors=d.prayerWarriors||[];d.prayerWarriors.push({name:nm,how:hw||'—',date:new Date().toLocaleDateString('en-AU')});save(d);document.getElementById('pw-name').value='';document.getElementById('pw-how').value='';renderPW();adjustGoal(0,1);}
+function delPW(i){var d=load();d.prayerWarriors.splice(i,1);save(d);renderPW();}
+
+// Street Team
+function renderST(){var d=load();var st=d.streetTeam||[];var tbody=document.getElementById('st-tbody');if(!tbody)return;if(!st.length){tbody.innerHTML='<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:0.75rem;">None yet</td></tr>';return;}tbody.innerHTML=st.map(function(p,i){return'<tr><td>'+p.name+'</td><td>'+p.how+'</td><td style="font-family:Arial,sans-serif;font-size:0.8rem;">'+p.date+'</td><td><button class="del-btn" onclick="delST('+i+')">✕</button></td></tr>';}).join('');}
+function addST(){var nm=document.getElementById('st-name').value.trim();var hw=document.getElementById('st-how').value.trim();if(!nm)return;var d=load();d.streetTeam=d.streetTeam||[];if(d.streetTeam.length>=8){alert('Street team is full (max 8)!');return;}d.streetTeam.push({name:nm,how:hw||'—',date:new Date().toLocaleDateString('en-AU')});save(d);document.getElementById('st-name').value='';document.getElementById('st-how').value='';renderST();adjustGoal(4,1);}
+function delST(i){var d=load();d.streetTeam.splice(i,1);save(d);renderST();}
+
+// Weekly rhythm
+function renderWeek(){var grid=document.getElementById('week-grid');var today=new Date().getDay();var todayIdx=today===0?6:today-1;grid.innerHTML=days.map(function(day,i){return'<div class="day-card'+(i===todayIdx?' today':'')+'"><div class="day-name">'+day+(i===todayIdx?' ⬅':'')+'</div><div class="day-task">'+dayTasks[i]+'</div></div>';}).join('');}
+
+// CTA checklist
+function initCTA(){var d=load();var checks=d.cta||Array(8).fill(false);for(var i=0;i<8;i++){var cb=document.getElementById('cta'+i);if(cb)cb.checked=checks[i];}}
+function saveCTA(i,v){var d=load();d.cta=d.cta||Array(8).fill(false);d.cta[i]=v;save(d);}
+function resetCTA(){var d=load();d.cta=Array(8).fill(false);save(d);initCTA();}
+
+// Format tracker
+function initFmt(){var d=load();var fmt=d.fmt||Array(6).fill(0);for(var i=0;i<6;i++)document.getElementById('ft'+i).textContent=fmt[i]||0;}
+function adjFmt(i,delta){var d=load();d.fmt=d.fmt||Array(6).fill(0);d.fmt[i]=Math.max(0,d.fmt[i]+delta);save(d);document.getElementById('ft'+i).textContent=d.fmt[i];}
+function resetFmt(){var d=load();d.fmt=Array(6).fill(0);save(d);initFmt();}
+
+// Setup checklist
+function initSetup(){var d=load();var checks=d.setup||Array(12).fill(false);for(var i=0;i<12;i++){var cb=document.getElementById('su'+i);if(cb)cb.checked=checks[i];}}
+function saveSetup(i,v){var d=load();d.setup=d.setup||Array(12).fill(false);d.setup[i]=v;save(d);}
+
+// Collaboration log
+function renderCollab(){var d=load();var cl=d.collabs||[];var tbody=document.getElementById('collab-tbody');if(!tbody)return;if(!cl.length){tbody.innerHTML='<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:0.75rem;">No collaborations logged yet</td></tr>';return;}tbody.innerHTML=cl.map(function(c,i){return'<tr><td>'+c.name+'</td><td>'+c.type+'</td><td><span class="collab-status '+c.status+'">'+c.status+'</span></td><td style="font-size:0.8rem;">'+c.notes+'</td><td><button class="del-btn" onclick="delCollab('+i+')">✕</button></td></tr>';}).join('');}
+function addCollab(){var nm=document.getElementById('cl-name').value.trim();if(!nm)return;var tp=document.getElementById('cl-type').value;var st=document.getElementById('cl-status').value;var nt=document.getElementById('cl-notes').value.trim();var d=load();d.collabs=d.collabs||[];d.collabs.push({name:nm,type:tp,status:st,notes:nt||'—'});save(d);document.getElementById('cl-name').value='';document.getElementById('cl-notes').value='';renderCollab();if(st==='done')adjustGoal(2,1);}
+function delCollab(i){var d=load();d.collabs.splice(i,1);save(d);renderCollab();}
+
+// Init all
+initDaily();
+initGoals();
+renderGroups();
+renderPW();
+renderST();
+renderWeek();
+initCTA();
+initFmt();
+initSetup();
+renderCollab();
+</script>
+</body>
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Alice's Dashboard — The Stillwater Letters</title>
+<style>
+  :root {
+    --teal: #1B4332;
+    --teal-mid: #2D6A4F;
+    --teal-light: #e8f0ec;
+    --clay: #B86B4A;
+    --clay-soft: #D89377;
+    --clay-pale: #f7ece6;
+    --paper: #FBF7EE;
+    --paper-dark: #f2ece0;
+    --ink: #1a3032;
+    --muted: #4a5358;
+    --rule: rgba(27,67,50,0.12);
+    --shadow: rgba(27,67,50,0.10);
+    --gold: #C9A84C;
+    --gold-pale: #fdf8ed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Georgia', serif; font-size: 15px; line-height: 1.7; }
+
+  header {
+    background: var(--teal);
+    color: var(--paper);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+  .logo-mark { width: 32px; height: 32px; margin: 0 auto 0.75rem; display: block; }
+  header h1 { font-family: 'Georgia', serif; font-size: 1.5rem; font-weight: normal; letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+  header p { font-size: 0.85rem; opacity: 0.65; font-style: italic; }
+
+  .container { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .section-label {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.6rem;
+  }
+
+  /* NAV */
+  .tool-nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .tool-nav a {
+    padding: 0.4rem 1rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .tool-nav a:hover, .tool-nav a.active { background: var(--teal); color: var(--paper); border-color: var(--teal); }
+
+  /* ENCOURAGEMENT */
+  .encourage-section { margin-bottom: 2.5rem; }
+  .encourage-card {
+    background: var(--teal);
+    color: var(--paper);
+    border-radius: 14px;
+    padding: 2rem 2.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .encourage-card::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.5rem;
+    left: 1.25rem;
+    font-size: 8rem;
+    color: rgba(251,247,238,0.07);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .encourage-quote {
+    font-family: 'Georgia', serif;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .encourage-meta {
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    letter-spacing: 0.06em;
+  }
+  .encourage-refresh {
+    display: block;
+    margin-top: 0.9rem;
+    background: none;
+    border: 1.5px solid rgba(251,247,238,0.3);
+    color: rgba(251,247,238,0.7);
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .encourage-refresh:hover { background: rgba(251,247,238,0.1); color: var(--paper); }
+  .day-note {
+    margin-top: 0.75rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: 0 1px 6px var(--shadow);
+    border-top: 3px solid var(--teal-light);
+  }
+  .stat-card.streak-card { border-top-color: var(--gold); }
+  .stat-big {
+    font-family: 'Georgia', serif;
+    font-size: 2.2rem;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-card.streak-card .stat-big { color: var(--gold); }
+  .stat-lbl {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stat-sub {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    color: var(--clay-soft);
+    margin-top: 0.2rem;
+  }
+
+  /* MONTHLY GOAL */
+  .goal-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .goal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: 1rem; flex-wrap: wrap; }
+  .goal-title { font-family: 'Georgia', serif; font-size: 1.05rem; color: var(--teal); }
+  .goal-input-row { display: flex; gap: 0.5rem; align-items: center; }
+  .goal-input-row input {
+    width: 90px;
+    padding: 0.45rem 0.75rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+  }
+  .goal-input-row input:focus { border-color: var(--teal-mid); }
+  .btn-sm {
+    padding: 0.45rem 0.9rem;
+    background: var(--teal);
+    color: var(--paper);
+    border: none;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-sm:hover { background: var(--teal-mid); }
+  .btn-sm.secondary { background: none; border: 1.5px solid var(--rule); color: var(--muted); }
+  .btn-sm.secondary:hover { border-color: var(--muted); color: var(--ink); }
+  .progress-wrap { position: relative; }
+  .progress-track {
+    height: 14px;
+    background: var(--paper-dark);
+    border-radius: 7px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal-mid), var(--teal));
+    border-radius: 7px;
+    transition: width 0.6s ease;
+    min-width: 2px;
+  }
+  .progress-fill.complete { background: linear-gradient(90deg, #27AE60, #1e8449); }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .progress-meta strong { color: var(--teal); }
+
+  /* FOLLOWER GROWTH */
+  .growth-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .growth-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+  .growth-title { font-family: 'Georgia', serif; font-size: 1.05rem; color: var(--teal); }
+  .growth-log-row { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .growth-log-row input {
+    flex: 1;
+    padding: 0.45rem 0.75rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+  }
+  .growth-log-row input:focus { border-color: var(--teal-mid); }
+  .growth-chart { display: flex; align-items: flex-end; gap: 6px; height: 100px; }
+  .growth-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; }
+  .growth-bar {
+    width: 100%;
+    background: var(--teal-mid);
+    border-radius: 3px 3px 0 0;
+    transition: height 0.4s ease;
+    min-height: 3px;
+  }
+  .growth-bar-lbl {
+    font-family: Arial, sans-serif;
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .growth-bar-val {
+    font-family: Arial, sans-serif;
+    font-size: 0.65rem;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .growth-empty {
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    padding: 1rem 0;
+  }
+  .growth-net {
+    margin-top: 0.75rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .growth-net strong { color: #27AE60; }
+
+  /* MILESTONES */
+  .milestones-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .milestones-title { font-family: 'Georgia', serif; font-size: 1.05rem; color: var(--teal); margin-bottom: 1.25rem; }
+  .milestones-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .milestone-badge {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--rule);
+    background: var(--paper);
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .milestone-badge.achieved {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+  }
+  .milestone-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    filter: grayscale(1);
+    opacity: 0.4;
+    transition: all 0.2s;
+  }
+  .milestone-badge.achieved .milestone-icon { filter: none; opacity: 1; }
+  .milestone-text { flex: 1; }
+  .milestone-name {
+    font-family: Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 0.15rem;
+    transition: color 0.2s;
+  }
+  .milestone-badge.achieved .milestone-name { color: var(--ink); }
+  .milestone-desc {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+  .milestone-date {
+    font-family: Arial, sans-serif;
+    font-size: 0.65rem;
+    color: var(--gold);
+    margin-top: 0.2rem;
+    font-weight: 600;
+  }
+  .milestone-badge:not(.achieved):hover { border-color: var(--teal-mid); }
+  .milestone-tick {
+    position: absolute;
+    top: 0.5rem; right: 0.65rem;
+    font-size: 0.75rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .milestone-celebrate {
+    background: var(--gold-pale);
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-top: 0.75rem;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--teal);
+    display: none;
+  }
+  .milestone-celebrate.visible { display: block; }
+
+  /* WINS LOG */
+  .wins-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .wins-title { font-family: 'Georgia', serif; font-size: 1.05rem; color: var(--teal); margin-bottom: 0.75rem; }
+  .wins-sub { font-family: Arial, sans-serif; font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
+  .wins-input-row { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .wins-input-row textarea {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+    background: var(--paper);
+  }
+  .wins-input-row textarea:focus { border-color: var(--teal-mid); }
+  .wins-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .win-entry {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.75rem 0.9rem;
+    background: var(--paper);
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+  .win-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .win-body { flex: 1; }
+  .win-text { font-family: 'Georgia', serif; font-size: 0.88rem; color: var(--ink); margin-bottom: 0.2rem; }
+  .win-date { font-family: Arial, sans-serif; font-size: 0.68rem; color: var(--muted); }
+  .win-delete { background: none; border: none; color: var(--muted); font-size: 0.8rem; cursor: pointer; opacity: 0.5; padding: 0 2px; }
+  .win-delete:hover { opacity: 1; color: #c0392b; }
+
+  /* INTENTION */
+  .intention-section {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--paper);
+  }
+  .intention-title { font-family: 'Georgia', serif; font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .intention-sub { font-family: Arial, sans-serif; font-size: 0.78rem; opacity: 0.65; margin-bottom: 1rem; font-style: italic; }
+  .intention-section textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(251,247,238,0.12);
+    border: 1.5px solid rgba(251,247,238,0.25);
+    border-radius: 8px;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    color: var(--paper);
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+    margin-bottom: 0.75rem;
+  }
+  .intention-section textarea::placeholder { color: rgba(251,247,238,0.45); }
+  .intention-section textarea:focus { border-color: rgba(251,247,238,0.5); }
+  .btn-ghost {
+    padding: 0.45rem 1rem;
+    background: rgba(251,247,238,0.15);
+    border: 1.5px solid rgba(251,247,238,0.3);
+    color: var(--paper);
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-ghost:hover { background: rgba(251,247,238,0.25); }
+  .intention-saved {
+    margin-top: 0.75rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    opacity: 0.6;
+    font-style: italic;
+    display: none;
+  }
+
+  /* CELEBRATION MODAL */
+  .celebrate-overlay {
+    position: fixed; inset: 0;
+    background: rgba(27,67,50,0.6);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .celebrate-overlay.open { opacity: 1; pointer-events: all; }
+  .celebrate-modal {
+    background: var(--paper);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 12px 50px rgba(27,67,50,0.3);
+    transform: scale(0.92);
+    transition: transform 0.3s;
+  }
+  .celebrate-overlay.open .celebrate-modal { transform: scale(1); }
+  .celebrate-emoji { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  .celebrate-title { font-family: 'Georgia', serif; font-size: 1.4rem; color: var(--teal); margin-bottom: 0.75rem; }
+  .celebrate-message { font-family: 'Georgia', serif; font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
+  .celebrate-date { font-family: Arial, sans-serif; font-size: 0.72rem; color: var(--clay-soft); margin-bottom: 1.5rem; }
+
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-style: italic; font-size: 0.85rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
+  footer a { color: var(--clay); text-decoration: none; margin: 0 0.5rem; }
+
+  @media(max-width:600px) {
+    .stats-row { grid-template-columns: repeat(3,1fr); gap: 0.5rem; }
+    .stat-big { font-size: 1.7rem; }
+    .milestones-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#fbf7ee" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#d89377" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  </svg>
+  <h1>Alice's Dashboard</h1>
+  <p>The Stillwater Letters — your ministry, your progress, your wins</p>
+</header>
+
+<div class="container">
+
+  <div class="tool-nav">
+    <a href="/fb-calendar/" >📅 Calendar</a>
+    <a href="/fb-posts/">✏️ Post Generator</a>
+    <a href="/dashboard/" class="active">📊 Dashboard</a>
+    <a href="/fb-guide/">← Growth Guide</a>
+  </div>
+
+  <!-- ENCOURAGEMENT -->
+  <div class="encourage-section">
+    <div class="section-label">A word for you today</div>
+    <div class="encourage-card">
+      <div class="encourage-quote" id="encQuote"></div>
+      <div class="encourage-meta">— for Alice</div>
+      <button class="encourage-refresh" onclick="newQuote()">Another one</button>
+    </div>
+    <p class="day-note" id="dayNote"></p>
+  </div>
+
+  <!-- STATS -->
+  <div class="section-label">Your numbers</div>
+  <div class="stats-row">
+    <div class="stat-card streak-card">
+      <div class="stat-big" id="streakNum">—</div>
+      <div class="stat-lbl">Week streak</div>
+      <div class="stat-sub" id="streakSub"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-big" id="monthPostsNum">—</div>
+      <div class="stat-lbl">Posts this month</div>
+      <div class="stat-sub" id="monthPostsSub"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-big" id="totalPostsNum">—</div>
+      <div class="stat-lbl">All time posts</div>
+      <div class="stat-sub">scheduled or posted</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY GOAL -->
+  <div class="goal-section">
+    <div class="goal-header">
+      <div class="goal-title">Monthly posting goal</div>
+      <div class="goal-input-row">
+        <input type="number" id="goalInput" min="1" max="100" placeholder="e.g. 16">
+        <button class="btn-sm" onclick="setGoal()">Set goal</button>
+      </div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-meta">
+      <span id="progressLeft"></span>
+      <span id="progressRight"></span>
+    </div>
+  </div>
+
+  <!-- FOLLOWER GROWTH -->
+  <div class="growth-section">
+    <div class="growth-header">
+      <div class="growth-title">Follower growth</div>
+    </div>
+    <div class="growth-log-row">
+      <input type="number" id="followerInput" placeholder="Current follower count" min="0">
+      <button class="btn-sm" onclick="logFollowers()">Log this week</button>
+    </div>
+    <div id="growthChart"></div>
+    <div class="growth-net" id="growthNet"></div>
+  </div>
+
+  <!-- MILESTONES -->
+  <div class="milestones-section">
+    <div class="milestones-title">Milestones</div>
+    <div class="section-label" style="margin-bottom:1rem">Click to mark achieved — each one earned, not given</div>
+    <div class="milestones-grid" id="milestoneGrid"></div>
+    <div class="milestone-celebrate" id="celebrateMsg"></div>
+  </div>
+
+  <!-- WINS LOG -->
+  <div class="wins-section">
+    <div class="wins-title">Log a win</div>
+    <div class="wins-sub">Small things count. First comment from a stranger. A woman who said it helped. A letter you're proud of. Write it down before it fades.</div>
+    <div class="wins-input-row">
+      <textarea id="winInput" placeholder="What happened this week? What are you proud of?"></textarea>
+      <button class="btn-sm" onclick="logWin()">Save this win</button>
+    </div>
+    <div class="wins-list" id="winsList"></div>
+  </div>
+
+  <!-- INTENTION -->
+  <div class="intention-section">
+    <div class="intention-title">This week's intention</div>
+    <div class="intention-sub">What do you want this week's posts to accomplish — not in followers, but in faith?</div>
+    <textarea id="intentionInput" placeholder="e.g. I want to invite women who are tired to rest in God's presence…" rows="3"></textarea>
+    <button class="btn-ghost" onclick="saveIntention()">Save intention</button>
+    <div class="intention-saved" id="intentionSaved">Saved. Carry it into the week.</div>
+    <div id="intentionDisplay"></div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/fb-calendar/">📅 Content Calendar</a>
+  <a href="/fb-posts/">✏️ Post Generator</a>
+  <a href="/fb-guide/">Growth Guide</a>
+</footer>
+
+<!-- CELEBRATION MODAL -->
+<div class="celebrate-overlay" id="celebrateOverlay" onclick="closeCelebrate(event)">
+  <div class="celebrate-modal">
+    <span class="celebrate-emoji" id="celebrateEmoji"></span>
+    <div class="celebrate-title" id="celebrateTitle"></div>
+    <div class="celebrate-message" id="celebrateMessage"></div>
+    <div class="celebrate-date" id="celebrateDate"></div>
+    <button class="btn-sm" onclick="closeCelebrate()">Thank you ✦</button>
+  </div>
+</div>
+
+<script>
+
+// ── ENCOURAGEMENT ─────────────────────────────────────────────────────────────
+
+const ENCOURAGEMENTS = [
+  "Every Tuesday you show up. Before it's easy. Before it's big. That's not performance — that's faithfulness, and God sees it.",
+  "The woman who opened your last letter at 5am before the house woke up — she can't find you to tell you what it meant. But it meant something.",
+  "You're not building a brand. You're building a body of work that will outlast every algorithm change. Keep going.",
+  "Consistency in quiet is one of the hardest things in ministry. You're doing it.",
+  "There will be a season when this grows faster than you expect. The work you're doing now is what makes that possible.",
+  "Not every seed has a visible harvest date. You're planting faithfully. That's the whole job right now.",
+  "The women reading your letters are carrying things they haven't told anyone. Your words reach places you can't see.",
+  "Small community, real connection. That's not a consolation prize — it's the point.",
+  "You started. That alone puts you ahead of every woman who thought about it and didn't. Remember that on the hard weeks.",
+  "Ministry that grows slowly grows deep. You're building roots.",
+  "Someone subscribed this week who needed exactly what you wrote. They don't know you yet, but they will.",
+  "The Tuesday morning you didn't feel like writing, and wrote anyway — that's where the good letters come from.",
+  "This work is real. The prayer is real. The women are real. Don't let the smallness of the numbers make you forget the size of what God does in a single soul.",
+  "You are further along than you were six months ago. Not just in numbers — in voice, in depth, in clarity. That's growth that matters.",
+  "Rest when you need to. You can't pour from empty. The letters will still go out. The community will still be here.",
+  "What you're doing takes courage most people don't have. Writing your real faith, putting it in someone's inbox every week, trusting it will land well — that's brave.",
+  "On the weeks when nobody comments and the open rate feels low: someone opened it, read it alone, and felt less alone. The quietest impact is still impact.",
+  "You're building something for the long run. Most things worth building look unremarkable in year one.",
+  "The best version of this community hasn't found you yet. They're coming.",
+  "Alice, this is your ministry. Not borrowed, not copied, not compromised. Yours. That's rare and worth protecting.",
+  "There is no wasted Tuesday. Even the letters that feel ordinary are building something in the women who receive them.",
+  "The difference between you and someone who gave up is that you're still here. That's the whole thing.",
+  "God doesn't need you to be big. He needs you to be faithful. You already are.",
+  "One honest letter, sent with prayer, to one woman who needed it — that is not a small thing. It never was.",
+];
+
+let encIdx = -1;
+function newQuote() {
+  let next;
+  do { next = Math.floor(Math.random() * ENCOURAGEMENTS.length); } while (next === encIdx);
+  encIdx = next;
+  document.getElementById('encQuote').textContent = ENCOURAGEMENTS[encIdx];
+}
+
+function setDayNote() {
+  const day = new Date().getDay();
+  const notes = ['Sunday — a good day to reflect on last week and prepare your heart for Tuesday.',
+    'Monday — the week is just beginning. What do you want it to mean?',
+    'Tuesday — letter day. Whatever went out this morning, it was enough.',
+    'Wednesday — mid-week check. Is there a gap in the calendar this week to fill?',
+    'Thursday — look back at what you posted this week. Are you proud of it?',
+    'Friday — almost done. Rest is part of the work.',
+    'Saturday — a quiet day. You don\'t have to produce anything today.'];
+  document.getElementById('dayNote').textContent = notes[day];
+}
+
+// ── STORAGE ───────────────────────────────────────────────────────────────────
+
+const CAL_KEY = 'stillwater_fb_calendar';
+const DASH_KEY = 'stillwater_dashboard';
+
+function loadDash() {
+  try { return JSON.parse(localStorage.getItem(DASH_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveDash(d) { localStorage.setItem(DASH_KEY, JSON.stringify(d)); }
+
+function loadCalPosts() {
+  try { return JSON.parse(localStorage.getItem(CAL_KEY)) || {}; } catch(e) { return {}; }
+}
+
+// ── STREAK ────────────────────────────────────────────────────────────────────
+
+function calcStreak(posts) {
+  const weeks = new Set();
+  Object.keys(posts).forEach(k => {
+    const d = new Date(k);
+    const yr = d.getFullYear(), wk = getWeekNum(d);
+    weeks.add(yr + '-' + wk);
+  });
+  const sorted = Array.from(weeks).sort();
+  if (!sorted.length) return { current: 0, longest: 0 };
+
+  let longest = 1, cur = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const [y1, w1] = sorted[i-1].split('-').map(Number);
+    const [y2, w2] = sorted[i].split('-').map(Number);
+    const diff = (y2 - y1) * 52 + (w2 - w1);
+    if (diff === 1) { cur++; if (cur > longest) longest = cur; }
+    else cur = 1;
+  }
+
+  // Check if current week has posts
+  const now = new Date(), curWeekKey = now.getFullYear() + '-' + getWeekNum(now);
+  const lastKey = sorted[sorted.length - 1];
+  const isCurrentOrLastWeek = lastKey === curWeekKey ||
+    lastKey === (() => { const d = new Date(now); d.setDate(d.getDate()-7); return d.getFullYear()+'-'+getWeekNum(d); })();
+
+  return { current: isCurrentOrLastWeek ? cur : 0, longest };
+}
+
+function getWeekNum(d) {
+  const start = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil(((d - start) / 86400000 + start.getDay() + 1) / 7);
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────────
+
+function renderStats() {
+  const posts = loadCalPosts();
+  const allPosts = Object.values(posts).flat();
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth();
+
+  const thisMonth = Object.entries(posts)
+    .filter(([k]) => { const d = new Date(k); return d.getFullYear()===y && d.getMonth()===m; })
+    .flatMap(([,v]) => v);
+
+  const streak = calcStreak(posts);
+  document.getElementById('streakNum').textContent = streak.current;
+  document.getElementById('streakSub').textContent = 'Best: ' + streak.longest + ' weeks';
+  document.getElementById('monthPostsNum').textContent = thisMonth.length;
+  document.getElementById('monthPostsSub').textContent = thisMonth.filter(p=>p.status==='posted').length + ' published';
+  document.getElementById('totalPostsNum').textContent = allPosts.length;
+
+  renderGoalProgress(thisMonth.length);
+}
+
+// ── GOAL ──────────────────────────────────────────────────────────────────────
+
+function setGoal() {
+  const val = parseInt(document.getElementById('goalInput').value);
+  if (!val || val < 1) return;
+  const d = loadDash(); d.monthlyGoal = val; saveDash(d);
+  renderGoalProgress();
+}
+
+function renderGoalProgress(postCount) {
+  const d = loadDash();
+  const goal = d.monthlyGoal || 0;
+  const posts = loadCalPosts();
+  const now = new Date(); const y = now.getFullYear(), m = now.getMonth();
+  if (postCount === undefined) {
+    postCount = Object.entries(posts)
+      .filter(([k]) => { const dt = new Date(k); return dt.getFullYear()===y && dt.getMonth()===m; })
+      .flatMap(([,v]) => v).length;
+  }
+  const fill = document.getElementById('progressFill');
+  if (!goal) {
+    fill.style.width = '0%';
+    document.getElementById('progressLeft').innerHTML = 'Set a goal above to track progress';
+    document.getElementById('progressRight').textContent = '';
+    document.getElementById('goalInput').value = '';
+    return;
+  }
+  const pct = Math.min(100, Math.round((postCount / goal) * 100));
+  fill.style.width = pct + '%';
+  fill.className = 'progress-fill' + (pct >= 100 ? ' complete' : '');
+  const remaining = Math.max(0, goal - postCount);
+  document.getElementById('progressLeft').innerHTML = `<strong>${postCount}</strong> of ${goal} posts`;
+  document.getElementById('progressRight').textContent = pct >= 100 ? '🎉 Goal reached!' : remaining + ' to go';
+  document.getElementById('goalInput').value = goal;
+}
+
+// ── FOLLOWER GROWTH ───────────────────────────────────────────────────────────
+
+function logFollowers() {
+  const val = parseInt(document.getElementById('followerInput').value);
+  if (!val || val < 0) return;
+  const d = loadDash();
+  if (!d.growth) d.growth = [];
+  const now = new Date();
+  const weekKey = now.getFullYear() + '-W' + String(getWeekNum(now)).padStart(2,'0');
+  const existing = d.growth.findIndex(g => g.week === weekKey);
+  if (existing > -1) d.growth[existing].count = val;
+  else d.growth.push({ week: weekKey, count: val, date: now.toLocaleDateString('en-AU', {day:'numeric',month:'short'}) });
+  d.growth = d.growth.slice(-12);
+  saveDash(d);
+  document.getElementById('followerInput').value = '';
+  renderGrowthChart();
+}
+
+function renderGrowthChart() {
+  const d = loadDash();
+  const chart = document.getElementById('growthChart');
+  const net = document.getElementById('growthNet');
+  const data = (d.growth || []);
+  if (!data.length) {
+    chart.innerHTML = '<div class="growth-empty">Log your follower count each week to see your growth trend.</div>';
+    net.textContent = '';
+    return;
+  }
+  const max = Math.max(...data.map(g => g.count));
+  chart.innerHTML = '';
+  chart.className = 'growth-chart';
+  data.forEach(g => {
+    const pct = max > 0 ? Math.round((g.count / max) * 90) + 10 : 10;
+    const wrap = document.createElement('div');
+    wrap.className = 'growth-bar-wrap';
+    wrap.innerHTML = `
+      <div class="growth-bar-val">${g.count}</div>
+      <div class="growth-bar" style="height:${pct}px"></div>
+      <div class="growth-bar-lbl">${g.date || g.week}</div>
+    `;
+    chart.appendChild(wrap);
+  });
+  if (data.length > 1) {
+    const gain = data[data.length-1].count - data[0].count;
+    net.innerHTML = gain >= 0
+      ? `<strong>+${gain} followers</strong> since you started tracking`
+      : `${gain} since you started tracking`;
+  }
+}
+
+// ── MILESTONES ────────────────────────────────────────────────────────────────
+
+const MILESTONES = [
+  { id: 'first_post', icon: '✏️', name: 'First post published', desc: 'The blank page became a beginning.', message: 'The beginning. Every letter writer has this moment. The blank page, and then — something. That took courage.' },
+  { id: 'ten_posts', icon: '📝', name: '10 posts published', desc: 'Past the starting line, into the work.', message: 'Ten posts. You\'re past the start. You\'re in it now. This is what showing up looks like.' },
+  { id: 'first_prayer', icon: '🙏', name: 'First prayer request received', desc: 'Someone trusted you enough to ask.', message: 'Someone trusted you with something sacred. That\'s not just engagement — that\'s ministry. You\'ve earned it.' },
+  { id: 'fifty_followers', icon: '👥', name: '50 Facebook followers', desc: 'A real community, not just an account.', message: 'Fifty women who said yes to your voice. Not an audience — a community. They chose to be here.' },
+  { id: 'one_month', icon: '📅', name: 'One month of consistent posting', desc: 'Habit formed. This is who you are now.', message: 'One month of showing up. The hardest part — the part where it\'s still abstract and you\'re not sure it matters — is over. You did it.' },
+  { id: 'hundred_followers', icon: '💫', name: '100 Facebook followers', desc: 'A hundred women on Tuesday mornings.', message: 'A hundred women reading your words on Tuesday morning. The table is full. And it\'s only the beginning.' },
+  { id: 'three_months', icon: '🌱', name: 'Three months consistent', desc: 'Not trying it anymore — doing it.', message: 'Three months. You\'re not trying this anymore. You\'re doing it. This is who you are now — a woman who shows up every week.' },
+  { id: 'first_share', icon: '↗️', name: 'First post shared by someone', desc: 'Your words went somewhere you didn\'t send them.', message: 'Someone loved what you wrote enough to put their name on it and pass it on. That\'s the highest compliment there is.' },
+  { id: 'six_months', icon: '⭐', name: 'Six months faithful', desc: 'More than a project — a calling.', message: 'Six months of faithful work. Most people quit before this. You didn\'t. That tells you something about who you are.' },
+  { id: 'two_fifty_followers', icon: '🌿', name: '250 followers', desc: 'A congregation\'s worth of women.', message: 'Two hundred and fifty women know your name. Some of them have read every word you\'ve written. You\'re building something real.' },
+  { id: 'one_year', icon: '🕊️', name: 'One full year', desc: 'Every season, you showed up.', message: 'A year. One full year of Tuesday letters, Facebook posts, prayer, and presence. This is a ministry now — not a project. A ministry.' },
+  { id: 'five_hundred', icon: '🌟', name: '500 followers', desc: 'Half a thousand women. Let that land.', message: 'Five hundred women. Let that number sit with you quietly for a moment. You did this. You — and God\'s faithfulness — did this.' },
+];
+
+function renderMilestones() {
+  const d = loadDash();
+  const achieved = d.milestones || {};
+  const grid = document.getElementById('milestoneGrid');
+  grid.innerHTML = '';
+  MILESTONES.forEach(m => {
+    const isAchieved = !!achieved[m.id];
+    const badge = document.createElement('div');
+    badge.className = 'milestone-badge' + (isAchieved ? ' achieved' : '');
+    badge.innerHTML = `
+      <span class="milestone-icon">${m.icon}</span>
+      <div class="milestone-text">
+        <div class="milestone-name">${m.name}</div>
+        <div class="milestone-desc">${m.desc}</div>
+        ${isAchieved && achieved[m.id].date ? `<div class="milestone-date">Achieved ${achieved[m.id].date}</div>` : ''}
+      </div>
+      ${isAchieved ? '<span class="milestone-tick">✦</span>' : ''}
+    `;
+    badge.onclick = () => toggleMilestone(m, isAchieved);
+    grid.appendChild(badge);
+  });
+}
+
+function toggleMilestone(m, wasAchieved) {
+  const d = loadDash();
+  if (!d.milestones) d.milestones = {};
+  if (wasAchieved) {
+    delete d.milestones[m.id];
+  } else {
+    d.milestones[m.id] = { date: new Date().toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'}) };
+    showCelebration(m);
+  }
+  saveDash(d);
+  renderMilestones();
+}
+
+function showCelebration(m) {
+  document.getElementById('celebrateEmoji').textContent = m.icon;
+  document.getElementById('celebrateTitle').textContent = m.name;
+  document.getElementById('celebrateMessage').textContent = m.message;
+  document.getElementById('celebrateDate').textContent =
+    new Date().toLocaleDateString('en-AU', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('celebrateOverlay').classList.add('open');
+}
+
+function closeCelebrate(e) {
+  if (!e || e.target === document.getElementById('celebrateOverlay') || !e.target) {
+    document.getElementById('celebrateOverlay').classList.remove('open');
+  }
+}
+
+// ── WINS ──────────────────────────────────────────────────────────────────────
+
+function logWin() {
+  const text = document.getElementById('winInput').value.trim();
+  if (!text) return;
+  const d = loadDash();
+  if (!d.wins) d.wins = [];
+  d.wins.unshift({
+    id: Date.now().toString(36),
+    text,
+    date: new Date().toLocaleDateString('en-AU', {day:'numeric', month:'short', year:'numeric'})
+  });
+  saveDash(d);
+  document.getElementById('winInput').value = '';
+  renderWins();
+}
+
+function deleteWin(id) {
+  const d = loadDash();
+  d.wins = (d.wins || []).filter(w => w.id !== id);
+  saveDash(d);
+  renderWins();
+}
+
+function renderWins() {
+  const d = loadDash();
+  const wins = d.wins || [];
+  const list = document.getElementById('winsList');
+  if (!wins.length) { list.innerHTML = '<div style="font-family:Arial;font-size:0.8rem;color:var(--muted);font-style:italic;padding:0.5rem 0">Your wins will appear here.</div>'; return; }
+  list.innerHTML = wins.map(w => `
+    <div class="win-entry">
+      <span class="win-icon">✦</span>
+      <div class="win-body">
+        <div class="win-text">${escHtml(w.text)}</div>
+        <div class="win-date">${w.date}</div>
+      </div>
+      <button class="win-delete" onclick="deleteWin('${w.id}')" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+// ── INTENTION ────────────────────────────────────────────────────────────────
+
+function saveIntention() {
+  const text = document.getElementById('intentionInput').value.trim();
+  const d = loadDash();
+  d.intention = { text, date: new Date().toLocaleDateString('en-AU', {day:'numeric',month:'short'}) };
+  saveDash(d);
+  const saved = document.getElementById('intentionSaved');
+  saved.style.display = 'block';
+  setTimeout(() => { saved.style.display = 'none'; }, 2500);
+}
+
+function loadIntention() {
+  const d = loadDash();
+  if (d.intention && d.intention.text) {
+    document.getElementById('intentionInput').value = d.intention.text;
+  }
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+
+newQuote();
+setDayNote();
+renderStats();
+renderGoalProgress();
+renderGrowthChart();
+renderMilestones();
+renderWins();
+loadIntention();
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCelebrate(); });
+
+</script>
+</body>
+</html>

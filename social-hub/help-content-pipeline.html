@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Content Pipeline — Help Guide · The Stillwater Letters</title>
+<style>
+:root {
+  --cream: #FAF7F2;
+  --cream-mid: #F2EDE4;
+  --sage: #3D5A3E;
+  --sage-mid: #4E7250;
+  --sage-pale: #EBF0EB;
+  --gold: #B8924A;
+  --gold-pale: #FBF3E4;
+  --ink: #1E2A1F;
+  --muted: #6B7B6C;
+  --rule: rgba(61,90,62,0.12);
+  --shadow: 0 2px 12px rgba(61,90,62,0.10);
+  --radius: 10px;
+
+  /* Priority colours */
+  --red: #C0392B;
+  --red-pale: #FCEAE8;
+  --red-mid: #E74C3C;
+  --amber: #D68910;
+  --amber-pale: #FEF9E7;
+  --amber-mid: #F39C12;
+  --green: #1E8449;
+  --green-pale: #E9F7EF;
+  --green-mid: #27AE60;
+  --blue: #1A6FA0;
+  --blue-pale: #EBF5FB;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--cream); color: var(--ink); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.65; }
+
+/* TOP BAR */
+.top-bar { background: var(--sage); color: #fff; padding: 0.65rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.back-link { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.74rem; display: flex; align-items: center; gap: 0.3rem; transition: color 0.15s; }
+.back-link:hover { color: #fff; }
+.top-bar-title { font-size: 0.78rem; font-weight: 600; opacity: 0.6; }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, var(--sage) 0%, var(--sage-mid) 100%); color: #fff; padding: 2.2rem 1.5rem 2rem; text-align: center; }
+.hero-icon { font-size: 2.4rem; margin-bottom: 0.5rem; }
+.hero h1 { font-family: Georgia, serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 0.45rem; }
+.hero p { font-size: 0.9rem; opacity: 0.82; max-width: 520px; margin: 0 auto; }
+.hero-badges { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+.hero-badge { padding: 0.22rem 0.75rem; border-radius: 20px; font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; border: 1.5px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.85); }
+
+/* PRIORITY LEGEND */
+.priority-legend { background: #fff; border-bottom: 1px solid var(--rule); padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.priority-legend span { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-right: 0.3rem; }
+.pl-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 600; }
+.pl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pl-red { background: var(--red); }
+.pl-amber { background: var(--amber-mid); }
+.pl-green { background: var(--green-mid); }
+.pl-blue { background: var(--blue); }
+
+/* MAIN */
+.container { max-width: 820px; margin: 0 auto; padding: 1.8rem 1.5rem 5rem; }
+
+/* SECTION LABELS */
+h2.section-label { font-family: Georgia, serif; font-size: 1.1rem; color: var(--sage); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+h2.section-label .label-icon { font-size: 1rem; }
+p.section-desc { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.1rem; }
+
+/* CARDS */
+.card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.3rem 1.4rem; margin-bottom: 1.1rem; }
+.card + .card { margin-top: 0; }
+
+/* PRIORITY CARDS */
+.priority-card { border-radius: var(--radius); padding: 1.1rem 1.2rem; margin-bottom: 0.8rem; }
+.priority-card.red { background: var(--red-pale); border-left: 4px solid var(--red); }
+.priority-card.amber { background: var(--amber-pale); border-left: 4px solid var(--amber-mid); }
+.priority-card.green { background: var(--green-pale); border-left: 4px solid var(--green-mid); }
+.priority-card .pc-head { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.35rem; }
+.pc-badge { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.15rem 0.55rem; border-radius: 20px; }
+.red .pc-badge { background: var(--red); color: #fff; }
+.amber .pc-badge { background: var(--amber-mid); color: #fff; }
+.green .pc-badge { background: var(--green-mid); color: #fff; }
+.pc-title { font-size: 0.85rem; font-weight: 700; }
+.red .pc-title { color: var(--red); }
+.amber .pc-title { color: var(--amber); }
+.green .pc-title { color: var(--green); }
+.priority-card p { font-size: 0.79rem; color: var(--ink); line-height: 1.6; }
+
+/* QUICK WIN STEPS */
+.quick-win { background: var(--sage); border-radius: var(--radius); padding: 1.4rem 1.5rem; margin-bottom: 1.3rem; color: #fff; }
+.quick-win h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; margin-bottom: 0.9rem; }
+.qw-step { display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 0.75rem; }
+.qw-step:last-child { margin-bottom: 0; }
+.qw-num { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); color: #fff; font-size: 0.78rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.qw-text { font-size: 0.83rem; line-height: 1.6; }
+.qw-text strong { display: block; font-size: 0.86rem; margin-bottom: 0.08rem; }
+.qw-text span { opacity: 0.75; font-size: 0.77rem; }
+
+/* DIAGRAM */
+.diagram { background: var(--cream-mid); border-radius: var(--radius); padding: 1.3rem; margin-bottom: 1.1rem; overflow-x: auto; }
+.diagram-title { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
+.pipeline-flow { display: flex; align-items: center; gap: 0; flex-wrap: nowrap; min-width: 520px; }
+.pipeline-stage { flex: 1; text-align: center; }
+.ps-box { border-radius: 8px; padding: 0.7rem 0.4rem; border: 2px solid; position: relative; }
+.ps-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
+.ps-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.ps-desc { font-size: 0.62rem; margin-top: 0.18rem; }
+.ps-arrow { font-size: 1.2rem; color: var(--muted); padding: 0 0.3rem; flex-shrink: 0; }
+
+.ps-idea .ps-box { background: #F3F3F3; border-color: #CCC; color: #666; }
+.ps-draft .ps-box { background: var(--amber-pale); border-color: var(--amber-mid); color: var(--amber); }
+.ps-ready .ps-box { background: var(--blue-pale); border-color: var(--blue); color: var(--blue); }
+.ps-live .ps-box { background: var(--green-pale); border-color: var(--green-mid); color: var(--green); }
+
+/* ANNOTATED SCREENSHOT */
+.annotated { background: #fff; border-radius: var(--radius); border: 1.5px solid var(--rule); padding: 1.1rem; margin-bottom: 1.1rem; position: relative; }
+.annotated-title { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.9rem; }
+.mock-section { border-radius: 8px; border: 1.5px solid var(--rule); overflow: hidden; }
+.mock-header { background: var(--sage-pale); padding: 0.6rem 1rem; display: flex; align-items: center; justify-content: space-between; }
+.mock-header-title { font-size: 0.8rem; font-weight: 700; color: var(--sage); }
+.mock-header-sub { font-size: 0.62rem; color: var(--muted); }
+.mock-btn { background: var(--sage); color: #fff; padding: 0.25rem 0.65rem; border-radius: 5px; font-size: 0.67rem; font-weight: 700; }
+.mock-table-head { background: var(--sage-pale); display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 0.35rem 0.75rem; gap: 0.5rem; }
+.mock-table-head span { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sage); }
+.mock-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 0.45rem 0.75rem; gap: 0.5rem; border-top: 1px solid var(--rule); align-items: center; }
+.mock-row span { font-size: 0.72rem; }
+.mock-badge { display: inline-flex; padding: 0.13rem 0.45rem; border-radius: 20px; font-size: 0.58rem; font-weight: 700; text-transform: uppercase; }
+.badge-grey { background: #f0f0f0; color: #666; }
+.badge-amber { background: var(--amber-pale); color: var(--amber); }
+.badge-blue { background: var(--blue-pale); color: var(--blue); }
+.badge-green { background: var(--green-pale); color: var(--green); }
+
+/* CALLOUT ANNOTATIONS */
+.callout-row { display: flex; align-items: flex-start; gap: 0.7rem; margin-top: 0.8rem; }
+.callout-num { background: var(--gold); color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.callout-text { font-size: 0.75rem; color: var(--ink); line-height: 1.55; }
+.callout-text strong { color: var(--sage); }
+
+/* STEPS */
+.step-list { counter-reset: steps; }
+.step { display: flex; gap: 0.9rem; margin-bottom: 1.1rem; }
+.step-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--sage-pale); border: 2px solid var(--sage); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 800; color: var(--sage); flex-shrink: 0; counter-increment: steps; }
+.step-icon::after { content: counter(steps); }
+.step-body { padding-top: 0.1rem; flex: 1; }
+.step-body h4 { font-size: 0.85rem; font-weight: 700; color: var(--sage); margin-bottom: 0.25rem; }
+.step-body p { font-size: 0.79rem; color: var(--ink); line-height: 1.6; }
+.step-body .step-tip { background: var(--gold-pale); border-left: 3px solid var(--gold); border-radius: 0 5px 5px 0; padding: 0.45rem 0.65rem; margin-top: 0.45rem; font-size: 0.72rem; color: #4A3B1F; }
+.step-body .click-here { display: inline-flex; align-items: center; gap: 0.25rem; background: var(--sage); color: #fff; padding: 0.22rem 0.55rem; border-radius: 4px; font-size: 0.67rem; font-weight: 700; margin: 0.3rem 0; }
+.step-connector { width: 2px; background: var(--sage-pale); height: 100%; min-height: 20px; margin: 0 auto; }
+
+/* EXPAND TOGGLE */
+.expand-toggle { display: flex; align-items: center; gap: 0.5rem; background: none; border: 1.5px solid var(--rule); border-radius: 7px; padding: 0.65rem 0.9rem; cursor: pointer; width: 100%; text-align: left; font-size: 0.8rem; font-weight: 600; color: var(--sage); margin-bottom: 0.5rem; transition: all 0.15s; }
+.expand-toggle:hover { background: var(--sage-pale); border-color: var(--sage); }
+.expand-toggle .et-icon { font-size: 0.9rem; }
+.expand-toggle .chev { margin-left: auto; transition: transform 0.2s; font-style: normal; }
+.expand-toggle.open .chev { transform: rotate(180deg); }
+.expand-panel { display: none; background: var(--cream); border-radius: 7px; padding: 1rem 1.1rem; margin-bottom: 0.75rem; font-size: 0.79rem; line-height: 1.65; }
+.expand-panel ul { padding-left: 1.1rem; }
+.expand-panel li { margin-bottom: 0.3rem; }
+.expand-panel strong { color: var(--sage); }
+
+/* REPURPOSE TABLE */
+.repurpose-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; }
+.repurpose-table th { background: var(--sage-pale); padding: 0.4rem 0.65rem; text-align: left; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sage); }
+.repurpose-table td { padding: 0.45rem 0.65rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.repurpose-table tr:last-child td { border-bottom: none; }
+.repurpose-table .effort { display: inline-flex; gap: 2px; }
+.repurpose-table .effort span { width: 8px; height: 8px; border-radius: 50%; background: var(--green-mid); }
+.repurpose-table .effort span.off { background: #E0E0E0; }
+
+/* VIDEO CARDS */
+.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.9rem; }
+.video-card { background: #fff; border-radius: 8px; border: 1.5px solid var(--rule); overflow: hidden; text-decoration: none; transition: all 0.15s; display: block; }
+.video-card:hover { border-color: var(--sage); box-shadow: var(--shadow); transform: translateY(-1px); }
+.video-thumb { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+.video-thumb.red-bg { background: #FF4444; }
+.video-thumb.blue-bg { background: #065FD4; }
+.video-thumb.purple-bg { background: #9B59B6; }
+.video-card-body { padding: 0.6rem 0.75rem 0.75rem; }
+.video-card-channel { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.15rem; }
+.video-card-title { font-size: 0.74rem; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.video-card-why { font-size: 0.67rem; color: var(--muted); margin-top: 0.25rem; font-style: italic; }
+.video-card-badge { display: inline-flex; align-items: center; gap: 0.25rem; background: var(--red-pale); color: var(--red); padding: 0.12rem 0.4rem; border-radius: 3px; font-size: 0.6rem; font-weight: 700; margin-top: 0.35rem; }
+
+/* HEALTH CHECK */
+.health-check { border-radius: var(--radius); overflow: hidden; margin-bottom: 1.1rem; }
+.hc-row { display: grid; grid-template-columns: 1.6rem 1fr auto; gap: 0.7rem; align-items: center; padding: 0.6rem 0.9rem; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.79rem; }
+.hc-row:last-child { border-bottom: none; }
+.hc-dot { width: 10px; height: 10px; border-radius: 50%; }
+.hc-situation { flex: 1; }
+.hc-action { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.hc-row.red { background: var(--red-pale); }
+.hc-row.red .hc-dot { background: var(--red); }
+.hc-row.red .hc-action { color: var(--red); }
+.hc-row.amber { background: var(--amber-pale); }
+.hc-row.amber .hc-dot { background: var(--amber-mid); }
+.hc-row.amber .hc-action { color: var(--amber); }
+.hc-row.green { background: var(--green-pale); }
+.hc-row.green .hc-dot { background: var(--green-mid); }
+.hc-row.green .hc-action { color: var(--green); }
+
+/* DIVIDER */
+hr.divider { border: none; border-top: 1px solid var(--rule); margin: 1.8rem 0; }
+
+/* INFO BOX */
+.info-box { background: var(--blue-pale); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.78rem; color: var(--ink); }
+.info-box strong { color: var(--blue); display: block; margin-bottom: 0.2rem; font-size: 0.8rem; }
+
+/* BOTTOM NAV */
+.bottom-nav { background: var(--sage); padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+.bnav-link { color: rgba(255,255,255,0.78); text-decoration: none; font-size: 0.75rem; display: flex; align-items: center; gap: 0.35rem; transition: color 0.15s; }
+.bnav-link:hover { color: #fff; }
+.bnav-center { text-align: center; font-size: 0.67rem; color: rgba(255,255,255,0.4); }
+
+/* UTILITY */
+.mb1 { margin-bottom: 1rem; }
+.mb05 { margin-bottom: 0.5rem; }
+.mt1 { margin-top: 1rem; }
+.flex { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html" class="back-link">← Back to Command Centre</a>
+  <span class="top-bar-title">The Stillwater Letters · Help Guides</span>
+</div>
+
+<div class="hero">
+  <div class="hero-icon">✍️</div>
+  <h1>Content Pipeline</h1>
+  <p>Your plan for what to write, where to share it, and how to track it from first idea all the way to published.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">✉️ Newsletter</span>
+    <span class="hero-badge">📌 Pinterest</span>
+    <span class="hero-badge">📷 Instagram</span>
+    <span class="hero-badge">👍 Facebook</span>
+  </div>
+</div>
+
+<div class="priority-legend">
+  <span>Priority key:</span>
+  <div class="pl-item"><div class="pl-dot pl-red"></div> Must do — directly affects growth</div>
+  <div class="pl-item"><div class="pl-dot pl-amber"></div> Should do — builds momentum</div>
+  <div class="pl-item"><div class="pl-dot pl-green"></div> Doing well — keep it up</div>
+  <div class="pl-item"><div class="pl-dot pl-blue"></div> Learn more — watch &amp; explore</div>
+</div>
+
+<div class="container">
+
+  <!-- ════ WHY THIS MATTERS ════ -->
+  <h2 class="section-label"><span class="label-icon">💡</span> Why you need this</h2>
+
+  <div class="priority-card red">
+    <div class="pc-head"><span class="pc-badge">🔴 Critical</span><span class="pc-title">No content plan = no consistent growth</span></div>
+    <p>The #1 reason newsletters stall is that the creator runs out of ideas mid-week and skips a send. A pipeline means you always have your next two or three topics waiting. Missing one week of email is far more damaging than it sounds — open rates drop, readers disengage, and the algorithm on Pinterest stops favouring your pins.</p>
+  </div>
+
+  <div class="priority-card amber">
+    <div class="pc-head"><span class="pc-badge">🟡 Important</span><span class="pc-title">One piece of writing can become five pieces of content</span></div>
+    <p>Most creators don't realise this. Your newsletter becomes a Pinterest graphic caption, an Instagram post, a Facebook update, and a blog paragraph. This guide shows you exactly how to do that without it feeling like extra work.</p>
+  </div>
+
+  <div class="priority-card green">
+    <div class="pc-head"><span class="pc-badge">🟢 Goal</span><span class="pc-title">One newsletter per week, 3–5 pins, and the rest flows naturally</span></div>
+    <p>That's the target. Once you have a pipeline habit, this takes less than 90 minutes a week total. Start smaller — even one piece of content per week puts you ahead of most people.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ QUICK WIN ════ -->
+  <h2 class="section-label"><span class="label-icon">⚡</span> Start here — do these 3 things right now</h2>
+  <p class="section-desc">Don't read the whole guide first. Do these steps, then come back to learn more.</p>
+
+  <div class="quick-win">
+    <h3>Quick win — takes 5 minutes</h3>
+
+    <div class="qw-step">
+      <div class="qw-num">1</div>
+      <div class="qw-text">
+        <strong>Go back to the Command Centre and click "+ Add Content"</strong>
+        <span>The button is in the top-right corner of the Content Pipeline section.</span>
+      </div>
+    </div>
+
+    <div class="qw-step">
+      <div class="qw-num">2</div>
+      <div class="qw-text">
+        <strong>Type your next newsletter idea in the "Topic / Title" box</strong>
+        <span>It doesn't have to be perfect. Even "Something about prayer and worry" is a valid idea. You can refine it later.</span>
+      </div>
+    </div>
+
+    <div class="qw-step">
+      <div class="qw-num">3</div>
+      <div class="qw-text">
+        <strong>Set Type to "Newsletter", Status to "Idea", and click Save</strong>
+        <span>That's it. You now have a content pipeline. Add two more ideas while you're here — one for next week, one for the week after.</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ HOW IT WORKS ════ -->
+  <h2 class="section-label"><span class="label-icon">🗺️</span> How the pipeline works</h2>
+  <p class="section-desc">Think of it as a conveyor belt. Every idea starts on the left and moves right until it's published.</p>
+
+  <div class="diagram mb1">
+    <div class="diagram-title">The four stages of your content pipeline</div>
+    <div class="pipeline-flow">
+      <div class="pipeline-stage ps-idea">
+        <div class="ps-box">
+          <div class="ps-icon">💭</div>
+          <div class="ps-label">Idea</div>
+          <div class="ps-desc">Just a thought</div>
+        </div>
+      </div>
+      <div class="ps-arrow">→</div>
+      <div class="pipeline-stage ps-draft">
+        <div class="ps-box">
+          <div class="ps-icon">✏️</div>
+          <div class="ps-label">Draft</div>
+          <div class="ps-desc">Being written</div>
+        </div>
+      </div>
+      <div class="ps-arrow">→</div>
+      <div class="pipeline-stage ps-ready">
+        <div class="ps-box">
+          <div class="ps-icon">✅</div>
+          <div class="ps-label">Ready</div>
+          <div class="ps-desc">Finished, waiting</div>
+        </div>
+      </div>
+      <div class="ps-arrow">→</div>
+      <div class="pipeline-stage ps-live">
+        <div class="ps-box">
+          <div class="ps-icon">🟢</div>
+          <div class="ps-label">Live</div>
+          <div class="ps-desc">Published!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Alice's tip: aim to always have at least 2 ideas waiting</strong>
+    If your pipeline shows only one item and it's already in Draft, you're running low. A healthy pipeline has 2–3 ideas sitting at the Idea stage for upcoming weeks.
+  </div>
+
+  <!-- ANNOTATED MOCK -->
+  <div class="annotated mb1">
+    <div class="annotated-title">What the Content Pipeline looks like in your Command Centre</div>
+    <div class="mock-section">
+      <div class="mock-header">
+        <div>
+          <div class="mock-header-title">✍️ Content Pipeline</div>
+          <div class="mock-header-sub">Plan what you're creating and track it from idea to live</div>
+        </div>
+        <div class="mock-btn">+ Add Content</div>
+      </div>
+      <div class="mock-table-head">
+        <span>Topic / Title</span>
+        <span>Type</span>
+        <span>Status</span>
+        <span>Date</span>
+      </div>
+      <div class="mock-row" style="background:var(--amber-pale);">
+        <span>Finding peace when life won't slow down</span>
+        <span>Newsletter</span>
+        <span class="mock-badge badge-amber">Draft</span>
+        <span style="font-size:0.67rem;color:var(--muted);">7 Jul 2026</span>
+      </div>
+      <div class="mock-row">
+        <span>Morning prayer ritual — 5 minutes of stillness</span>
+        <span>Pinterest Pin</span>
+        <span class="mock-badge badge-grey">Idea</span>
+        <span style="font-size:0.67rem;color:var(--muted);">14 Jul 2026</span>
+      </div>
+      <div class="mock-row" style="background:var(--green-pale);">
+        <span>When God feels far away — Psalm 22</span>
+        <span>Newsletter</span>
+        <span class="mock-badge badge-green">Live</span>
+        <span style="font-size:0.67rem;color:var(--muted);">30 Jun 2026</span>
+      </div>
+    </div>
+
+    <div class="callout-row">
+      <div class="callout-num">1</div>
+      <div class="callout-text"><strong>Amber row = in progress.</strong> This newsletter is being written. The amber highlight means it needs your attention this week.</div>
+    </div>
+    <div class="callout-row">
+      <div class="callout-num">2</div>
+      <div class="callout-text"><strong>Grey row = idea.</strong> Just an idea waiting. No pressure — it'll move to Draft when you're ready to write it.</div>
+    </div>
+    <div class="callout-row">
+      <div class="callout-num">3</div>
+      <div class="callout-text"><strong>Green row = live.</strong> Published and done. Leave these here — they're your record of what you've created.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ STEP BY STEP ════ -->
+  <h2 class="section-label"><span class="label-icon">👣</span> Step-by-step walkthrough</h2>
+  <p class="section-desc">Follow these steps to add, manage, and move content through your pipeline.</p>
+
+  <div class="card step-list">
+
+    <div class="step">
+      <div class="step-icon"></div>
+      <div class="step-body">
+        <h4>Click "+ Add Content" in your Command Centre</h4>
+        <p>This button is in the top-right corner of the Content Pipeline section. A form will slide open.</p>
+        <div class="step-tip">💡 You can add content from your phone while you're on the go. If an idea comes to you during your morning walk, open the hub and capture it before you forget.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"></div>
+      <div class="step-body">
+        <h4>Enter a topic or working title</h4>
+        <p>This doesn't have to be your final newsletter subject line. It's just a label so you know what the piece is about. Examples that work well:</p>
+        <ul style="padding-left:1.1rem;margin-top:0.4rem;font-size:0.78rem;color:var(--muted);line-height:1.7;">
+          <li>"Worry and prayer — Phil 4:6"</li>
+          <li>"When rest feels selfish"</li>
+          <li>"What I've learned about waiting on God"</li>
+          <li>"5 things that help me on hard mornings"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"></div>
+      <div class="step-body">
+        <h4>Choose the content Type</h4>
+        <p>Pick what kind of content this is. If one newsletter will turn into multiple pieces, add them as separate rows (one for the newsletter, one for the Pinterest pin, etc.).</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.5rem;">
+          <div style="background:var(--sage-pale);border-radius:6px;padding:0.5rem 0.65rem;font-size:0.72rem;"><strong>Newsletter</strong><br><span style="color:var(--muted);">Your main weekly email</span></div>
+          <div style="background:var(--sage-pale);border-radius:6px;padding:0.5rem 0.65rem;font-size:0.72rem;"><strong>Pinterest Pin</strong><br><span style="color:var(--muted);">Graphic + caption</span></div>
+          <div style="background:var(--sage-pale);border-radius:6px;padding:0.5rem 0.65rem;font-size:0.72rem;"><strong>Instagram Post</strong><br><span style="color:var(--muted);">Photo + caption</span></div>
+          <div style="background:var(--sage-pale);border-radius:6px;padding:0.5rem 0.65rem;font-size:0.72rem;"><strong>Facebook Post</strong><br><span style="color:var(--muted);">Status or image</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"></div>
+      <div class="step-body">
+        <h4>Set the Status — this is the most important field</h4>
+        <p>The status tells you (and the pipeline) where this piece is in its journey. Update it as you go.</p>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem;">
+          <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.77rem;"><span style="background:#f0f0f0;color:#666;padding:0.12rem 0.45rem;border-radius:4px;font-weight:700;font-size:0.62rem;">IDEA</span> Just a thought — not started yet</div>
+          <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.77rem;"><span style="background:var(--amber-pale);color:var(--amber);padding:0.12rem 0.45rem;border-radius:4px;font-weight:700;font-size:0.62rem;">DRAFT</span> You've started writing it</div>
+          <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.77rem;"><span style="background:var(--blue-pale);color:var(--blue);padding:0.12rem 0.45rem;border-radius:4px;font-weight:700;font-size:0.62rem;">READY</span> Finished — waiting to be sent or posted</div>
+          <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.77rem;"><span style="background:var(--green-pale);color:var(--green);padding:0.12rem 0.45rem;border-radius:4px;font-weight:700;font-size:0.62rem;">LIVE</span> Published and out in the world 🎉</div>
+        </div>
+        <div class="step-tip">💡 Change the status directly in the table — click the coloured badge in the Status column and choose the new status. You don't need to re-open the form.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"></div>
+      <div class="step-body">
+        <h4>Add a date and click Save</h4>
+        <p>The date is when you plan to publish or post it — not when you added the idea. Even a rough target ("second week of July") is helpful. Use the Monday of that week as the date.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ REPURPOSING ════ -->
+  <h2 class="section-label"><span class="label-icon">♻️</span> The repurposing method — write once, share everywhere</h2>
+  <p class="section-desc">This is how experienced creators produce a lot of content without burning out.</p>
+
+  <div class="card mb1">
+    <table class="repurpose-table">
+      <thead>
+        <tr>
+          <th>Start with your newsletter…</th>
+          <th>Then create this</th>
+          <th>Extra effort</th>
+          <th>Why it's worth it</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="4" style="vertical-align:middle;font-size:0.78rem;color:var(--muted);">One newsletter about morning prayer routines</td>
+          <td><strong>Pinterest graphic</strong> — pull the main quote or tip, make a vertical image with Canva</td>
+          <td><div class="effort"><span></span><span class="off"></span><span class="off"></span></div></td>
+          <td style="font-size:0.7rem;color:var(--muted);">Pinterest drives traffic for months</td>
+        </tr>
+        <tr>
+          <td><strong>Instagram caption</strong> — use the opening paragraph of the newsletter</td>
+          <td><div class="effort"><span></span><span class="off"></span><span class="off"></span></div></td>
+          <td style="font-size:0.7rem;color:var(--muted);">Reaches people who prefer visual feeds</td>
+        </tr>
+        <tr>
+          <td><strong>Facebook post</strong> — ask a question based on the newsletter theme ("Do you have a morning ritual?")</td>
+          <td><div class="effort"><span></span><span class="off"></span><span class="off"></span></div></td>
+          <td style="font-size:0.7rem;color:var(--muted);">Sparks conversation and visibility</td>
+        </tr>
+        <tr>
+          <td><strong>Second Pinterest pin</strong> — use a different quote from the same newsletter</td>
+          <td><div class="effort"><span></span><span></span><span class="off"></span></div></td>
+          <td style="font-size:0.7rem;color:var(--muted);">More coverage from same content</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="expand-toggle" onclick="toggleExpand(this)">
+    <span class="et-icon">🎨</span> How to make a Pinterest graphic with Canva (free, 10 minutes) <span class="chev">▾</span>
+  </button>
+  <div class="expand-panel">
+    <ol style="padding-left:1.1rem;line-height:1.8;">
+      <li>Go to <strong>canva.com</strong> and sign up for a free account if you don't have one.</li>
+      <li>In the search bar, type <strong>"Pinterest Pin"</strong> and choose any template you like.</li>
+      <li>Replace the template text with your quote or tip from the newsletter.</li>
+      <li>Change the colours to match Stillwater's feel — sage green (#3D5A3E), cream (#FAF7F2), and gold (#B8924A).</li>
+      <li>Download as a PNG and upload it to Pinterest with your caption.</li>
+    </ol>
+    <p style="margin-top:0.6rem;"><strong>Canva's free plan is plenty for this.</strong> You don't need the paid version.</p>
+  </div>
+
+  <button class="expand-toggle" onclick="toggleExpand(this)">
+    <span class="et-icon">📌</span> What makes a good Pinterest description? <span class="chev">▾</span>
+  </button>
+  <div class="expand-panel">
+    <ul>
+      <li><strong>Start with a keyword</strong> — "Morning prayer routine for Christian women who feel overwhelmed"</li>
+      <li>Write 2–3 sentences in a warm, personal tone — the same voice you use in your newsletter.</li>
+      <li>End with a gentle call to action: "Read the full letter at The Stillwater Letters."</li>
+      <li><strong>Add your website link</strong> in the destination URL so clicks go straight to your sign-up page.</li>
+      <li>Use hashtags sparingly — 3 to 5 is plenty. More than that looks spammy.</li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ HEALTH CHECK ════ -->
+  <h2 class="section-label"><span class="label-icon">🩺</span> Pipeline health check — what do your colours mean?</h2>
+  <p class="section-desc">Use this as a quick guide to know what to do next based on what you see in your pipeline.</p>
+
+  <div class="health-check card">
+    <div class="hc-row red">
+      <div class="hc-dot"></div>
+      <div class="hc-situation"><strong>Your pipeline is empty</strong> — no content added at all</div>
+      <div class="hc-action">🔴 Act today</div>
+    </div>
+    <div class="hc-row red">
+      <div class="hc-dot"></div>
+      <div class="hc-situation"><strong>Nothing in "Draft" and this week's newsletter isn't written</strong></div>
+      <div class="hc-action">🔴 Write first</div>
+    </div>
+    <div class="hc-row amber">
+      <div class="hc-dot"></div>
+      <div class="hc-situation"><strong>You have 1 newsletter in Draft but nothing queued after it</strong></div>
+      <div class="hc-action">🟡 Add more ideas</div>
+    </div>
+    <div class="hc-row amber">
+      <div class="hc-dot"></div>
+      <div class="hc-situation"><strong>Ideas exist but no Pinterest pins or social posts planned</strong></div>
+      <div class="hc-action">🟡 Repurpose content</div>
+    </div>
+    <div class="hc-row green">
+      <div class="hc-dot"></div>
+      <div class="hc-situation"><strong>2+ ideas waiting + 1 in Draft + 3–5 pins planned</strong></div>
+      <div class="hc-action">🟢 Pipeline healthy</div>
+    </div>
+    <div class="hc-row green">
+      <div class="hc-dot"></div>
+      <div class="hc-situation"><strong>Newsletter goes out same day each week, consistently</strong></div>
+      <div class="hc-action">🟢 Keep it up!</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ DEEPER DIVES ════ -->
+  <h2 class="section-label"><span class="label-icon">📖</span> Want to go deeper?</h2>
+  <p class="section-desc">Expand any topic you'd like to understand better.</p>
+
+  <button class="expand-toggle" onclick="toggleExpand(this)">
+    <span class="et-icon">📅</span> How to plan a whole month of content in one sitting <span class="chev">▾</span>
+  </button>
+  <div class="expand-panel">
+    <p><strong>Once a month, spend 20 minutes on this:</strong></p>
+    <ol style="padding-left:1.1rem;margin-top:0.5rem;line-height:1.8;">
+      <li>Open your Command Centre and go to Content Pipeline.</li>
+      <li>Add 4 newsletter ideas — one per week for the coming month. They can be rough titles.</li>
+      <li>For each newsletter, add one Pinterest pin idea (same topic, different angle).</li>
+      <li>That's 8 rows in your pipeline — you now have a full month mapped out.</li>
+      <li>Each week, move that week's newsletter from "Idea" to "Draft" and write it.</li>
+    </ol>
+    <p style="margin-top:0.6rem;color:var(--muted);">This approach removes the weekly "what do I write?" panic and replaces it with simply executing a plan you've already made.</p>
+  </div>
+
+  <button class="expand-toggle" onclick="toggleExpand(this)">
+    <span class="et-icon">💡</span> How to find content ideas when you feel stuck <span class="chev">▾</span>
+  </button>
+  <div class="expand-panel">
+    <ul>
+      <li><strong>Your inbox:</strong> What questions have readers asked you this week? Each question is a newsletter topic.</li>
+      <li><strong>Your quiet time:</strong> What scripture or thought stayed with you this week? Write about that.</li>
+      <li><strong>Seasons of life:</strong> What are women in your audience experiencing right now — school holidays, end of year, winter, busy season? Meet them where they are.</li>
+      <li><strong>Old letters:</strong> Look at your best-performing newsletters (highest open rates). Write a follow-up or a related piece.</li>
+      <li><strong>Pinterest search:</strong> Type "faith" or "prayer" into Pinterest's search bar and look at what topics come up. The suggestions show what people are actively searching for.</li>
+    </ul>
+    <p style="margin-top:0.5rem;"><strong>Aim for a "swipe file"</strong> — a note on your phone where you capture ideas as they come to you throughout the week. When you sit down to plan, you'll have a list waiting.</p>
+  </div>
+
+  <button class="expand-toggle" onclick="toggleExpand(this)">
+    <span class="et-icon">📊</span> How to know if your content is working <span class="chev">▾</span>
+  </button>
+  <div class="expand-panel">
+    <p><strong>The number that matters most: email open rate.</strong></p>
+    <ul style="margin-top:0.4rem;">
+      <li>Below 20% — something's off. Subject lines may need work, or you may be sending too infrequently.</li>
+      <li>20–35% — solid and normal for a newsletter of your size.</li>
+      <li>Above 35% — excellent. Your audience loves hearing from you.</li>
+    </ul>
+    <p style="margin-top:0.5rem;"><strong>For Pinterest:</strong> monthly views growing month-on-month is the signal to watch. It takes 3–6 months to build momentum — be patient and consistent.</p>
+    <p style="margin-top:0.4rem;"><strong>For Instagram:</strong> comments and saves matter more than likes. A post with 5 comments beats one with 100 likes — it means people are engaged.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ════ VIDEOS ════ -->
+  <h2 class="section-label"><span class="label-icon">▶️</span> Watch and learn</h2>
+  <p class="section-desc">Short, beginner-friendly videos on these topics. None of these assume you're a marketer.</p>
+
+  <div class="video-grid mb1">
+    <a href="https://www.youtube.com/results?search_query=how+to+write+a+newsletter+for+beginners" target="_blank" class="video-card">
+      <div class="video-thumb red-bg">▶</div>
+      <div class="video-card-body">
+        <div class="video-card-channel">YouTube Search</div>
+        <div class="video-card-title">How to write a newsletter for beginners</div>
+        <div class="video-card-why">Start here if you're new to email newsletters.</div>
+        <div class="video-card-badge">🔴 Priority 1</div>
+      </div>
+    </a>
+
+    <a href="https://www.youtube.com/results?search_query=pinterest+content+strategy+for+beginners+2024" target="_blank" class="video-card">
+      <div class="video-thumb red-bg">▶</div>
+      <div class="video-card-body">
+        <div class="video-card-channel">YouTube Search</div>
+        <div class="video-card-title">Pinterest content strategy for beginners</div>
+        <div class="video-card-why">Explains how Pinterest works and why it's different from Instagram.</div>
+        <div class="video-card-badge">🔴 Priority 1</div>
+      </div>
+    </a>
+
+    <a href="https://www.youtube.com/results?search_query=how+to+repurpose+content+save+time+social+media" target="_blank" class="video-card">
+      <div class="video-thumb blue-bg">▶</div>
+      <div class="video-card-body">
+        <div class="video-card-channel">YouTube Search</div>
+        <div class="video-card-title">How to repurpose content to save time</div>
+        <div class="video-card-why">The write-once method — one newsletter becomes many posts.</div>
+        <div class="video-card-badge" style="background:var(--amber-pale);color:var(--amber);">🟡 Priority 2</div>
+      </div>
+    </a>
+
+    <a href="https://www.youtube.com/results?search_query=canva+pinterest+pin+tutorial+beginners" target="_blank" class="video-card">
+      <div class="video-thumb blue-bg">▶</div>
+      <div class="video-card-body">
+        <div class="video-card-channel">YouTube Search</div>
+        <div class="video-card-title">How to make a Pinterest pin in Canva</div>
+        <div class="video-card-why">Step-by-step. Free Canva account is all you need.</div>
+        <div class="video-card-badge" style="background:var(--amber-pale);color:var(--amber);">🟡 Priority 2</div>
+      </div>
+    </a>
+
+    <a href="https://www.youtube.com/results?search_query=content+planning+for+beginners+monthly+batch" target="_blank" class="video-card">
+      <div class="video-thumb purple-bg">▶</div>
+      <div class="video-card-body">
+        <div class="video-card-channel">YouTube Search</div>
+        <div class="video-card-title">How to batch plan a month of content</div>
+        <div class="video-card-why">Plan four weeks of content in one sitting.</div>
+        <div class="video-card-badge" style="background:var(--green-pale);color:var(--green);">🟢 When ready</div>
+      </div>
+    </a>
+
+    <a href="https://www.youtube.com/results?search_query=newsletter+subject+line+tips+open+rate" target="_blank" class="video-card">
+      <div class="video-thumb purple-bg">▶</div>
+      <div class="video-card-body">
+        <div class="video-card-channel">YouTube Search</div>
+        <div class="video-card-title">How to write subject lines that get opened</div>
+        <div class="video-card-why">The single biggest lever on your email open rate.</div>
+        <div class="video-card-badge" style="background:var(--green-pale);color:var(--green);">🟢 When ready</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 How to search YouTube effectively</strong>
+    The links above open YouTube search results so you always see current, relevant videos. Search terms like "newsletter for beginners 2024" or "Canva Pinterest tutorial" will show you beginner-friendly content. Look for videos under 15 minutes with clear thumbnails and high view counts.
+  </div>
+
+</div><!-- /container -->
+
+<div class="bottom-nav">
+  <a href="index.html" class="bnav-link">← Back to Command Centre</a>
+  <div class="bnav-center">The Stillwater Letters · Help Guides</div>
+  <div style="display:flex;gap:1rem;">
+    <a href="help-lead-funnel.html" class="bnav-link">Lead Funnel →</a>
+    <a href="help-membership.html" class="bnav-link">Membership →</a>
+  </div>
+</div>
+
+<script>
+function toggleExpand(btn) {
+  const panel = btn.nextElementSibling;
+  const open = btn.classList.toggle('open');
+  panel.style.display = open ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

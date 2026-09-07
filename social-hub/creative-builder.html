@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Brief Builder — The Stillwater Letters</title>
+<link rel="stylesheet" href="help-shared.css">
+<style>
+  body { max-width: 760px; }
+
+  .builder-hero {
+    background: linear-gradient(135deg, var(--forest) 0%, #2d6a4f 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 2rem 2rem 1.6rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .builder-hero h1 { font-size: 1.5rem; margin: 0 0 0.4rem; color: #fff; }
+  .builder-hero p  { font-size: 0.9rem; opacity: 0.85; margin: 0; }
+
+  /* Type picker */
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .type-card {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface);
+  }
+  .type-card:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .type-card.selected { border-color: var(--forest); background: #f0f7f4; }
+  .type-card .tc-icon { font-size: 1.8rem; margin-bottom: 0.35rem; }
+  .type-card .tc-label { font-size: 0.78rem; font-weight: 700; color: var(--ink); }
+  .type-card .tc-sub { font-size: 0.68rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* Steps */
+  .step-section { display: none; }
+  .step-section.active { display: block; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--forest);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-header h3 { margin: 0; font-size: 1rem; color: var(--forest); }
+
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+  .form-group .hint {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    font-style: italic;
+  }
+  .form-group input[type="text"],
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--ink);
+    background: var(--surface);
+    resize: vertical;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--forest);
+  }
+  .form-group textarea { min-height: 80px; }
+
+  .title-options {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .title-opt {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.82rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.12s;
+    background: var(--surface);
+  }
+  .title-opt:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .title-opt.picked { border-color: var(--forest); background: #f0f7f4; font-weight: 600; }
+
+  .btn-row { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--forest);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary:hover { background: #1a5c3a; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--forest);
+    border: 1.5px solid var(--forest);
+    border-radius: 8px;
+    padding: 0.65rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-secondary:hover { background: #f0f7f4; }
+
+  /* Brief output */
+  .brief-output {
+    border: 2px solid var(--forest);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .brief-header {
+    background: var(--forest);
+    color: #fff;
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brief-header h3 { margin: 0; font-size: 0.95rem; }
+  .brief-header .brief-type { font-size: 0.72rem; opacity: 0.8; }
+  .brief-body { padding: 1.25rem; background: var(--surface); }
+
+  .brief-section { margin-bottom: 1.1rem; }
+  .brief-section:last-child { margin-bottom: 0; }
+  .brief-section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+  .brief-section-value {
+    font-size: 0.87rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .brief-section-value ul { margin: 0.25rem 0 0 1.1rem; padding: 0; }
+  .brief-section-value li { margin-bottom: 0.2rem; }
+
+  .canva-tip {
+    background: var(--gold-pale);
+    border: 1px solid rgba(184,146,74,0.3);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.8rem;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .canva-tip strong { color: var(--gold-dark, #8a6a1a); }
+
+  .saved-briefs { margin-top: 2.5rem; }
+  .saved-briefs h3 { font-size: 0.95rem; color: var(--forest); margin-bottom: 0.75rem; }
+  .saved-list { display: grid; gap: 0.5rem; }
+  .saved-item {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color 0.12s;
+  }
+  .saved-item:hover { border-color: var(--forest); }
+  .saved-item-info { font-size: 0.82rem; }
+  .saved-item-title { font-weight: 700; color: var(--ink); }
+  .saved-item-meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+  .saved-item-actions { display: flex; gap: 0.5rem; }
+  .btn-tiny {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .btn-tiny:hover { border-color: var(--forest); color: var(--forest); }
+  .btn-tiny.del:hover { border-color: var(--red); color: var(--red); }
+
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+  }
+
+  @media print {
+    .top-bar, .builder-hero, .type-grid, .btn-row, .saved-briefs, .canva-tip { display: none !important; }
+    .brief-output { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html" class="top-bar-back">← Command Centre</a>
+  <span class="top-bar-title">Creative Brief Builder</span>
+</div>
+
+<div class="builder-hero">
+  <h1>✏️ Creative Brief Builder</h1>
+  <p>Answer a few questions — get a clear brief you can take straight into Canva.</p>
+</div>
+
+<!-- STEP 0: Type picker -->
+<div id="step-type" class="step-section active">
+  <h2 style="font-size:1rem;margin-bottom:1rem;color:var(--forest);">What are you creating?</h2>
+  <div class="type-grid" id="type-grid">
+    <div class="type-card" data-type="leadmagnet">
+      <div class="tc-icon">📄</div>
+      <div class="tc-label">Lead Magnet PDF</div>
+      <div class="tc-sub">Free download to grow your list</div>
+    </div>
+    <div class="type-card" data-type="checklist">
+      <div class="tc-icon">✅</div>
+      <div class="tc-label">Checklist / Printable</div>
+      <div class="tc-sub">Simple one-page takeaway</div>
+    </div>
+    <div class="type-card" data-type="pinterest">
+      <div class="tc-icon">📌</div>
+      <div class="tc-label">Pinterest Graphic</div>
+      <div class="tc-sub">Tall image to drive traffic</div>
+    </div>
+    <div class="type-card" data-type="welcome">
+      <div class="tc-icon">✉️</div>
+      <div class="tc-label">Welcome Email Series</div>
+      <div class="tc-sub">3-email sequence for new subscribers</div>
+    </div>
+    <div class="type-card" data-type="instagram">
+      <div class="tc-icon">📷</div>
+      <div class="tc-label">Instagram Graphic</div>
+      <div class="tc-sub">Square or story image</div>
+    </div>
+    <div class="type-card" data-type="prayercard">
+      <div class="tc-icon">🕊️</div>
+      <div class="tc-label">Prayer Card</div>
+      <div class="tc-sub">Printable prayer or devotion</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1: Questions (injected per type) -->
+<div id="step-questions" class="step-section">
+  <div id="questions-body"></div>
+  <div class="btn-row">
+    <button class="btn-primary" onclick="generateBrief()">Generate my brief →</button>
+    <button class="btn-secondary" onclick="goBack()">← Change type</button>
+  </div>
+</div>
+
+<!-- STEP 2: Brief output -->
+<div id="step-brief" class="step-section">
+  <div class="canva-tip">
+    <strong>How to use this brief:</strong> Open Canva, choose the right template size (shown below), then use this brief as your guide for what text, sections, and tone to use. You don't need to match it word-for-word — it's a direction, not a script.
+  </div>
+  <div class="brief-output">
+    <div class="brief-header">
+      <h3 id="brief-title-display">Your Creative Brief</h3>
+      <span class="brief-type" id="brief-type-display"></span>
+    </div>
+    <div class="brief-body" id="brief-body"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-primary" onclick="saveBrief()">Save this brief</button>
+    <button class="btn-secondary" onclick="window.print()">🖨 Print</button>
+    <button class="btn-secondary" onclick="startOver()">Start a new brief</button>
+  </div>
+</div>
+
+<!-- Saved briefs -->
+<div class="saved-briefs" id="saved-section">
+  <h3>📁 Saved Briefs</h3>
+  <div class="saved-list" id="saved-list"></div>
+</div>
+
+<div class="bottom-nav" style="margin-top:2rem;">
+  <a href="index.html" class="bnav-link">← Back to Command Centre</a>
+  <div class="bnav-center">The Stillwater Letters</div>
+</div>
+
+<script>
+const TYPE_LABELS = {
+  leadmagnet: 'Lead Magnet PDF',
+  checklist:  'Checklist / Printable',
+  pinterest:  'Pinterest Graphic',
+  welcome:    'Welcome Email Series',
+  instagram:  'Instagram Graphic',
+  prayercard: 'Prayer Card',
+};
+
+const CANVA_SIZES = {
+  leadmagnet: 'A4 or US Letter (portrait) — search "ebook" or "lead magnet" in Canva templates',
+  checklist:  'A4 portrait — search "checklist" or "worksheet" in Canva templates',
+  pinterest:  '1000 × 1500 px — search "Pinterest pin" in Canva templates',
+  welcome:    'No Canva size needed — this is written content for your email tool (MailerLite)',
+  instagram:  '1080 × 1080 px (square) or 1080 × 1920 px (story) — search "Instagram post" in Canva',
+  prayercard: 'A6 or postcard size (4×6 in) — search "prayer card" or "postcard" in Canva templates',
+};
+
+const QUESTIONS = {
+  leadmagnet: [
+    { id: 'lm_topic',    label: 'What is this lead magnet about?', hint: 'e.g. "Morning prayer prompts for anxious days"', type: 'text' },
+    { id: 'lm_for',      label: 'Who is it for?', hint: 'e.g. "Christian women who feel overwhelmed and want to start their day with calm"', type: 'text' },
+    { id: 'lm_promise',  label: 'What will they walk away with?', hint: 'The one thing they will be able to do or feel after reading it', type: 'text' },
+    { id: 'lm_sections', label: 'What are the 3–5 sections or pages?', hint: 'e.g. "Introduction, Day 1 prayer, Day 2 prayer, How to use this guide"', type: 'textarea' },
+    { id: 'lm_tone',     label: 'Tone and feel', hint: '', type: 'select',
+      options: ['Warm and gentle', 'Encouraging and hopeful', 'Quiet and contemplative', 'Practical and clear', 'Celebratory and joyful'] },
+  ],
+  checklist: [
+    { id: 'cl_topic',   label: 'What is this checklist for?', hint: 'e.g. "Simple morning rhythm for busy mums"', type: 'text' },
+    { id: 'cl_for',     label: 'Who is it for?', hint: 'e.g. "Mums who want to start the day intentionally but don\'t have much time"', type: 'text' },
+    { id: 'cl_items',   label: 'List the checklist items (one per line)', hint: 'Aim for 5–10 items', type: 'textarea' },
+    { id: 'cl_heading', label: 'Suggested heading / title', hint: 'e.g. "Your 5-Minute Morning Ritual"', type: 'text' },
+    { id: 'cl_footer',  label: 'Footer text (optional)', hint: 'e.g. "A gift from The Stillwater Letters · stillwaterletters.com"', type: 'text' },
+  ],
+  pinterest: [
+    { id: 'pi_promoting', label: 'What is this graphic promoting?', hint: 'e.g. "My free prayer guide" or "This week\'s newsletter about grief and grace"', type: 'text' },
+    { id: 'pi_headline',  label: 'Main headline (bold text on the pin)', hint: 'Under 8 words — this is what people read first. e.g. "5 Prayers for When You Feel Lost"', type: 'text' },
+    { id: 'pi_sub',       label: 'Supporting line (smaller text)', hint: 'One short line. e.g. "A free guide from The Stillwater Letters"', type: 'text' },
+    { id: 'pi_cta',       label: 'Call to action text', hint: 'e.g. "Free download ↓" or "Read more →" or "Save for later"', type: 'text' },
+    { id: 'pi_image',     label: 'Image idea or style', hint: 'e.g. "Soft morning light, cup of tea, open Bible" or "Simple text-only design with sage green background"', type: 'text' },
+  ],
+  welcome: [
+    { id: 'we_name',    label: 'What would you like to call the series?', hint: 'e.g. "Welcome to Stillwater" or leave blank for default', type: 'text' },
+    { id: 'we_email1',  label: 'Email 1 — Welcome: what should they know right away?', hint: 'e.g. "Who I am, why I write, what to expect, how often they\'ll hear from me"', type: 'textarea' },
+    { id: 'we_email2',  label: 'Email 2 — Your story: what brought you to this work?', hint: 'e.g. "A personal moment, what Stillwater means to you, why this community matters"', type: 'textarea' },
+    { id: 'we_email3',  label: 'Email 3 — First gift: what\'s the most helpful thing you can share?', hint: 'e.g. "A free resource, your most-loved newsletter, a personal prayer for them"', type: 'textarea' },
+    { id: 'we_tone',    label: 'Tone and feel', hint: '', type: 'select',
+      options: ['Warm and personal', 'Encouraging and hopeful', 'Quiet and reflective', 'Celebratory and welcoming'] },
+  ],
+  instagram: [
+    { id: 'ig_purpose',  label: 'What is this post for?', hint: 'e.g. "Promote my free prayer guide" or "Share a quote from this week\'s newsletter"', type: 'text' },
+    { id: 'ig_format',   label: 'Format', hint: '', type: 'select',
+      options: ['Square post (1:1)', 'Story or Reel cover (9:16)', 'Carousel — multiple slides'] },
+    { id: 'ig_text',     label: 'Main text on the graphic', hint: 'Short and punchy — what\'s the one thing someone should read?', type: 'text' },
+    { id: 'ig_caption',  label: 'Caption idea (what you\'ll write below the image)', hint: 'A few sentences or a question to spark comments', type: 'textarea' },
+    { id: 'ig_style',    label: 'Visual style', hint: 'e.g. "Soft photo of a journal and candle" or "Simple text on cream background with gold accents"', type: 'text' },
+  ],
+  prayercard: [
+    { id: 'pc_title',   label: 'Title of the prayer or card', hint: 'e.g. "A Prayer for Tired Mothers" or "Evening Reflection"', type: 'text' },
+    { id: 'pc_for',     label: 'Who is this for?', hint: 'e.g. "Women going through a hard season" or "Anyone needing peace before bed"', type: 'text' },
+    { id: 'pc_prayer',  label: 'The prayer or devotion text', hint: 'Write it out, or key phrases / sentences you want to include', type: 'textarea' },
+    { id: 'pc_verse',   label: 'Scripture verse (optional)', hint: 'e.g. "Be still and know that I am God — Psalm 46:10"', type: 'text' },
+    { id: 'pc_use',     label: 'How will this be used?', hint: '', type: 'select',
+      options: ['Free download / lead magnet', 'Bonus for paid members', 'Newsletter insert', 'Printed card to share in person', 'Social media share'] },
+  ],
+};
+
+let currentType = null;
+let currentData = {};
+
+function showStep(id) {
+  document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+document.getElementById('type-grid').addEventListener('click', e => {
+  const card = e.target.closest('.type-card');
+  if (!card) return;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  currentType = card.dataset.type;
+  setTimeout(() => loadQuestions(currentType), 120);
+});
+
+function loadQuestions(type) {
+  const qs = QUESTIONS[type];
+  const html = `
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;">
+      <div style="font-size:1.1rem;">${getIcon(type)}</div>
+      <h2 style="font-size:1rem;margin:0;color:var(--forest);">Tell me about your ${TYPE_LABELS[type]}</h2>
+    </div>
+    ${qs.map(q => `
+      <div class="form-group">
+        <label for="${q.id}">${q.label}</label>
+        ${q.hint ? `<div class="hint">${q.hint}</div>` : ''}
+        ${q.type === 'textarea' ? `<textarea id="${q.id}" rows="3" placeholder="Type here…"></textarea>` : ''}
+        ${q.type === 'text'     ? `<input type="text" id="${q.id}" placeholder="Type here…">` : ''}
+        ${q.type === 'select'   ? `<select id="${q.id}">${q.options.map(o => `<option>${o}</option>`).join('')}</select>` : ''}
+      </div>`).join('')}
+  `;
+  document.getElementById('questions-body').innerHTML = html;
+  showStep('step-questions');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getIcon(type) {
+  return { leadmagnet:'📄', checklist:'✅', pinterest:'📌', welcome:'✉️', instagram:'📷', prayercard:'🕊️' }[type] || '✏️';
+}
+
+function goBack() {
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  currentType = null;
+  showStep('step-type');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function collectData() {
+  const qs = QUESTIONS[currentType];
+  const data = {};
+  qs.forEach(q => {
+    const el = document.getElementById(q.id);
+    if (el) data[q.id] = el.value.trim();
+  });
+  return data;
+}
+
+function generateBrief() {
+  currentData = collectData();
+  const body = buildBriefHTML(currentType, currentData);
+  document.getElementById('brief-title-display').textContent = getBriefTitle(currentType, currentData);
+  document.getElementById('brief-type-display').textContent = TYPE_LABELS[currentType];
+  document.getElementById('brief-body').innerHTML = body;
+  showStep('step-brief');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getBriefTitle(type, d) {
+  if (type === 'leadmagnet' && d.lm_topic) return d.lm_topic;
+  if (type === 'checklist'  && d.cl_heading) return d.cl_heading;
+  if (type === 'pinterest'  && d.pi_headline) return d.pi_headline;
+  if (type === 'welcome'    && d.we_name) return d.we_name || 'Welcome Email Series';
+  if (type === 'instagram'  && d.ig_text) return d.ig_text;
+  if (type === 'prayercard' && d.pc_title) return d.pc_title;
+  return 'Creative Brief';
+}
+
+function row(label, value) {
+  if (!value) return '';
+  return `<div class="brief-section">
+    <div class="brief-section-label">${label}</div>
+    <div class="brief-section-value">${value}</div>
+  </div>`;
+}
+
+function bulletRow(label, value) {
+  if (!value) return '';
+  const items = value.split('\n').map(l => l.trim()).filter(Boolean);
+  if (!items.length) return '';
+  return `<div class="brief-section">
+    <div class="brief-section-label">${label}</div>
+    <div class="brief-section-value"><ul>${items.map(i => `<li>${i}</li>`).join('')}</ul></div>
+  </div>`;
+}
+
+function buildBriefHTML(type, d) {
+  const size = `<div class="brief-section"><div class="brief-section-label">Canva template to use</div><div class="brief-section-value">${CANVA_SIZES[type]}</div></div>`;
+
+  if (type === 'leadmagnet') return `
+    ${row('Topic / Title', d.lm_topic)}
+    ${row('Who this is for', d.lm_for)}
+    ${row('What they walk away with', d.lm_promise)}
+    ${bulletRow('Sections / Pages', d.lm_sections)}
+    ${row('Tone & feel', d.lm_tone)}
+    ${size}
+    ${row('Brand colours', 'Sage green (#2D6A4F), cream (#FAF7F0), warm gold (#B8924A) — use these in Canva')}
+    ${row('Font suggestion', 'Headings: a serif (like Playfair Display or Lora) · Body: clean sans-serif (like Nunito or Open Sans)')}
+  `;
+
+  if (type === 'checklist') return `
+    ${row('Title / Heading', d.cl_heading)}
+    ${row('Who this is for', d.cl_for)}
+    ${bulletRow('Checklist items', d.cl_items)}
+    ${row('Footer text', d.cl_footer)}
+    ${size}
+    ${row('Brand colours', 'Sage green (#2D6A4F), cream (#FAF7F0), warm gold (#B8924A)')}
+    ${row('Layout tip', 'Keep it airy — generous white space makes a checklist feel calm, not overwhelming')}
+  `;
+
+  if (type === 'pinterest') return `
+    ${row('Promoting', d.pi_promoting)}
+    ${row('Main headline (bold text)', d.pi_headline)}
+    ${row('Supporting line (smaller)', d.pi_sub)}
+    ${row('Call to action', d.pi_cta)}
+    ${row('Image / background idea', d.pi_image)}
+    ${size}
+    ${row('Brand colours', 'Sage green (#2D6A4F), cream (#FAF7F0), warm gold (#B8924A)')}
+    ${row('Pinterest tips', 'Text should fill at least 30% of the image · Headline font must be legible at thumbnail size · Add your website URL at the bottom')}
+  `;
+
+  if (type === 'welcome') {
+    const name = d.we_name || 'Welcome to Stillwater';
+    return `
+      ${row('Series name', name)}
+      ${row('Tone & feel', d.we_tone)}
+      <div class="brief-section"><div class="brief-section-label">Email 1 — Welcome</div>
+        <div class="brief-section-value">${d.we_email1 || '—'}<br><br><em style="font-size:0.78rem;color:var(--muted);">Send: immediately on sign-up</em></div></div>
+      <div class="brief-section"><div class="brief-section-label">Email 2 — Your Story</div>
+        <div class="brief-section-value">${d.we_email2 || '—'}<br><br><em style="font-size:0.78rem;color:var(--muted);">Send: 2–3 days after Email 1</em></div></div>
+      <div class="brief-section"><div class="brief-section-label">Email 3 — First Gift</div>
+        <div class="brief-section-value">${d.we_email3 || '—'}<br><br><em style="font-size:0.78rem;color:var(--muted);">Send: 4–5 days after Email 2</em></div></div>
+      ${row('Next step', 'Set these up as an automation sequence in MailerLite (Automations → New automation → Trigger: subscriber joins group)')}
+    `;
+  }
+
+  if (type === 'instagram') return `
+    ${row('Purpose', d.ig_purpose)}
+    ${row('Format', d.ig_format)}
+    ${row('Main text on graphic', d.ig_text)}
+    ${row('Caption / copy', d.ig_caption)}
+    ${row('Visual style', d.ig_style)}
+    ${size}
+    ${row('Brand colours', 'Sage green (#2D6A4F), cream (#FAF7F0), warm gold (#B8924A)')}
+    ${row('Posting tip', 'Add 3–5 relevant hashtags and a question in your caption to spark comments')}
+  `;
+
+  if (type === 'prayercard') return `
+    ${row('Title', d.pc_title)}
+    ${row('Who this is for', d.pc_for)}
+    ${row('Prayer / devotion text', d.pc_prayer)}
+    ${row('Scripture verse', d.pc_verse)}
+    ${row('How it will be used', d.pc_use)}
+    ${size}
+    ${row('Brand colours', 'Sage green (#2D6A4F), cream (#FAF7F0), warm gold (#B8924A)')}
+    ${row('Design tip', 'Keep the layout simple — the words are the focus. A soft background texture or watercolour wash works beautifully behind prayer text.')}
+  `;
+
+  return '<p>Brief generated.</p>';
+}
+
+function saveBrief() {
+  const briefs = getSavedBriefs();
+  briefs.unshift({
+    id: Date.now(),
+    type: currentType,
+    title: getBriefTitle(currentType, currentData),
+    data: currentData,
+    saved: new Date().toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }),
+  });
+  localStorage.setItem('sw_briefs', JSON.stringify(briefs));
+  renderSaved();
+  showToast('Brief saved ✓');
+}
+
+function getSavedBriefs() {
+  try { return JSON.parse(localStorage.getItem('sw_briefs') || '[]'); } catch { return []; }
+}
+
+function renderSaved() {
+  const briefs = getSavedBriefs();
+  const list = document.getElementById('saved-list');
+  const section = document.getElementById('saved-section');
+  if (!briefs.length) {
+    list.innerHTML = '<div class="empty-state">No saved briefs yet — generate one above and click Save.</div>';
+    section.style.display = 'block';
+    return;
+  }
+  section.style.display = 'block';
+  list.innerHTML = briefs.map(b => `
+    <div class="saved-item" onclick="loadBrief(${b.id})">
+      <div class="saved-item-info">
+        <div class="saved-item-title">${getIcon(b.type)} ${b.title}</div>
+        <div class="saved-item-meta">${TYPE_LABELS[b.type]} · Saved ${b.saved}</div>
+      </div>
+      <div class="saved-item-actions" onclick="event.stopPropagation()">
+        <button class="btn-tiny" onclick="loadBrief(${b.id})">Open</button>
+        <button class="btn-tiny del" onclick="deleteBrief(${b.id})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function loadBrief(id) {
+  const briefs = getSavedBriefs();
+  const b = briefs.find(x => x.id === id);
+  if (!b) return;
+  currentType = b.type;
+  currentData = b.data;
+  document.getElementById('brief-title-display').textContent = getBriefTitle(b.type, b.data);
+  document.getElementById('brief-type-display').textContent = TYPE_LABELS[b.type];
+  document.getElementById('brief-body').innerHTML = buildBriefHTML(b.type, b.data);
+  showStep('step-brief');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteBrief(id) {
+  let briefs = getSavedBriefs().filter(x => x.id !== id);
+  localStorage.setItem('sw_briefs', JSON.stringify(briefs));
+  renderSaved();
+}
+
+function startOver() {
+  currentType = null;
+  currentData = {};
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  showStep('step-type');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style, {
+    position:'fixed', bottom:'1.5rem', left:'50%', transform:'translateX(-50%)',
+    background:'var(--forest)', color:'#fff', padding:'0.6rem 1.2rem',
+    borderRadius:'8px', fontSize:'0.82rem', fontWeight:'600', zIndex:9999,
+    boxShadow:'0 4px 16px rgba(0,0,0,0.15)'
+  });
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+renderSaved();
+</script>
+</body>
+</html>

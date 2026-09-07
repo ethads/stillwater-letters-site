@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>The Stillwater Letters — 21 Days of Returning</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 0; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { background:#fff; }
+body { font-family:'Inter','Helvetica Neue',Arial,sans-serif; color:#1f2a2e; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.page { width:210mm; height:297mm; position:relative; overflow:hidden; page-break-after:always; background:#fbf7ee; padding:24mm 24mm; }
+.page:last-child { page-break-after:auto; }
+.display { font-family:'Fraunces','Georgia',serif; font-weight:400; }
+.wave { color:#b86b4a; font-size:18pt; letter-spacing:8px; }
+.cover { background:#1a3032; color:#fbf7ee; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+.cover .kicker { font-size:10pt; letter-spacing:4px; text-transform:uppercase; color:#a88557; }
+.cover h1 { font-size:36pt; line-height:1.12; color:#fbf7ee; margin:14mm 0 6mm; }
+.cover .sub { font-style:italic; font-size:14pt; color:#d6c9b3; font-family:'Fraunces',Georgia,serif; }
+.cover .rule { width:60mm; height:1px; background:#a88557; margin:12mm auto; opacity:.6; }
+.cover .verse { font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:13pt; color:#ede4d3; max-width:120mm; }
+.intro h2 { font-size:24pt; color:#1a3032; margin-bottom:7mm; }
+.intro p { font-size:11.5pt; line-height:1.75; color:#1f2a2e; margin-bottom:5mm; max-width:152mm; }
+.intro .lead { font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:13pt; color:#2c4a4d; margin-bottom:8mm; }
+.day-head { display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid #d6c9b3; padding-bottom:4mm; margin-bottom:6mm; }
+.day-num { font-family:'Fraunces',Georgia,serif; font-size:12pt; letter-spacing:3px; text-transform:uppercase; color:#a88557; }
+.day-theme { font-family:'Fraunces',Georgia,serif; font-size:25pt; color:#1a3032; }
+.label { font-size:9pt; letter-spacing:2px; text-transform:uppercase; color:#a88557; margin-bottom:2mm; }
+.scripture { font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:15pt; line-height:1.5; color:#2c4a4d; margin-bottom:1.5mm; }
+.scripture .ref { display:block; font-family:'Inter',Arial,sans-serif; font-style:normal; font-size:9pt; letter-spacing:2px; text-transform:uppercase; color:#b86b4a; margin-top:2.5mm; }
+.reflection { font-size:11pt; line-height:1.7; color:#1f2a2e; margin:6mm 0 0; }
+.prompt { font-size:11pt; line-height:1.6; color:#1f2a2e; margin:1mm 0 4mm; font-weight:500; }
+.lines .ln { border-bottom:1px solid #d6c9b3; height:8.5mm; }
+.prayer { background:#f5efe4; border-left:3px solid #b86b4a; padding:5mm 7mm; margin-top:6mm; }
+.prayer .pt { font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:11.5pt; line-height:1.6; color:#2c4a4d; }
+.prayer .pl { border-bottom:1px solid #d6c9b3; height:8mm; margin-top:3mm; }
+.sec-gap { margin-top:7mm; }
+.foot { position:absolute; left:24mm; right:24mm; bottom:13mm; text-align:center; font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:9pt; color:#a88557; }
+.close { background:#ede4d3; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+.close h2 { font-size:26pt; color:#1a3032; margin-bottom:7mm; }
+.close p { font-size:11.5pt; line-height:1.75; color:#1f2a2e; max-width:140mm; margin-bottom:5mm; }
+.close .verse { font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:13pt; color:#2c4a4d; margin-top:3mm; }
+
+/* ---- on-screen (web) version: readable on any device; print stays perfect ---- */
+.banner { display:none; }
+@media screen {
+  body { background:#ede4d3; }
+  .banner { display:block; max-width:210mm; margin:0 auto; padding:22px 20px 6px; text-align:center; font-family:'Inter',sans-serif; }
+  .banner .bk { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#a88557; }
+  .banner h1 { font-family:'Fraunces',Georgia,serif; font-weight:400; font-size:26px; color:#1a3032; margin:8px 0 6px; }
+  .banner p { font-size:13px; line-height:1.6; color:#4a5358; max-width:520px; margin:0 auto; }
+  .banner .print { display:inline-block; margin-top:14px; background:#1a3032; color:#fbf7ee; text-decoration:none; font-size:12px; letter-spacing:1px; text-transform:uppercase; padding:11px 22px; border-radius:2px; cursor:pointer; border:none; }
+  .page { width:min(210mm,94vw); height:auto !important; min-height:auto; margin:0 auto 18px; padding:34px 30px; border-radius:3px; box-shadow:0 6px 26px rgba(26,48,50,.09); }
+  .page.cover, .page.intro, .page.close { min-height:62vh; }
+  .foot { position:static !important; left:auto; right:auto; bottom:auto; margin-top:26px; }
+  .cover h1 { font-size:40px; } .day-theme { font-size:30px; }
+}
+@media print { .banner { display:none !important; } }
+</style></head>
+<body>
+<div class="banner">
+  <div class="bk">The Stillwater Letters</div>
+  <h1>Your 21-Day Prayer Journal</h1>
+  <p>You can read it right here, or — to write by hand — print it (or choose &ldquo;Save as PDF&rdquo;). It&rsquo;s yours to keep, with love.</p>
+  <a class="print" href="javascript:window.print()">Print / Save as PDF</a>
+</div>
+
+  <section class="page cover">
+    <div class="wave">&#8767; &#8767; &#8767;</div>
+    <div class="kicker" style="margin-top:10mm;">The Stillwater Letters</div>
+    <h1 class="display">21 Days of<br>Returning</h1>
+    <div class="sub">a gentle prayer journal</div>
+    <div class="rule"></div>
+    <p class="verse">&ldquo;Return to me, and I will return to you.&rdquo; &mdash; Zechariah 1:3</p>
+  </section>
+  <section class="page intro">
+    <div class="wave" style="text-align:center;">&#8767; &#8767; &#8767;</div>
+    <h2 class="display" style="margin-top:9mm;">Before you begin</h2>
+    <p class="lead">Welcome, friend. I am so glad you are here.</p><p>For the next 21 days, this little journal is a quiet place to return — not to do more, but to come home. There is nothing to achieve here, and no way to fall behind. Each day holds a single word, a verse to sit with, a few honest sentences, and room to write whatever rises. Start wherever you are.</p><p>However you come — weary, distracted, full of doubt, or simply curious — you are welcome. God is not waiting for a better version of you. He is here now, gentle and near.</p><p>How to use it: find a few unhurried minutes. Read the verse slowly, more than once. Let the reflection meet you where you are. Then write — honestly, imperfectly — whatever the question stirs. End with the little prayer, and make it your own. That’s all. There is no behind.</p>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 01</span>
+      <span class="day-theme display">Returning</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Return to me, and I will return to you,” says the Lord.<span class="ref">Zechariah 1:3</span></p>
+    <p class="reflection">It is easy to drift — not in big, dramatic ways, but in the slow pull of busy days and tired hearts. The wonder of God is that He never asks you to earn your way back. He simply says: turn around. The smallest step toward Him is met by the whole of Him coming toward you.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Where have you drifted lately — and what would one small step back toward God look like today?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, I turn my face toward You again. Thank You that even now, You are already coming to meet me.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 02</span>
+      <span class="day-theme display">Stillness</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Be still, and know that I am God.”<span class="ref">Psalm 46:10</span></p>
+    <p class="reflection">Stillness can feel like wasted time in a world that prizes doing. But to be still is not to do nothing — it is to stop striving long enough to remember who holds it all. You are not the one keeping the world turning. He is.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What would you have to set down — even for five minutes — to simply be still with God today?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, quiet the noise in me. Help me be still long enough to remember that You are God, and I am held.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 03</span>
+      <span class="day-theme display">Rest</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Come to me, all you who are weary and burdened, and I will give you rest.”<span class="ref">Matthew 11:28</span></p>
+    <p class="reflection">Jesus doesn’t wait for you to have it all together. He calls the weary ones — the ones carrying more than they can name. Rest here is not a reward for finishing; it is a gift for the tired.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What weariness are you carrying right now? Name it honestly, and picture laying it into His hands.</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Jesus, I come as I am — tired, and not finished. Thank You that Your rest is for me, today.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 04</span>
+      <span class="day-theme display">Trust</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Trust in the Lord with all your heart, and lean not on your own understanding.”<span class="ref">Proverbs 3:5–6</span></p>
+    <p class="reflection">Trust is hardest when we cannot see the path. But God doesn’t ask you to understand everything — only to lean. And leaning means you no longer have to hold your own weight.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What are you trying to figure out on your own? What might it look like to lean, instead of solve?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, I don’t understand all of this, and I don’t have to. I choose to lean my whole weight on You.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 05</span>
+      <span class="day-theme display">Surrender</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Commit your way to the Lord; trust in him, and he will act.”<span class="ref">Psalm 37:5</span></p>
+    <p class="reflection">We hold things tightly because we are afraid of what happens if we let go. But surrender is not giving up — it is handing over. There is a deep rest in open hands.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What is one thing you have been gripping tightly? Can you offer it to God, with open hands, today?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, I open my hands. I give You what I have been carrying. I trust You to hold what I cannot.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 06</span>
+      <span class="day-theme display">Grace</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“My grace is sufficient for you, for my power is made perfect in weakness.”<span class="ref">2 Corinthians 12:9</span></p>
+    <p class="reflection">You do not have to be strong for God to work. In fact, He often does His deepest work in the very places you feel weakest. Your weakness is not a barrier to Him — it is an invitation.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Where do you feel weak, or ‘not enough’ right now? How might God want to meet you there with grace?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, where I am weak, be my strength. Thank You that Your grace is enough — even here.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 07</span>
+      <span class="day-theme display">Forgiveness</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“If we confess our sins, he is faithful and just to forgive us.”<span class="ref">1 John 1:9</span></p>
+    <p class="reflection">Shame whispers that you must hide. Grace says you can come into the light. Confession is not grovelling — it is coming home to a Father who is already running toward you.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Is there something you have been carrying that you can bring honestly to God today? Write it, and receive His forgiveness.</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, I bring this into the light. Thank You for forgiving me, and for loving me through it.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 08</span>
+      <span class="day-theme display">Hope</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“May the God of hope fill you with all joy and peace as you trust in him.”<span class="ref">Romans 15:13</span></p>
+    <p class="reflection">Hope is not wishful thinking — it is confidence in the character of God. When the future feels uncertain, hope holds on to the One who already holds the future.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What are you hoping for? Write it out as a prayer, and place it gently in God’s hands.</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">God of hope, fill the empty places in me with Your peace. I trust You with what lies ahead.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 09</span>
+      <span class="day-theme display">Strength</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Those who hope in the Lord will renew their strength.”<span class="ref">Isaiah 40:31</span></p>
+    <p class="reflection">There are seasons when you run on empty. God’s strength is not a pep talk — it is renewal that comes from waiting on Him, from being near. Not from trying harder, but from drawing close.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Where do you most need renewed strength this week? What would ‘waiting on the Lord’ look like for you?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, I am tired. Renew my strength as I wait on You. Carry me where I cannot walk.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 10</span>
+      <span class="day-theme display">Peace</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Peace I leave with you; my peace I give you. Do not let your hearts be troubled.”<span class="ref">John 14:27</span></p>
+    <p class="reflection">The world’s peace depends on everything going right. God’s peace holds even when it doesn’t. It is a gift He gives — not a feeling you have to manufacture.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What is stealing your peace right now? What would it mean to hand it over and receive His instead?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Jesus, I receive Your peace — the kind the world cannot give or take. Settle my troubled heart.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 11</span>
+      <span class="day-theme display">Provision</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“My God will meet all your needs according to the riches of his glory.”<span class="ref">Philippians 4:19</span></p>
+    <p class="reflection">Worry counts what is missing. Faith remembers what God has already provided. He has carried you this far — and He is not about to stop now.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Where have you seen God provide, even in small ways? Where do you need to trust Him for provision now?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, thank You for how You have provided. I trust You with what I still need.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 12</span>
+      <span class="day-theme display">Belonging</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“We are God’s handiwork, created in Christ Jesus to do good works.”<span class="ref">Ephesians 2:10</span></p>
+    <p class="reflection">You are not an accident or an afterthought. You are God’s handiwork — made on purpose, loved before you did a single thing. Your worth was settled long before today.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What truth about who you are in God do you most need to remember today?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, thank You that I am Yours — made on purpose, loved without condition. Help me live like I believe it.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 13</span>
+      <span class="day-theme display">Courage</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Be strong and courageous. Do not be afraid; the Lord your God will be with you.”<span class="ref">Joshua 1:9</span></p>
+    <p class="reflection">Courage is not the absence of fear — it is moving forward with God in the middle of it. You are never asked to go alone; His presence goes with you into every room you dread.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What is God gently asking you to step toward, even afraid? What is one small, brave step?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, give me courage for what is in front of me. I am not alone — You go with me. That is enough.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 14</span>
+      <span class="day-theme display">Gratitude</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Give thanks in all circumstances, for this is God’s will for you.”<span class="ref">1 Thessalonians 5:18</span></p>
+    <p class="reflection">Gratitude does not pretend everything is fine. It chooses to notice grace even in hard places. Thankfulness re-tunes the heart to see how near God really is.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Write down three small things you are thankful for today — and thank God for each one.</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Thank You, Lord — for the gifts I so easily overlook. Open my eyes to Your goodness in the ordinary.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 15</span>
+      <span class="day-theme display">Renewal</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Create in me a clean heart, O God, and renew a right spirit within me.”<span class="ref">Psalm 51:10</span></p>
+    <p class="reflection">You cannot make yourself new by trying harder. Only God can do the deep work of renewal — and He delights to do it. Your part is simply to ask, and to let Him.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What part of your heart are you asking God to make new? Where do you long for a fresh start?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, I cannot change myself, but You can. Create in me a clean heart. Make me new.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 16</span>
+      <span class="day-theme display">Listening</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“…and after the fire came a gentle whisper.”<span class="ref">1 Kings 19:12</span></p>
+    <p class="reflection">We often listen for God in the dramatic and miss Him in the quiet. He so often speaks in a whisper — which means we have to slow down, and lean in, to hear Him.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Sit quietly for a few minutes. What might God be gently saying to you beneath the noise of the day?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, quiet me enough to hear Your whisper. Speak — and help me to listen.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 17</span>
+      <span class="day-theme display">Faith</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“Now faith is confidence in what we hope for and assurance about what we do not see.”<span class="ref">Hebrews 11:1</span></p>
+    <p class="reflection">Faith is not certainty about outcomes — it is trust in a Person. It holds on to God’s character when His ways are hidden, believing He is good even when you cannot see what He is doing.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Where are you being invited to walk by faith and not by sight right now?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, where I cannot see, I will trust who You are. Strengthen my faith to keep walking.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 18</span>
+      <span class="day-theme display">Comfort</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“The Lord is close to the brokenhearted and saves those who are crushed in spirit.”<span class="ref">Psalm 34:18</span></p>
+    <p class="reflection">God does not stand at a distance from your pain. He draws near to the brokenhearted — not to fix you quickly, but to be with you tenderly. You are not alone in it.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Where does your heart feel tender or heavy? Bring it to the One who is already near.</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, You are close to the brokenhearted. Draw near to me here. Hold what I am carrying.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 19</span>
+      <span class="day-theme display">Joy</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“In your presence there is fullness of joy.”<span class="ref">Psalm 16:11</span></p>
+    <p class="reflection">Joy is not the same as everything going well. It is a deep gladness that flows from being near to God. His presence is the well that does not run dry, even on hard days.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">What has brought you genuine joy lately? Thank God for it — and notice where He was in it.</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Father, thank You for the gift of joy in Your presence. Fill me again from the well that never runs dry.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 20</span>
+      <span class="day-theme display">Love</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“We love because he first loved us.”<span class="ref">1 John 4:19</span></p>
+    <p class="reflection">You do not have to earn God’s love, and you could not lose it if you tried. Before you reach for Him, He has already reached for you. Everything begins here: you are loved first.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">How might you simply receive God’s love today — before trying to do anything to deserve it?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Lord, help me rest in being loved first. Let Your love be the ground I stand on today.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page">
+    <div class="day-head">
+      <span class="day-num">Day 21</span>
+      <span class="day-theme display">Walking on</span>
+    </div>
+    <div class="label">Today's scripture</div>
+    <p class="scripture">“The Lord is my shepherd… he leads me beside still waters.”<span class="ref">Psalm 23:1–2</span></p>
+    <p class="reflection">Look back over these days. Wherever you have been — faithful or scattered, full or barely holding on — you turned your heart toward Him, and He was there. The journey does not end here; it simply continues, one quiet day at a time, led beside still waters.</p>
+    <div class="sec-gap"></div>
+    <div class="label">Sit with this &amp; write</div>
+    <p class="prompt">Look back over these 21 days. Where have you seen God meet you? What do you want to carry forward?</p>
+    <div class="lines"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="prayer">
+      <div class="label">A whispered prayer</div>
+      <p class="pt">Shepherd of my heart, thank You for leading me. Keep me close as I walk on. I am Yours.</p>
+      <div class="pl"></div>
+    </div>
+    <div class="foot">&#8767;&nbsp; He leads me beside still waters &nbsp;&#8767;</div>
+  </section>
+  <section class="page close">
+    <div class="wave">&#8767; &#8767; &#8767;</div>
+    <h2 class="display" style="margin-top:8mm;">You came back.</h2>
+    <p>However these days have gone — full or scattered, faithful or barely — you turned your heart toward Him, and that is everything. He was never far. He never is.</p><p>This is not the end of anything, only a continuing. May you keep returning to the still waters, one quiet day at a time. And if you’d like a gentle word each week to walk with you, the Tuesday letters are waiting whenever you are.</p>
+    <p class="verse">&ldquo;He leads me beside still waters.&rdquo; &mdash; Psalm 23:2</p>
+    <p style="margin-top:8mm;font-size:10pt;color:#4a5358;">With you on the way,<br><span style="font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:13pt;color:#1a3032;">Alice &middot; The Stillwater Letters</span></p>
+  </section>
+</body></html>

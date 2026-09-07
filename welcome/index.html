@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Welcome in — The Stillwater Letters</title>
+<meta name="description" content="Welcome to The Stillwater Letters. Your place is saved — here's what happens next." />
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://thestillwaterletters.com.au/welcome/" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/community.css">
+<style>
+  :root{--bg:#f5efe4;--bg-warm:#ede4d3;--ink:#1f2a2e;--ink-soft:#4a5358;--teal:#2c4a4d;--teal-deep:#1a3032;--clay:#b86b4a;--clay-soft:#d89377;--gold:#a88557;--rule:#d6c9b3;--paper:#fbf7ee;}
+  *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .display{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.01em;}
+  a{color:var(--clay);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 7vw;border-bottom:1px solid var(--rule);background:var(--paper);}
+  nav .logo{font-family:'Fraunces',serif;font-size:20px;color:var(--teal-deep);text-decoration:none;display:flex;align-items:center;gap:10px;}
+  nav .logo svg{width:24px;height:24px;}
+  nav .links a{text-decoration:none;color:var(--ink-soft);font-size:14px;letter-spacing:.5px;margin-left:24px;}
+  .porch{max-width:640px;margin:0 auto;padding:58px 24px 64px;}
+  .stars{text-align:center;color:var(--clay-soft);letter-spacing:8px;font-family:'Fraunces',serif;font-size:18px;margin-bottom:20px;}
+  .kicker{text-align:center;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+  h1{text-align:center;font-size:clamp(36px,7vw,54px);line-height:1.1;color:var(--teal-deep);margin:14px 0 16px;}
+  .saved{text-align:center;font-size:16px;color:var(--ink-soft);max-width:460px;margin:0 auto;}
+  .saved b{color:var(--teal-deep);font-weight:600;}
+  /* Alice's note */
+  .note{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:34px 36px 30px;margin:38px 0 0;box-shadow:0 10px 34px rgba(31,42,46,.05);}
+  .note p{font-family:'Fraunces',serif;font-weight:300;font-size:18px;line-height:1.75;margin:0 0 14px;color:var(--ink);}
+  .note .sig{font-family:'Fraunces',serif;font-style:italic;font-size:21px;color:var(--teal-deep);margin:20px 0 0;}
+  /* rhythm */
+  .rhythm{margin:34px 0 0;}
+  .rhythm-label{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-align:center;margin:0 0 18px;}
+  .rhythm-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .beat{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:20px 18px;text-align:center;}
+  .beat .when{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:8px;}
+  .beat h3{font-family:'Fraunces',serif;font-weight:400;font-size:17px;color:var(--teal-deep);margin-bottom:6px;}
+  .beat p{font-size:13.5px;line-height:1.6;color:var(--ink-soft);}
+  /* the one ask */
+  .ask{background:var(--teal-deep);color:var(--paper);border-radius:3px;padding:38px 34px;margin:38px 0 0;text-align:center;}
+  .ask .lbl{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+  .ask h2{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(22px,4vw,28px);line-height:1.3;margin-bottom:12px;color:var(--paper);}
+  .ask p{font-size:15.5px;line-height:1.75;color:#d6c9b3;max-width:420px;margin:0 auto 22px;}
+  .ask .btn{display:inline-block;background:var(--clay);color:var(--paper);text-decoration:none;padding:14px 30px;border-radius:999px;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
+  .ask .tiny{font-size:12.5px;color:#9fb3b5;margin:14px auto 0;}
+  /* gift + circle cards */
+  .gcard{background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:26px 24px;}
+  .gcard .lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:10px;}
+  .gcard h3{font-family:'Fraunces',serif;font-weight:400;font-size:19px;color:var(--teal-deep);margin-bottom:8px;line-height:1.3;}
+  .gcard p{font-size:14px;line-height:1.65;color:var(--ink-soft);margin-bottom:16px;}
+  .gcard a.go{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--clay);text-decoration:none;border-bottom:1px solid rgba(184,107,74,.4);padding-bottom:2px;}
+  /* tip */
+  .tip{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--clay);border-radius:2px;padding:16px 22px;margin:38px 0 0;font-size:14px;line-height:1.7;color:var(--ink-soft);}
+  .tip b{color:var(--teal-deep);}
+  footer{background:var(--bg-warm);text-align:center;padding:30px 24px;font-size:13px;color:var(--ink-soft);}
+  footer .q{font-family:'Fraunces',serif;font-style:italic;color:var(--teal);}
+  @media(max-width:560px){.rhythm-row{grid-template-columns:1fr;}.note{padding:26px 22px 24px;}}
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+  <a class="logo" href="/"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#2c4a4d" stroke-width="1.5" stroke-linecap="round"/><path d="M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#b86b4a" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg>Stillwater Letters</a>
+  <div class="links"><a href="/this-week/">This Week</a><a href="/letters/">The Letters</a><a href="/">Home</a></div>
+</nav>
+
+<main class="porch">
+  <div class="stars" aria-hidden="true">&#10022; &#10022; &#10022;</div>
+  <div class="kicker">The Front Porch &middot; The Stillwater Letters</div>
+  <h1 class="display">Welcome in.</h1>
+  <p class="saved">Your place is saved. The next letter reaches you <b>Tuesday morning</b> from <b>alice@thestillwaterletters.com.au</b> &mdash; and from here on, you&rsquo;re not reading alone.</p>
+
+  <!-- A note from Alice -->
+  <section class="note" aria-label="A note from Alice">
+    <p>You made it. I&rsquo;m so glad you&rsquo;re here.</p>
+    <p>There&rsquo;s nothing to set up and nothing to catch up on. On Tuesday morning a letter will arrive with my name on it &mdash; a little scripture, an honest reflection from the middle of an ordinary week, and a prayer we can actually pray.</p>
+    <p>Read it with your coffee. Take what you need. Leave the rest.</p>
+    <p class="sig">&mdash; Alice</p>
+  </section>
+
+  <!-- The rhythm -->
+  <section class="rhythm" aria-label="What happens each week">
+    <h2 class="rhythm-label">The rhythm of the week</h2>
+    <div class="rhythm-row">
+      <div class="beat">
+        <div class="when">Tuesday, 7am</div>
+        <h3>The letter arrives</h3>
+        <p>Short enough for one coffee. Deep enough to actually pray.</p>
+      </div>
+      <div class="beat">
+        <div class="when">Any day</div>
+        <h3>The hearth is open</h3>
+        <p><a href="/this-week/">This Week in Stillwater</a> holds the letter, the prayers being carried, and words from other women.</p>
+      </div>
+      <div class="beat">
+        <div class="when">Whenever you reply</div>
+        <h3>A real person reads it</h3>
+        <p>Every reply lands in Alice&rsquo;s own inbox &mdash; read by her, not a system.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The one ask -->
+  <section class="ask" aria-label="An invitation to say hello">
+    <div class="lbl">Before you go &mdash; one small thing</div>
+    <h2>Tell Alice one word for where you are this week.</h2>
+    <p>Tired. Hopeful. Stretched. Grieving. Steady. Anything true. It takes ten seconds &mdash; and it turns Tuesday&rsquo;s letter into a letter from someone you&rsquo;ve already said hello to.</p>
+    <a class="btn" href="mailto:alice@thestillwaterletters.com.au?subject=One%20word%20from%20the%20porch&body=Dear%20Alice%2C%0A%0AMy%20one%20word%20this%20week%20is%3A%20%0A%0A(That%27s%20all%20it%20needs%20to%20be%20%E2%80%94%20though%20you%27re%20welcome%20to%20say%20more.)">Send my one word</a>
+    <p class="tiny">Opens your email app &mdash; a real message to Alice&rsquo;s real inbox, read by her. Replies come from a person, so give them a little time.</p>
+  </section>
+
+  <!-- For later — one quiet card, no pressure -->
+  <section class="gcard" aria-label="For your first weeks" style="margin-top:38px;">
+    <div class="lbl">For your first weeks &mdash; no hurry at all</div>
+    <h3>A small gift, and a place for heavy things</h3>
+    <p>The <a href="/Stillwater-21-Day-Prayer-Journal.pdf" download>21-Day Prayer Journal (PDF)</a> is a quiet page a day &mdash; start any day, no falling behind. And when a week gets heavy, the <a href="/prayer-circle/">Prayer Circle</a> is where it can be carried, in confidence.</p>
+  </section>
+
+  <div class="tip">
+    <b>One practical thing:</b> so the letters land safely (and not in spam), add
+    <b>alice@thestillwaterletters.com.au</b> to your contacts &mdash; or if Tuesday&rsquo;s letter wanders into spam or Promotions, drag it to your inbox once and it will behave after that.
+  </div>
+</main>
+
+<footer>
+  <p class="q">&ldquo;He leads me beside still waters.&rdquo; &mdash; Psalm 23:2</p>
+  <p>Free always. No spam, no funnel. A small ministry in Adelaide, South Australia. &middot; <a href="/privacy/">Privacy</a></p>
+</footer>
+</body>
+</html>

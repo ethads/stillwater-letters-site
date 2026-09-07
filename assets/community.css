@@ -1,0 +1,87 @@
+/* ============================================================
+   THE STILLWATER LETTERS — shared community styles
+   Namespaced `sw-` so nothing collides with per-page styles.
+   Relies on the site's :root palette; fallbacks included.
+   ============================================================ */
+
+/* ---------- pulse tiles (homepage + /this-week/) ---------- */
+.sw-pulse{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem;}
+.sw-tile{background:var(--paper,#fbf7ee);border:1px solid var(--rule,#d6c9b3);border-radius:3px;padding:2rem 2.1rem;position:relative;}
+.sw-tile-label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--clay,#b86b4a);font-weight:600;margin-bottom:1rem;}
+.sw-tile-label::before{content:'';display:inline-block;width:22px;height:1px;background:var(--clay,#b86b4a);vertical-align:middle;margin-right:.7rem;}
+.sw-tile h3,.sw-tile h2{font-family:'Fraunces',serif;font-weight:400;font-size:1.45rem;line-height:1.25;color:var(--teal-deep,#1a3032);margin:0 0 .7rem;letter-spacing:normal;}
+.sw-tile p{font-size:.95rem;line-height:1.7;color:var(--ink-soft,#4a5358);margin:0;}
+.sw-tile .sw-more{display:inline-block;margin-top:1rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--clay,#b86b4a);text-decoration:none;border-bottom:1px solid rgba(184,107,74,.35);padding-bottom:2px;}
+.sw-tile .sw-more:hover{color:var(--teal-deep,#1a3032);border-color:var(--teal-deep,#1a3032);}
+.sw-tile-letter{grid-column:1 / -1;background:var(--teal-deep,#1a3032);border-color:rgba(168,133,87,.4);}
+.sw-tile-letter .sw-tile-label{color:var(--gold,#a88557);}
+.sw-tile-letter .sw-tile-label::before{background:var(--gold,#a88557);}
+.sw-tile-letter h3,.sw-tile-letter h2{color:var(--paper,#fbf7ee);font-size:1.8rem;}
+.sw-tile-letter .sw-verse{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.05rem;line-height:1.6;color:#d6c9b3;margin:0 0 .4rem;}
+.sw-tile-letter .sw-verse-ref{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--clay-soft,#d89377);margin:0 0 1rem;}
+.sw-tile-letter p{color:rgba(251,247,238,.8);}
+.sw-tile-letter .sw-more{color:var(--clay-soft,#d89377);border-color:rgba(216,147,119,.4);}
+.sw-tile-letter .sw-more:hover{color:var(--paper,#fbf7ee);border-color:var(--paper,#fbf7ee);}
+
+/* ---------- quiet states (always honest) ---------- */
+.sw-quiet{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1rem;line-height:1.7;color:var(--ink-soft,#4a5358);}
+
+/* ---------- reflections ---------- */
+.sw-reflection{border-left:2px solid var(--clay,#b86b4a);padding:.35rem 0 .35rem 1.1rem;margin:0 0 1.1rem;}
+.sw-reflection:last-child{margin-bottom:0;}
+.sw-reflection blockquote{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.02rem;line-height:1.65;color:var(--ink,#1f2a2e);margin:0;}
+.sw-reflection cite{display:block;font-style:normal;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft,#4a5358);margin-top:.5rem;}
+
+/* ---------- prayer heartbeat ---------- */
+.sw-heartbeat-line{display:flex;align-items:baseline;gap:.8rem;}
+.sw-heartbeat-num{font-family:'Fraunces',serif;font-weight:300;font-size:2.6rem;line-height:1;color:var(--teal-deep,#1a3032);}
+.sw-heartbeat-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--clay,#b86b4a);margin-right:.35rem;animation:sw-pulse 2.6s ease-in-out infinite;vertical-align:middle;}
+@keyframes sw-pulse{0%,100%{opacity:.45;}50%{opacity:1;}}
+
+/* ---------- answered prayer ---------- */
+.sw-answered{border-left:3px solid var(--gold,#a88557);}
+.sw-answered blockquote{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.1rem;line-height:1.65;color:var(--teal,#2c4a4d);margin:0;}
+.sw-answered cite{display:block;font-style:normal;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft,#4a5358);margin-top:.6rem;}
+
+/* ---------- after-the-letter (letter pages) ---------- */
+.sw-after{background:var(--bg-warm,#ede4d3);margin-top:56px;padding:56px 24px 64px;}
+.sw-after-inner{max-width:720px;margin:0 auto;}
+.sw-after-kicker{text-align:center;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold,#a88557);}
+.sw-after h2{font-family:'Fraunces',serif;font-weight:400;text-align:center;font-size:clamp(24px,4vw,32px);color:var(--teal-deep,#1a3032);margin:12px 0 6px;letter-spacing:-.01em;}
+.sw-after-lead{text-align:center;font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.05rem;color:var(--ink-soft,#4a5358);max-width:34rem;margin:0 auto 2.2rem;line-height:1.7;}
+.sw-after .sw-card{background:var(--paper,#fbf7ee);border:1px solid var(--rule,#d6c9b3);border-radius:3px;padding:1.7rem 1.9rem;margin-bottom:1.2rem;}
+.sw-after .sw-card-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--clay,#b86b4a);font-weight:600;margin-bottom:.8rem;}
+.sw-after .sw-card p{font-size:1rem;line-height:1.75;color:var(--ink,#1f2a2e);margin:0;}
+.sw-after .sw-card p + p{margin-top:.8rem;}
+
+/* ---------- buttons + share row ---------- */
+.sw-btn{display:inline-block;padding:.85rem 1.9rem;background:var(--teal-deep,#1a3032);color:var(--paper,#fbf7ee);text-decoration:none;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;border:0;cursor:pointer;transition:background .2s;}
+.sw-btn:hover{background:var(--clay,#b86b4a);}
+.sw-btn-ghost{display:inline-block;padding:.8rem 1.7rem;background:transparent;color:var(--teal-deep,#1a3032);text-decoration:none;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;border:1px solid var(--rule,#d6c9b3);cursor:pointer;transition:border-color .2s,color .2s;}
+.sw-btn-ghost:hover{border-color:var(--clay,#b86b4a);color:var(--clay,#b86b4a);}
+.sw-share{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;}
+.sw-share .sw-share-hint{font-size:.85rem;color:var(--ink-soft,#4a5358);font-family:'Fraunces',serif;font-style:italic;margin-right:.3rem;}
+
+/* ---------- prev / next journey row ---------- */
+.sw-journey{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.8rem;flex-wrap:wrap;}
+.sw-journey a{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--clay,#b86b4a);text-decoration:none;border-bottom:1px solid rgba(184,107,74,.35);padding-bottom:2px;}
+.sw-journey a:hover{color:var(--teal-deep,#1a3032);border-color:var(--teal-deep,#1a3032);}
+.sw-journey .mid{color:var(--ink-soft,#4a5358);border-color:rgba(74,83,88,.3);}
+
+/* ---------- accessibility ---------- */
+.sw-skip{position:absolute;left:-9999px;top:auto;z-index:999;}
+.sw-skip:focus{left:1rem;top:1rem;background:var(--teal-deep,#1a3032);color:var(--paper,#fbf7ee);padding:.7rem 1.2rem;border-radius:3px;text-decoration:none;font-family:'Inter',sans-serif;font-size:.85rem;}
+.sw-visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,.sw-btn:focus-visible,.sw-btn-ghost:focus-visible{outline:2px solid var(--clay,#b86b4a);outline-offset:3px;border-radius:3px;}
+
+@media (prefers-reduced-motion: reduce){
+  .sw-heartbeat-dot{animation:none;opacity:1;}
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
+
+@media (max-width:680px){
+  .sw-pulse{grid-template-columns:1fr;gap:1.1rem;}
+  .sw-tile{padding:1.6rem 1.5rem;}
+  .sw-after{padding:44px 18px 52px;}
+}

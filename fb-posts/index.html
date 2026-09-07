@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Post Generator — The Stillwater Letters</title>
+<style>
+  :root {
+    --teal: #1B4332;
+    --teal-mid: #2D6A4F;
+    --teal-light: #e8f0ec;
+    --clay: #B86B4A;
+    --clay-soft: #D89377;
+    --clay-pale: #f7ece6;
+    --paper: #FBF7EE;
+    --paper-dark: #f2ece0;
+    --ink: #1a3032;
+    --muted: #4a5358;
+    --rule: rgba(27,67,50,0.12);
+    --shadow: rgba(27,67,50,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Georgia', serif; font-size: 15px; line-height: 1.7; }
+
+  header { background: var(--teal); color: var(--paper); padding: 2.5rem 2rem 2rem; text-align: center; }
+  .logo-mark { width: 32px; height: 32px; margin: 0 auto 0.75rem; display: block; }
+  header h1 { font-family: 'Georgia', serif; font-size: 1.5rem; font-weight: normal; letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+  header p { font-size: 0.85rem; opacity: 0.65; font-style: italic; }
+
+  .container { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .tool-nav { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .tool-nav a { padding: 0.4rem 1rem; border: 1.5px solid var(--rule); border-radius: 20px; font-family: Arial, sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--teal); text-decoration: none; transition: all 0.15s; }
+  .tool-nav a:hover, .tool-nav a.active { background: var(--teal); color: var(--paper); border-color: var(--teal); }
+
+  .section-label { font-family: Arial, sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.75rem; }
+
+  /* STEP PANELS */
+  .step-panel { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 1px 6px var(--shadow); }
+  .step-title { font-family: 'Georgia', serif; font-size: 1.05rem; color: var(--teal); margin-bottom: 1.1rem; }
+  .step-num { display: inline-block; background: var(--clay); color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-family: Arial, sans-serif; font-size: 0.75rem; font-weight: 700; margin-right: 0.5rem; }
+
+  /* THEME GRID */
+  .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; }
+  .theme-btn {
+    padding: 0.85rem 0.5rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    background: var(--paper);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  }
+  .theme-btn:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .theme-btn.selected { background: var(--teal); border-color: var(--teal); color: white; }
+  .theme-icon { font-size: 1.4rem; }
+  .theme-label { font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 600; color: var(--muted); line-height: 1.3; }
+  .theme-btn.selected .theme-label { color: rgba(251,247,238,0.85); }
+
+  /* FORMAT GRID */
+  .format-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
+  .format-btn {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    background: var(--paper);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .format-btn:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .format-btn.selected { background: var(--clay-pale); border-color: var(--clay); }
+  .format-name { font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--ink); margin-bottom: 0.15rem; }
+  .format-btn.selected .format-name { color: var(--clay); }
+  .format-desc { font-family: Arial, sans-serif; font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+
+  /* DETAIL INPUTS */
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  label { display: block; font-family: Arial, sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  input[type="text"], textarea, select {
+    width: 100%; padding: 0.6rem 0.8rem; border: 1.5px solid var(--rule); border-radius: 6px;
+    font-family: 'Georgia', serif; font-size: 0.88rem; background: white; color: var(--ink); outline: none; transition: border-color 0.15s;
+  }
+  input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--teal-mid); }
+  textarea { resize: vertical; min-height: 60px; }
+  .detail-full { grid-column: 1 / -1; }
+
+  /* GENERATE BTN */
+  .generate-row { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.5rem; }
+  .btn-generate {
+    background: var(--teal);
+    color: var(--paper);
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: background 0.15s;
+  }
+  .btn-generate:hover { background: var(--teal-mid); }
+  .btn-vary {
+    background: none;
+    border: 1.5px solid var(--teal);
+    color: var(--teal);
+    padding: 0.7rem 1.25rem;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-vary:hover { background: var(--teal-light); }
+
+  /* OUTPUT */
+  .output-section { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 1px 6px var(--shadow); display: none; }
+  .output-section.visible { display: block; }
+  .output-label { font-family: Arial, sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between; }
+  .output-text {
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre-wrap;
+    padding: 1.25rem;
+    background: var(--paper);
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    margin-bottom: 1rem;
+    min-height: 80px;
+  }
+  .output-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+  .btn-copy {
+    padding: 0.55rem 1.25rem;
+    background: var(--clay);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-copy:hover { background: var(--clay-soft); }
+  .btn-copy.copied { background: #27AE60; }
+  .btn-calendar {
+    padding: 0.55rem 1.25rem;
+    background: none;
+    border: 1.5px solid var(--rule);
+    color: var(--teal);
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.15s;
+  }
+  .btn-calendar:hover { background: var(--teal-light); border-color: var(--teal-mid); }
+  .char-count { font-family: Arial, sans-serif; font-size: 0.72rem; color: var(--muted); margin-left: auto; }
+
+  /* VOICE GUIDE */
+  .voice-guide {
+    background: var(--paper-dark);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-left: 3px solid var(--clay-soft);
+  }
+  .voice-title { font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.75rem; }
+  .voice-rules { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .voice-rules li { font-family: Arial, sans-serif; font-size: 0.78rem; color: var(--muted); padding-left: 1rem; position: relative; line-height: 1.5; }
+  .voice-rules li::before { content: '·'; position: absolute; left: 0; color: var(--clay-soft); font-weight: 700; }
+
+  /* SAVED DRAFTS */
+  .drafts-section { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 6px var(--shadow); }
+  .drafts-title { font-family: 'Georgia', serif; font-size: 1.05rem; color: var(--teal); margin-bottom: 1rem; }
+  .drafts-empty { font-family: Arial, sans-serif; font-size: 0.82rem; color: var(--muted); font-style: italic; }
+  .draft-item { border: 1px solid var(--rule); border-radius: 8px; padding: 0.85rem 1rem; margin-bottom: 0.6rem; background: var(--paper); }
+  .draft-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+  .draft-tags { display: flex; gap: 0.4rem; }
+  .draft-tag { font-family: Arial, sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 3px; background: var(--teal-light); color: var(--teal); }
+  .draft-date { font-family: Arial, sans-serif; font-size: 0.68rem; color: var(--muted); }
+  .draft-text { font-family: 'Georgia', serif; font-size: 0.85rem; color: var(--ink); line-height: 1.6; white-space: pre-wrap; }
+  .draft-actions { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+  .btn-xs { padding: 0.3rem 0.7rem; border: 1px solid var(--rule); border-radius: 4px; background: none; font-family: Arial, sans-serif; font-size: 0.7rem; color: var(--muted); cursor: pointer; transition: all 0.12s; }
+  .btn-xs:hover { border-color: var(--teal-mid); color: var(--teal); }
+  .btn-xs.danger:hover { border-color: #c0392b; color: #c0392b; }
+
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-style: italic; font-size: 0.85rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
+  footer a { color: var(--clay); text-decoration: none; margin: 0 0.5rem; }
+
+  @media(max-width:600px) {
+    .theme-grid { grid-template-columns: repeat(2,1fr); }
+    .format-grid { grid-template-columns: 1fr; }
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#fbf7ee" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" stroke="#d89377" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  </svg>
+  <h1>Post Generator</h1>
+  <p>The Stillwater Letters — draft Facebook posts in your voice</p>
+</header>
+
+<div class="container">
+
+  <div class="tool-nav">
+    <a href="/fb-calendar/">📅 Calendar</a>
+    <a href="/fb-posts/" class="active">✏️ Post Generator</a>
+    <a href="/dashboard/">📊 Dashboard</a>
+    <a href="/fb-guide/">← Growth Guide</a>
+  </div>
+
+  <!-- STEP 1: THEME -->
+  <div class="step-panel">
+    <div class="step-title"><span class="step-num">1</span> What is this post about?</div>
+    <div class="theme-grid" id="themeGrid"></div>
+  </div>
+
+  <!-- STEP 2: FORMAT -->
+  <div class="step-panel">
+    <div class="step-title"><span class="step-num">2</span> What format?</div>
+    <div class="format-grid" id="formatGrid"></div>
+  </div>
+
+  <!-- STEP 3: DETAILS -->
+  <div class="step-panel">
+    <div class="step-title"><span class="step-num">3</span> Any details to include? <span style="font-family:Arial;font-size:0.75rem;color:var(--muted);font-weight:400;font-style:italic">(optional)</span></div>
+    <div class="detail-grid">
+      <div>
+        <label>Scripture reference</label>
+        <input type="text" id="detailScripture" placeholder="e.g. Psalm 46:10">
+      </div>
+      <div>
+        <label>Topic or theme</label>
+        <input type="text" id="detailTopic" placeholder="e.g. rest, trust, motherhood">
+      </div>
+      <div class="detail-full">
+        <label>Anything else to weave in</label>
+        <textarea id="detailExtra" placeholder="e.g. a personal moment, a specific season, something on your heart this week…" rows="2"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- GENERATE -->
+  <div class="generate-row">
+    <button class="btn-generate" onclick="generate()">Generate post ✦</button>
+    <button class="btn-vary" onclick="vary()" id="varyBtn" style="display:none">Try another variation</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-section" id="outputSection" style="margin-top:1.25rem">
+    <div class="output-label">
+      Your post draft
+      <span class="char-count" id="charCount"></span>
+    </div>
+    <div class="output-text" id="outputText" contenteditable="true" oninput="updateCharCount()"></div>
+    <div class="output-actions">
+      <button class="btn-copy" id="copyBtn" onclick="copyPost()">Copy to clipboard</button>
+      <a class="btn-calendar" href="/fb-calendar/">Add to calendar →</a>
+      <button class="btn-xs" onclick="saveDraft()">Save draft</button>
+    </div>
+  </div>
+
+  <!-- VOICE GUIDE -->
+  <div class="voice-guide">
+    <div class="voice-title">Stillwater voice — things to remember</div>
+    <ul class="voice-rules">
+      <li>Warm, honest, never performative. Write like you'd write to a friend you respect.</li>
+      <li>No hype. No "AMAZING news" or "You won't believe this." Real things don't need amplification.</li>
+      <li>Short sentences are your friend. One idea per paragraph.</li>
+      <li>End with an invitation, not a command. "You're welcome here" beats "Click now."</li>
+      <li>The CTA lives at the end, naturally — not shouted in the middle.</li>
+      <li>It's okay to be honest about hard things. That's what makes you trustworthy.</li>
+      <li>You don't need to post scripture every time. Your voice is enough.</li>
+    </ul>
+  </div>
+
+  <!-- SAVED DRAFTS -->
+  <div class="drafts-section">
+    <div class="drafts-title">Saved drafts</div>
+    <div id="draftsList"></div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/fb-calendar/">📅 Content Calendar</a>
+  <a href="/dashboard/">📊 Dashboard</a>
+  <a href="/fb-guide/">Growth Guide</a>
+</footer>
+
+<script>
+
+// ── THEMES & FORMATS ──────────────────────────────────────────────────────────
+
+const THEMES = [
+  { id: 'invite',    icon: '💌', label: 'Invite to Subscribe' },
+  { id: 'scripture', icon: '📖', label: 'Scripture & Reflection' },
+  { id: 'prayer',    icon: '🙏', label: 'Prayer Invitation' },
+  { id: 'community', icon: '🌿', label: 'Community & Warmth' },
+  { id: 'story',     icon: '💛', label: "Alice's Story" },
+  { id: 'behind',    icon: '✍️', label: 'Behind the Letters' },
+  { id: 'everyday',  icon: '☁️', label: 'Faith in Everyday Life' },
+  { id: 'celebrate', icon: '✨', label: 'Celebration & Gratitude' },
+  { id: 'question',  icon: '💬', label: 'Engagement Question' },
+];
+
+const FORMATS = [
+  { id: 'short',   name: 'Short text post',       desc: '50–80 words. Direct, warm, punchy.' },
+  { id: 'medium',  name: 'Medium post with CTA',  desc: '100–150 words. Story + invitation at the end.' },
+  { id: 'caption', name: 'Image caption',         desc: '40–60 words to pair with a photo or quote card.' },
+  { id: 'question',name: 'Engagement question',   desc: 'Opens a conversation. Ends with a genuine question.' },
+];
+
+const LINK = 'thestillwaterletters.com.au';
+const EMAIL = 'alice@thestillwaterletters.com.au';
+
+// ── TEMPLATES ─────────────────────────────────────────────────────────────────
+
+const TEMPLATES = {
+
+  invite: {
+    short: [
+      `Every Tuesday morning, a quiet email goes out — honest words, real prayer, someone praying for you by name.\n\nFree always. No programme to finish. Just a letter from a woman who means it.\n\nJoin us: ${LINK}`,
+      `I write to a small group of women every Tuesday — the kind of letter that arrives before the day gets too loud.\n\nHonest faith. Real prayer. No noise.\n\nFree to join: ${LINK}`,
+      `The Stillwater Letters go out every Tuesday morning.\n\nOne quiet email. Honest words. Real prayer — including your name.\n\nIf that's what you need right now, come in: ${LINK}`,
+    ],
+    medium: [
+      `There's a letter that goes out every Tuesday morning to a small group of women who want something real.\n\nNot a newsletter. Not a funnel. Just honest words, a prayer written for you, and someone praying for you by name before the week gets busy.\n\nIt's free. It always will be. And it's written by a woman who genuinely means every word.\n\nIf your soul needs something that isn't trying to sell you anything — you're welcome here.\n\n→ ${LINK}`,
+      `I started writing the Stillwater Letters because I needed them.\n\nA quiet email every Tuesday. Something honest to read before the week gets loud. A prayer from someone who actually means it.\n\nThat's still what it is. Small, real, faithful — and free.\n\nIf you know a woman who needs this right now, you're welcome to share it. And if that woman is you — come in.\n\n→ ${LINK}`,
+    ],
+    caption: [
+      `The letter goes out Tuesday morning. Quiet, honest, prayerful. Free always.\n\nIf your inbox needs something real → ${LINK}`,
+      `One email. Every Tuesday. Written for you, prayed over, sent with love.\n\n→ ${LINK}`,
+    ],
+    question: [
+      `Quick question:\n\nIs there a woman in your life who could use one honest, prayerful email on Tuesday mornings?\n\nIf so — this might be for her: ${LINK}\n\nAnd if it's you, you're welcome too.`,
+      `What does your Tuesday morning look like before the day gets busy?\n\nFor a lot of women in this community, it starts with a quiet letter — honest words, real prayer, someone praying for them by name.\n\nIs that something your soul needs? → ${LINK}`,
+    ],
+  },
+
+  scripture: {
+    short: [
+      `__SCRIPTURE__\n\nI've been sitting with this all week. __TOPIC__\n\nWhat verse has been with you lately? Leave it below — I read every one.`,
+      `This morning: __SCRIPTURE__\n\n__TOPIC__\n\nI'd love to hear what God's been speaking to you this week.`,
+      `__SCRIPTURE__\n\n__EXTRA__\n\nIf this landed somewhere in you, I'd love to know. Or share it with a woman who needs it today.`,
+    ],
+    medium: [
+      `__SCRIPTURE__\n\nI keep coming back to this.\n\n__TOPIC__ __EXTRA__\n\nThere's something about reading the same verse in a different season and hearing it differently. It's still the same words. But you're not the same person.\n\nWhat are you hearing from God this week? I'd love to know.`,
+      `I've been in __SCRIPTURE__ this week.\n\n__TOPIC__\n\n__EXTRA__\n\nIf this is speaking to something in your week too, reply or drop it in the comments. I read everything.`,
+    ],
+    caption: [
+      `__SCRIPTURE__\n\n__TOPIC__`,
+      `__SCRIPTURE__\n\nSitting with this one. __EXTRA__`,
+    ],
+    question: [
+      `__SCRIPTURE__\n\n__TOPIC__\n\nWhat verse has been holding you together lately? Leave it below — I genuinely want to know.`,
+      `A question for the community:\n\nIs there a scripture that's followed you through a particular season — one that meant something different each time you returned to it?\n\n__SCRIPTURE__ is that verse for me this week. What's yours?`,
+    ],
+  },
+
+  prayer: {
+    short: [
+      `This week I'm praying for the women in this community.\n\nIf you have something on your heart — a worry, a need, a situation you can't put into words publicly — send it to me privately: ${EMAIL}\n\nIt stays between us and God. I pray every name.`,
+      `What can I pray for you this week?\n\nLeave it in the comments, or if it's private, send it to ${EMAIL}\n\nEvery request reaches God — and it reaches me first.`,
+      `I set aside time each week to pray for the names that come to me.\n\nIf yours isn't on that list yet — it can be.\n\nWhat would you like me to bring before God for you this week?`,
+    ],
+    medium: [
+      `One of the things I've come to love most about this community is that it's a place where women actually pray for each other.\n\nNot performatively. Not publicly if you don't want. Just honestly.\n\nThis week I'm gathering prayer requests. If you're carrying something — a health situation, a relationship, a decision, a grief you can't name — I'd be honoured to pray for you.\n\nYou can leave it in the comments, or send it privately to ${EMAIL}. Either way, I'll pray your name.\n\nWhat's on your heart?`,
+      `I don't know what this week has looked like for you.\n\nBut I know that some of the women reading this are carrying something heavy right now — something they haven't had space to say out loud.\n\nYou can say it here.\n\nLeave a prayer request in the comments, or send it to ${EMAIL} if you'd prefer it stayed private. I pray every name that comes to me.\n\nYou're not carrying this alone.`,
+    ],
+    caption: [
+      `Gathering prayer requests this week. What's on your heart? Comments or ${EMAIL} — both reach me.`,
+      `If you're carrying something this week — say it here, or send it to ${EMAIL}. I'll pray your name.`,
+    ],
+    question: [
+      `Simple question:\n\nWhat's the one thing you'd ask someone to pray for you right now, if you knew they'd actually do it?\n\nI'm asking because I will.\n\nLeave it below, or send it to ${EMAIL} if it's private.`,
+      `When did you last feel genuinely prayed for?\n\nI ask because I want this community to be a place where that's real — not just a nice idea.\n\nWhat can I pray for you this week?`,
+    ],
+  },
+
+  community: {
+    short: [
+      `Something I love about this little corner of the internet: it's quiet.\n\nNo noise. No pressure. Just women trying to walk honestly with God in the everyday.\n\nThank you for being here.`,
+      `This community is small and I think that's right for now.\n\nSmall means real. Small means I know your name. Small means when you send a prayer request, I actually read it.\n\nThank you for trusting this space.`,
+      `To the women reading this on a hard Tuesday — you're not alone in it.\n\nThis community exists because God puts women together who need each other.\n\nWelcome, wherever you're coming from today.`,
+    ],
+    medium: [
+      `I've been thinking about what I want this community to be.\n\nNot a page with a lot of followers. Not a platform. Just a place where women can be honest about their faith — the ordinary, imperfect, sometimes-dry-sometimes-full version of it.\n\nA place to ask for prayer and actually receive it. A place to say "this week is hard" and be believed.\n\nThat's what I'm building here. Slowly, carefully, for real.\n\nThank you for being part of it.`,
+      `The Stillwater community is built on a simple idea: that women walking with God in the everyday need each other.\n\nNot the polished version of each other. The real version.\n\nI'm grateful for every woman who's found this page, subscribed to the letter, sent a prayer request, or shared something with a friend.\n\nYou're why this exists. Thank you.`,
+    ],
+    caption: [
+      `Small community. Real connection. That's not a consolation prize — it's the point.`,
+      `Women walking with God in the everyday. That's who this is for. That's who you are.`,
+    ],
+    question: [
+      `What made you stay in this community?\n\nI ask genuinely — not for data, but because I want to understand what matters to the women here.\n\nWhat keeps you reading, praying, showing up?`,
+      `What does "community" mean to you as a Christian woman?\n\nNot the Sunday morning version — the actual, honest, Tuesday-morning version.\n\nI'm curious where people are with this.`,
+    ],
+  },
+
+  story: {
+    short: [
+      `I started writing these letters because I needed them myself.\n\n__EXTRA__\n\nThat's still why I write. If it reaches you on a hard Tuesday morning, that's enough.`,
+      `__EXTRA__\n\nThat's the honest reason Stillwater exists. Not a strategy. Just a need that turned into a ministry.`,
+      `__TOPIC__\n\nI write about it because I've lived it. That's the only kind of writing I know how to do.`,
+    ],
+    medium: [
+      `I want to tell you why I started writing these letters.\n\n__EXTRA__\n\n__TOPIC__\n\nI didn't start this because I had it together. I started it because I needed the kind of thing I was trying to build — honest, prayerful, real.\n\nIf you've been wondering whether this is the right place for you — I think it might be.`,
+      `Honesty: there are weeks when I sit down to write the letter and I genuinely don't know what I'm going to say.\n\n__EXTRA__\n\nAnd then I write anyway. Because the women who read it don't need me to be eloquent. They need me to be honest.\n\nThat's what I try to bring to every Tuesday.`,
+    ],
+    caption: [
+      `__EXTRA__\n\nThat's the story behind the letters.`,
+      `This is why I write. __TOPIC__`,
+    ],
+    question: [
+      `Here's a personal question I'll answer if you answer it too:\n\nWhat's the thing that you do — even imperfectly, even when it's hard — because you know it matters?\n\nFor me: __EXTRA__\n\nYour turn.`,
+      `What do you do when the thing you feel called to do is the hardest thing on the list?\n\n__EXTRA__\n\nI'm genuinely asking — I need the encouragement today too.`,
+    ],
+  },
+
+  behind: {
+    short: [
+      `I wrote this week's letter three times before it was right.\n\nThe honest version is always the hardest to write. But those are the only ones worth sending.\n\nTuesday's letter is that kind. See you then.`,
+      `Preparing Tuesday's letter this week has meant sitting quietly with __TOPIC__ — turning it over, finding the honest words.\n\nI'll share it with you Tuesday morning. In the meantime: how are you carrying your week?`,
+      `I'm writing the letter now.\n\n__EXTRA__\n\nThat's always how it starts — something real, something I can't not say. See you Tuesday.`,
+    ],
+    medium: [
+      `Behind the scenes of this week's letter:\n\n__TOPIC__ __EXTRA__\n\nI sat with this for a long time before I knew what I wanted to say. That's usually the sign that it's the right thing to write about.\n\nThe letter goes out Tuesday morning. I hope it reaches you well.`,
+      `Something not everyone knows about the Stillwater Letters:\n\nI pray before I write every single one.\n\n__EXTRA__\n\nIt's not a performance. It's the only way I know how to write something worth reading.\n\nTuesday morning, as always.`,
+    ],
+    caption: [
+      `Writing Tuesday's letter. __EXTRA__\n\nSee you in your inbox.`,
+      `Behind every letter: prayer, honesty, and at least two cups of tea. See you Tuesday.`,
+    ],
+    question: [
+      `Question for the community:\n\nIs there a topic or a question you'd love to see in a future letter?\n\nI'm listening. Drop it below.`,
+      `What would you want me to write about?\n\nI have my list, but I'd rather write about what you're actually carrying.\n\nWhat would help you most right now?`,
+    ],
+  },
+
+  everyday: {
+    short: [
+      `Not every week feels sacred. Some weeks are laundry and logistics and getting through.\n\nBut God meets us there too. That's most of what the letters are about — faith in the ordinary, not the extraordinary.`,
+      `I think one of the most honest things a Christian woman can say is: this week was hard and I prayed anyway.\n\nNot because it felt meaningful. Just because I needed to.\n\nAnyone else in that space right now?`,
+      `I don't write about the mountaintop moments. I write about the Wednesday afternoons when faith looks more like quiet obedience than anything else.\n\nThat's the faith I know. That's the faith these letters are for.`,
+    ],
+    medium: [
+      `Something I've been thinking about this week:\n\n__TOPIC__\n\n__EXTRA__\n\nFaith in the everyday doesn't look like the version in the devotional photos. It looks like keeping going when you don't feel anything. It looks like praying when you don't know what to say. It looks like Tuesday.\n\nYou're doing it. Even if it doesn't feel like it.`,
+      `A moment from this week:\n\n__EXTRA__\n\nI'm sharing this because I think there are women in this community who are in a quiet, ordinary season — one that doesn't look like much from the outside, but is actually the whole thing.\n\nGod is in the ordinary. Especially there.`,
+    ],
+    caption: [
+      `Faith in the ordinary. That's what the letters are about. That's what Tuesday mornings are for.`,
+      `__EXTRA__\n\nGod in the everyday. Always there.`,
+    ],
+    question: [
+      `What does your faith look like on a regular Tuesday — not a retreat, not a high moment, just a normal week?\n\nI'm asking because I think we need each other's honest answer more than we need each other's highlight reel.`,
+      `When faith feels dry, what do you reach for?\n\n__TOPIC__\n\nI'd love to know what keeps other women going in the quiet seasons.`,
+    ],
+  },
+
+  celebrate: {
+    short: [
+      `Something beautiful happened this week and I want to share it with you:\n\n__EXTRA__\n\nThis community is part of why. Thank you for being here.`,
+      `A moment of gratitude today:\n\n__EXTRA__\n\nI don't take these things for granted. God has been faithful. I wanted you to know.`,
+      `I'm celebrating something quietly this week: __EXTRA__\n\nNone of this happens without the women who read, share, and pray.\n\nThank you, from the bottom of my heart.`,
+    ],
+    medium: [
+      `I want to share something with you.\n\n__EXTRA__\n\nWhen I started this, I didn't know if anyone would care. I just knew I needed to try.\n\n__TOPIC__\n\nThank you for being here. Thank you for reading. Thank you for praying. You are why this keeps going.`,
+      `Grateful post incoming, and I make no apologies for it:\n\n__EXTRA__\n\nBuilding something like this — slowly, faithfully, without shortcuts — is one of the harder things I've done. And these moments remind me it's worth it.\n\nThank you for being part of the story.`,
+    ],
+    caption: [
+      `Grateful today. __EXTRA__\n\nThank you for being part of this.`,
+      `__EXTRA__\n\nGod is good. And so are the women in this community.`,
+    ],
+    question: [
+      `What's something you're quietly grateful for this week — something small that someone else might have missed?\n\nFor me: __EXTRA__\n\nI'd love to collect a few of these from the community today.`,
+      `When was the last time you stopped and actually noticed something God did for you this week?\n\n__EXTRA__\n\nWhat's your one thing today?`,
+    ],
+  },
+
+  question: {
+    short: [
+      `One question this week:\n\n__TOPIC__\n\nNo pressure to share. But if you want to, this is a safe place.`,
+      `Quick question for the community:\n\n__TOPIC__\n\nI'm curious where the women here actually are with this.`,
+      `Genuine question:\n\n__TOPIC__\n\nLeave it below. I read everything.`,
+    ],
+    medium: [
+      `I want to ask you something, and I want a real answer if you're willing:\n\n__TOPIC__\n\n__EXTRA__\n\nI ask because I think we're all carrying more than we show. And sometimes the right question opens the right door.\n\nYou don't have to answer publicly. You can send it to ${EMAIL} if you'd prefer.`,
+      `Something I've been sitting with this week:\n\n__TOPIC__\n\nI'm asking because I don't have the answer. I'm curious what the women in this community think — the real, unpolished version.\n\n__EXTRA__\n\nDrop it below if you feel like sharing.`,
+    ],
+    caption: [
+      `One question. __TOPIC__\n\nLeave it below.`,
+      `__TOPIC__\n\nGenuinely asking. Your answer matters.`,
+    ],
+    question: [
+      `__TOPIC__\n\n__EXTRA__\n\nI'm listening. Reply below or send it to ${EMAIL} — both reach me.`,
+      `One question for the women reading this:\n\n__TOPIC__\n\nWhat's your honest answer today?`,
+    ],
+  },
+
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+
+let selectedTheme = 'invite';
+let selectedFormat = 'short';
+let varIdx = 0;
+
+const STORAGE_KEY = 'stillwater_drafts';
+function loadDrafts() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch(e) { return []; } }
+function saveDraftsData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+// ── RENDER CONTROLS ───────────────────────────────────────────────────────────
+
+function renderThemeGrid() {
+  const grid = document.getElementById('themeGrid');
+  grid.innerHTML = '';
+  THEMES.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'theme-btn' + (t.id === selectedTheme ? ' selected' : '');
+    btn.innerHTML = `<span class="theme-icon">${t.icon}</span><span class="theme-label">${t.label}</span>`;
+    btn.onclick = () => { selectedTheme = t.id; varIdx = 0; renderThemeGrid(); };
+    grid.appendChild(btn);
+  });
+}
+
+function renderFormatGrid() {
+  const grid = document.getElementById('formatGrid');
+  grid.innerHTML = '';
+  FORMATS.forEach(f => {
+    const btn = document.createElement('button');
+    btn.className = 'format-btn' + (f.id === selectedFormat ? ' selected' : '');
+    btn.innerHTML = `<div class="format-name">${f.name}</div><div class="format-desc">${f.desc}</div>`;
+    btn.onclick = () => { selectedFormat = f.id; varIdx = 0; renderFormatGrid(); };
+    grid.appendChild(btn);
+  });
+}
+
+// ── GENERATE ──────────────────────────────────────────────────────────────────
+
+function generate() {
+  const scripture = document.getElementById('detailScripture').value.trim();
+  const topic = document.getElementById('detailTopic').value.trim();
+  const extra = document.getElementById('detailExtra').value.trim();
+
+  const pool = (TEMPLATES[selectedTheme] || {})[selectedFormat] || (TEMPLATES[selectedTheme] || {})['short'] || ['No template found for this combination.'];
+
+  const text = pool[varIdx % pool.length];
+  varIdx++;
+
+  const filled = text
+    .replace(/__SCRIPTURE__/g, scripture || '[Add a scripture verse]')
+    .replace(/__TOPIC__/g, topic || '[your reflection or thought]')
+    .replace(/__EXTRA__/g, extra || '[your personal detail or context]');
+
+  const output = document.getElementById('outputSection');
+  const textEl = document.getElementById('outputText');
+  textEl.textContent = filled;
+  output.className = 'output-section visible';
+  document.getElementById('varyBtn').style.display = 'inline-block';
+  updateCharCount();
+  output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const copyBtn = document.getElementById('copyBtn');
+  copyBtn.textContent = 'Copy to clipboard';
+  copyBtn.className = 'btn-copy';
+}
+
+function vary() {
+  generate();
+}
+
+function updateCharCount() {
+  const text = document.getElementById('outputText').textContent;
+  document.getElementById('charCount').textContent = text.length + ' characters';
+}
+
+// ── COPY ──────────────────────────────────────────────────────────────────────
+
+function copyPost() {
+  const text = document.getElementById('outputText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓';
+    btn.className = 'btn-copy copied';
+    setTimeout(() => { btn.textContent = 'Copy to clipboard'; btn.className = 'btn-copy'; }, 2000);
+  }).catch(() => {
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById('outputText'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  });
+}
+
+// ── DRAFTS ────────────────────────────────────────────────────────────────────
+
+function saveDraft() {
+  const text = document.getElementById('outputText').textContent.trim();
+  if (!text) return;
+  const drafts = loadDrafts();
+  const theme = THEMES.find(t => t.id === selectedTheme);
+  const format = FORMATS.find(f => f.id === selectedFormat);
+  drafts.unshift({
+    id: Date.now().toString(36),
+    text,
+    theme: theme ? theme.label : selectedTheme,
+    format: format ? format.name : selectedFormat,
+    date: new Date().toLocaleDateString('en-AU', {day:'numeric', month:'short', year:'numeric'})
+  });
+  saveDraftsData(drafts.slice(0, 20));
+  renderDraftsList();
+  const btn = document.getElementById('copyBtn');
+  // flash confirmation in save button area (just re-render)
+}
+
+function deleteDraft(id) {
+  const drafts = loadDrafts().filter(d => d.id !== id);
+  saveDraftsData(drafts);
+  renderDraftsList();
+}
+
+function copyDraft(id) {
+  const d = loadDrafts().find(d => d.id === id);
+  if (!d) return;
+  navigator.clipboard.writeText(d.text);
+}
+
+function loadDraftToEditor(id) {
+  const d = loadDrafts().find(d => d.id === id);
+  if (!d) return;
+  document.getElementById('outputText').textContent = d.text;
+  document.getElementById('outputSection').className = 'output-section visible';
+  updateCharCount();
+  document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderDraftsList() {
+  const drafts = loadDrafts();
+  const list = document.getElementById('draftsList');
+  if (!drafts.length) {
+    list.innerHTML = '<div class="drafts-empty">Generated posts you save will appear here.</div>';
+    return;
+  }
+  list.innerHTML = drafts.map(d => `
+    <div class="draft-item">
+      <div class="draft-meta">
+        <div class="draft-tags">
+          <span class="draft-tag">${escHtml(d.theme)}</span>
+          <span class="draft-tag">${escHtml(d.format)}</span>
+        </div>
+        <span class="draft-date">${d.date}</span>
+      </div>
+      <div class="draft-text">${escHtml(d.text.slice(0, 180))}${d.text.length > 180 ? '…' : ''}</div>
+      <div class="draft-actions">
+        <button class="btn-xs" onclick="loadDraftToEditor('${d.id}')">Edit</button>
+        <button class="btn-xs" onclick="copyDraft('${d.id}')">Copy</button>
+        <button class="btn-xs danger" onclick="deleteDraft('${d.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+
+renderThemeGrid();
+renderFormatGrid();
+renderDraftsList();
+
+</script>
+</body>
+</html>
