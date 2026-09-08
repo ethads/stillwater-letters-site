@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,14 +14,16 @@
 <meta property="og:image" content="https://thestillwaterletters.com.au/og-image.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_AU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="The Stillwater Letters — a quiet letter for women, every Tuesday" />
 <meta name="twitter:description" content="Free weekly letters of scripture, reflection and guided prayer for Christian women." />
 <meta name="twitter:image" content="https://thestillwaterletters.com.au/og-image.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"The Stillwater Letters","url":"https://thestillwaterletters.com.au/","description":"Free weekly letters of scripture, reflection and guided prayer for Christian women navigating daily life."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://thestillwaterletters.com.au/#org","name":"The Stillwater Letters","url":"https://thestillwaterletters.com.au/","email":"alice@thestillwaterletters.com.au","description":"Free weekly letters of scripture, reflection and guided prayer for Christian women navigating daily life.","logo":{"@type":"ImageObject","url":"https://thestillwaterletters.com.au/og-image.png","width":1200,"height":630},"image":"https://thestillwaterletters.com.au/og-image.png","founder":{"@type":"Person","name":"Alice"},"areaServed":{"@type":"Country","name":"Australia"},"address":{"@type":"PostalAddress","addressLocality":"Adelaide","addressRegion":"SA","addressCountry":"AU"},"sameAs":["https://www.facebook.com/profile.php?id=61590678028468","https://www.instagram.com/stillwaterministry"]},{"@type":"WebSite","@id":"https://thestillwaterletters.com.au/#website","url":"https://thestillwaterletters.com.au/","name":"The Stillwater Letters","inLanguage":"en-AU","description":"Free weekly letters of scripture, reflection and guided prayer for Christian women navigating daily life.","publisher":{"@id":"https://thestillwaterletters.com.au/#org"}},{"@type":"WebPage","@id":"https://thestillwaterletters.com.au/#webpage","url":"https://thestillwaterletters.com.au/","name":"The Stillwater Letters","isPartOf":{"@id":"https://thestillwaterletters.com.au/#website"},"about":{"@id":"https://thestillwaterletters.com.au/#org"},"inLanguage":"en-AU","isAccessibleForFree":true,"primaryImageOfPage":{"@type":"ImageObject","url":"https://thestillwaterletters.com.au/og-image.png"}},{"@type":"Periodical","@id":"https://thestillwaterletters.com.au/#periodical","name":"The Stillwater Letters","url":"https://thestillwaterletters.com.au/letters/","inLanguage":"en-AU","isAccessibleForFree":true,"publisher":{"@id":"https://thestillwaterletters.com.au/#org"},"author":{"@type":"Person","name":"Alice"},"description":"A free weekly letter of scripture, an honest reflection and a guided prayer, sent every Tuesday morning from Adelaide."}]}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/community.css">
 <style>
@@ -1010,6 +1012,7 @@ ml('account', '2393670');
   <div class="nav-links">
     <a href="#letter">The Story</a>
     <a href="/letters/">The Letters</a>
+    <a href="/topics/">By Topic</a>
     <a href="/prayer-circle/">Prayer Circle</a>
     <a href="/this-week/">This Week</a>
   </div>
@@ -1051,7 +1054,7 @@ ml('account', '2393670');
       <path d="M0 70 Q 50 50, 100 70 T 200 70 T 300 70 T 400 70" stroke="#a88557" stroke-width="1" fill="none" opacity="0.4"/>
     </svg>
     <div class="art-frame video-frame">
-      <img src="hero-poster.jpg" alt="" class="hero-poster" />
+      <img src="hero-poster.jpg" alt="Still water at dawn, the image behind The Stillwater Letters" class="hero-poster" fetchpriority="high" decoding="async" />
       <video
         autoplay muted loop playsinline preload="auto"
         poster="hero-poster.jpg"
@@ -1309,6 +1312,8 @@ ml('account', '2393670');
       <ul>
         <li><a href="#preview">What's inside</a></li>
         <li><a href="#letter">The story</a></li>
+        <li><a href="/letters/">Every letter</a></li>
+        <li><a href="/topics/">Letters by topic</a></li>
         <li><a href="/this-week/">This Week in Stillwater</a></li>
         <li><a href="#final">Subscribe</a></li>
       </ul>
