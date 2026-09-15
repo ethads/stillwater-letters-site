@@ -943,9 +943,17 @@
     .nav-cta { padding: 0.5rem 1rem; font-size: 0.7rem; }
     .hero { padding-top: 6.5rem; }
     .eyebrow { font-size: 0.66rem; letter-spacing: 0.13em; }
+    /* Give the email its own full-width row so it never breaks mid-word. */
+    .footer-connect { grid-column: 1 / -1; }
+    .footer-col a.footer-email { word-break: normal; overflow-wrap: anywhere; }
   }
 
   /* ============ RESPONSIVE ============ */
+  /* The glow (.hero::after) sits at right: -10%. While the hero spans the screen,
+     clip it so phones and tablets don't widen the page to fit it. */
+  @media (max-width: 1400px) {
+    .hero { overflow-x: hidden; overflow-x: clip; }
+  }
   @media (max-width: 900px) {
     nav { padding: 1rem 1.25rem; }
     .nav-links { display: none; }
@@ -1326,7 +1334,7 @@ ml('account', '2393670');
         <li><a href="mailto:alice@thestillwaterletters.com.au?subject=Becoming%20an%20intercessor">Become an intercessor</a></li>
       </ul>
     </div>
-    <div class="footer-col">
+    <div class="footer-col footer-connect">
       <h4>Connect</h4>
       <ul>
         <li><a href="mailto:alice@thestillwaterletters.com.au" class="footer-email">alice@thestillwaterletters.com.au</a></li>
