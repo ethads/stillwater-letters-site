@@ -60,6 +60,8 @@
   footer{background:var(--bg-warm);text-align:center;padding:30px 24px;font-size:13px;color:var(--ink-soft);}
   footer .q{font-family:'Fraunces',serif;font-style:italic;color:var(--teal);}
   @media(max-width:560px){.rhythm-row{grid-template-columns:1fr;}.note{padding:26px 22px 24px;}}
+  /* Keep the logo and each nav link on one line on phones. Links drop to their own row when there's no room. */
+  @media(max-width:480px){nav{padding:14px 20px;gap:6px 12px;flex-wrap:wrap;} nav .logo{font-size:18px;white-space:nowrap;} nav .links{display:flex;flex-wrap:wrap;gap:4px 16px;white-space:nowrap;} nav .links a{margin-left:0;}}
 </style>
 </head>
 <body>

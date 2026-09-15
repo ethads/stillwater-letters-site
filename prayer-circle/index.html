@@ -93,6 +93,9 @@
   footer{background:var(--bg-warm);text-align:center;padding:44px 24px;font-size:13px;color:var(--ink-soft);}
   footer .q{font-family:'Fraunces',serif;font-style:italic;color:var(--teal);margin-bottom:8px;}
   @media(max-width:680px){.pillars{grid-template-columns:1fr;} nav .links a:not(.cta){display:none;} .sub-form{flex-direction:column;} .sub-form button{width:100%;}}
+  /* Keep the logo on one line on phones. The button drops below it only when there's no room. */
+  @media(max-width:480px){nav{padding:14px 20px;gap:10px 12px;flex-wrap:wrap;} nav .logo{font-size:18px;white-space:nowrap;} nav .cta{padding:8px 14px;font-size:12px;white-space:nowrap;}}
+  @media(max-width:400px){nav{padding:14px 16px;gap:8px 10px;} nav .logo{font-size:16px;gap:8px;} nav .cta{padding:8px 12px;}}
 </style>
 </head>
 <body>
