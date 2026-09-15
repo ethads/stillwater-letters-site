@@ -45,6 +45,9 @@
   footer .q{font-family:'Fraunces',serif;font-style:italic;color:var(--teal);margin-bottom:8px;}
   a:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:3px;}
   @media(max-width:640px){.ways{grid-template-columns:1fr;}}
+  /* Keep the logo and each nav link on one line on phones. */
+  @media(max-width:480px){nav{padding:16px 20px;gap:12px;} nav .logo{font-size:18px;white-space:nowrap;} nav .links{white-space:nowrap;} nav .links a{margin-left:16px;}}
+  @media(max-width:360px){nav{flex-wrap:wrap;row-gap:6px;} nav .links a:first-child{margin-left:0;}}
 </style>
 </head>
 <body>
