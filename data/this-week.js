@@ -16,6 +16,9 @@
       this week (0 is fine — the site shows a gentle line instead).
    6. If a prayer was answered and the woman has given her blessing
       to share it, fill `answered`. Otherwise leave it null.
+   7. Rebuild the RSS feed so the new letter appears in it: from the
+      repo root run  python3 build-feed.py  (it regenerates feed.xml
+      from the letter pages — no hand-editing). Then commit and push.
 
    HOUSE RULES (never break these):
    — Nothing invented. Every name, number and quote must be real.
