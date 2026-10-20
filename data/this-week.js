@@ -43,9 +43,16 @@ window.STILLWATER_WEEK = {
 
   /* Real, permissioned reflections from readers. First names only.
      Example: { name: "Karen", text: "This letter met me on a hard morning." } */
-  reflections: [
-    { name: "Callista", text: "There always seems to be something in her words, the Scripture or the journaling prompts that speaks to where I am and brings me back to God's Word." }
-  ],
+  /* Deliberately empty — do not "restore" past reflections here.
+     community.js attaches reflections to the CURRENT letter's "From the
+     circle" card (gated by data-sw-slug), so a general testimonial placed
+     here renders on the current letter page as if it were written about
+     that specific letter. Callista's testimonial is a general one about the
+     letters (published 2026-08-24, her words remain in git history); it is
+     held to the honest quiet-state until a letter-specific, re-permissioned
+     reflection is in hand. A per-reflection `slug` model would let general
+     testimonials persist on ungated pages safely — see growth plan. */
+  reflections: [],
 
   prayer: {
     carried: 0,   /* real number of requests being carried this week */
