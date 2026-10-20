@@ -27,25 +27,23 @@
 
 window.STILLWATER_WEEK = {
 
-  weekOf: "11 August 2026",
+  weekOf: "20 October 2026",
 
   letter: {
-    number: "09",
-    slug: "to-hope-in-god-is-to-soar",
-    title: "To Hope in God, is to Soar",
-    verse: "But those who wait upon the Lord shall renew their strength; they shall mount up with wings as eagles, they shall run and not grow weary, they shall walk and not grow faint.",
-    verseRef: "Isaiah 40:31",
-    excerpt: "Hope in God gives me confidence that He is working, even when I don't see it. This hope is real, and can never be broken because it is firmly anchored in God's promises."
+    number: "19",
+    slug: "fight-like-heaven-be-battle-ready",
+    title: "Fight Like Heaven — Be Battle Ready",
+    verse: "13 Therefore put on the full armor of God, so that when the day of evil comes, you may be able to stand your ground, and after you have done everything, to stand. 14 Stand firm then, with the belt of truth buckled around your waist, with the breastplate of righteousness in place, 15 and with your feet fitted with the readiness that comes from the gospel of peace. 16 In addition to all this, take up the shield of faith, with which you can extinguish all the flaming arrows of the evil one. 17 Take the helmet of salvation and the sword of the Spirit, which is the word of God. 18 And pray in the Spirit on all occasions with all kinds of prayers and requests. With this in mind, be alert and always keep on praying for all the Lord's people.",
+    verseRef: "Ephesians 6:13–18 (NIV)",
+    excerpt: "In order to fight like heaven, we must be battle ready. This means to be prepared spiritually before the battle begins."
   },
 
   /* Alice's reflection prompt for the week (her words). */
-  prompt: "Write down three promises from God's word that give you hope, and revisit them when you start to feel discouraged.",
+  prompt: "This week in your journal, take the time to write a prayer. Ask God to prepare your heart, strengthen your faith, and help you stand firm in Truth.",
 
   /* Real, permissioned reflections from readers. First names only.
      Example: { name: "Karen", text: "This letter met me on a hard morning." } */
-  reflections: [
-    { name: "Callista", text: "There always seems to be something in her words, the Scripture or the journaling prompts that speaks to where I am and brings me back to God's Word." }
-  ],
+  reflections: [],
 
   prayer: {
     carried: 0,   /* real number of requests being carried this week */
