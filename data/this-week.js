@@ -43,7 +43,9 @@ window.STILLWATER_WEEK = {
 
   /* Real, permissioned reflections from readers. First names only.
      Example: { name: "Karen", text: "This letter met me on a hard morning." } */
-  reflections: [],
+  reflections: [
+    { name: "Callista", text: "There always seems to be something in her words, the Scripture or the journaling prompts that speaks to where I am and brings me back to God's Word." }
+  ],
 
   prayer: {
     carried: 0,   /* real number of requests being carried this week */
